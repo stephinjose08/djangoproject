@@ -1,0 +1,31 @@
+{% comment %} <div class="register-area ptb-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ms-auto me-auto">
+                <div class="login">
+                    <div class="login-form-container"> {% endcomment %}
+                        <div class="login-form" id="">
+                            <form hx-post="{%url 'login' %}" hx-swap="outerhtml" hx-trigger="click" hx-target="#login_submit_error" >
+                                 {% csrf_token %}
+                                 <input hx-post="{%url 'username-check' %}" hx-swap="outerhtml" hx-trigger="keyup" hx-target="#username-error" type="tel" name="phone" placeholder="login with phone number">
+                                 <p id="username-error"></p>
+                                 
+                                <div class="button-box">  
+                                   
+                                    {% comment %} #{{form}} {% endcomment %}
+                                    <div class="login-toggle-btn">
+                            >
+                                        <a href="#">Forgot Password?</a>
+                                    </div>
+                                    
+                                    <button type="submit" class="default-btn floatright">Login</button>
+                                    <p id="login_submit_error"></p>
+                                </div>
+                            </form>
+                        </div>
+                    {% comment %} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}

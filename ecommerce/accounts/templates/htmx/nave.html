@@ -1,0 +1,45 @@
+ <div class="tab-pane active show fade d-flex" id="furniture1" role="tabpanel" >
+    <div class="coustom-row-5  "> 
+        {% for products in products  %}
+        <div class="custom-col-three-5 custom-col-style-5 mb-65">
+            <div class="product-wrapper">
+                <div class="product-img">
+                    <a href="{% url 'detail-view-product' products.id %}">
+                        <img src="{{products.cover_image.url}}" alt="">
+                    </a>
+                    {% if products.is_new_item %}
+                              <span>new</span>
+                            {% else %}
+                            <span>hot</span>
+                            {% endif %}
+                    <div class="product-action">
+                        <a class="animate-left" title="Wishlist" href="#">
+                            <i class="pe-7s-like"></i>
+                        </a>
+                        <a class="animate-top" title="Add To Cart" href="#">
+                            <i class="pe-7s-cart"></i>
+                        </a>
+                        <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+                            <i class="pe-7s-look"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="funiture-product-content text-center">
+                    <h4><a href="product-details.html">{{products.product_title}}</a></h4>
+                    <span><del>Rs:{{products.actual_price}}</del></span>
+                    <span><b>Rs:{{products.discount_price}}</b></span>
+                    <span><h5 class="text-danger">{{products.discount_rate}}%off</h5></span>
+                    <div class="product-rating-5">
+                        <i class="pe-7s-star black"></i>
+                        <i class="pe-7s-star black"></i>
+                        <i class="pe-7s-star"></i>
+                        <i class="pe-7s-star"></i>
+                        <i class="pe-7s-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>

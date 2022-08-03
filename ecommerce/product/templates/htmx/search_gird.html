@@ -1,0 +1,43 @@
+{% load static %}
+<div class="row">
+    {% if not products %}
+ 
+    <h2 class="txt-align-center">sorry no products available currently</h2>
+    {% else %}
+     
+{% for product in products %}  
+    <div class="col-lg-4 col-md-6">
+        
+        <div class="product-wrapper product-box-style mb-30">
+            <div class="product-img">
+                
+                <a href="{% url 'detail-view-product' product.id %}">
+                    <img src="{{product.cover_image.url}}" alt="">
+                </a>
+                {% if product.is_new_item %}
+                <span>new</span>
+                {% else %}
+                <span>hot</span>
+                {% endif %}
+                <div class="product-action">
+                    <a class="animate-left" title="Wishlist" href="#">
+                        <i class="pe-7s-like"></i>
+                    </a>
+                    <a class="animate-top" title="Add To Cart" href="{% url 'add-cart' product.id %}">
+                        <i class="pe-7s-cart"></i>
+                    </a>
+                    <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+                        <i class="pe-7s-look"></i>
+                    </a>
+                </div> 
+            </div>
+            <div class="product-content">
+                <h4><a href="#">{{product.product_title}} </a></h4>
+                <span class="text-secondary"><del>Rs:{{product.actual_price}}</del></span>
+                <span><b>Rs:{{product.discount_price}}</b></span>
+                <span><h5 class="text-danger">{{product.discount_rate}}%off</h5></span>
+            </div>
+        </div>  
+   </div>
+   {% endfor %}  
+   {% endif %}

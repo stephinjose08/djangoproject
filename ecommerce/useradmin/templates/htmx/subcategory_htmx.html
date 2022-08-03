@@ -1,0 +1,13 @@
+
+
+<div  id="subcat">
+<select class="form-control form-custom" name="subcategory"
+hx-get="{% url 'sort-by-categories' %}"
+hx-trigger="change"
+hx-target="#ecommerce-product-list">
+    <option value="0" selected>Select Subcategory</option> 
+     {% for Subcategory in subcategory %}
+     <option value="{{Subcategory.id}}">{{Subcategory.name}}</option>
+     {% endfor %}
+ </select>
+</div>

@@ -1,0 +1,11 @@
+<ul class="">
+    {% if  results %}
+
+  
+    {% for result in results %}
+   <a href="{% url 'detail-view-product'  result.id %}"><li class="py-2 px-3">{{result.product_name}}</li></a>
+    {% endfor %}
+
+    
+    {% endif %}
+</ul>

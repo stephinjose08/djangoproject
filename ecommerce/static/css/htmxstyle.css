@@ -1,0 +1,8 @@
+.success{
+    color:rgb(16, 192, 16);
+    transition:all ease-in .0s;
+}
+.error{
+    color:rgb(228, 12, 12);
+    transition:all ease-in 0s;
+}

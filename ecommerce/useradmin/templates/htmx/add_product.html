@@ -1,0 +1,199 @@
+<form hx-post="{% url 'add-product' %}"   class="form-horizontal" hx-encoding="multipart/form-data">
+    {% csrf_token %}
+   <div class="row">
+       <div class="col-xl-7 col-md-12">
+           <div class="card card-default">
+               <div class="card-heading"><h2 class="card-title"><span>GENERAL</span></h2></div>
+               <div class="card-body">
+                   <div class="card-body">
+                    <p id="add-product-error" class="text-danger align-right"></p>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Name :</label>
+                                   <div class="col-md-8">
+                                       <input class="form-control" name="name" type="text" value="{{product.product_name}}">
+                                       
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Title:</label>
+                                   <div class="col-md-8">
+                                       <input class="form-control" name="title" type="text" value="{{product.product_title}}">
+                                     
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Short Description :</label>
+                                   <div class="col-md-8">
+                                       <textarea rows="4" cols="5" name="description" class="form-control" value="{{product.product_description}}"></textarea>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Category :</label>
+                                   <div class="col-md-8">
+                                       <select class="form-control form-custom mb-4" name="category">
+                                           <option value="">Select Category</option>
+                                           {% for category in categorys %}
+                                           <option value="{{category.name}}">{{category.name}}</option>
+                                           {% endfor %}
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Sub Category :</label>
+                                   <div class="col-md-8">
+                                       <select class="form-control form-custom mb-4" name="subcategory">
+                                           <option value="">Select Sub Category</option>
+                                           {% for sub_category in subcategorys %}
+                                           <option value="{{sub_category.name}}">{{sub_category.name}}</option>
+                                           {% endfor %}
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Brand :</label>
+                                   <div class="col-md-8">
+                                       <select class="form-control form-custom" name="brand">
+                                           <option value="">Select a Brand</option>
+                                           {% for brand in brands %}
+                                           <option value="{{brand.name}}">{{brand.name}}</option>
+                                           {% endfor %}
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Color :</label>
+                                   <div class="col-md-8">
+                                       <select class="form-control form-custom" name="color">
+                                           <option value="">Select a Color</option>
+                                           {% for color in colors%}
+                                           <option value="{{color.name}}">{{color.name}}</option>
+                                           {% endfor %}
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="form-group mb-4">
+                               <div class="row">
+                                   <label class="col-md-4">Size :</label>
+                                   <div class="col-md-8">
+                                       <select class="form-control form-custom" name="size">
+                                           <option value="">Select Size</option>
+                                           {% for size in sizes%}
+                                           <option value="{{size.name}}">{{size.name}}</option>
+                                           {% endfor %}
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+                           
+                       
+                   </div>
+               </div>
+           </div>
+       </div>
+       
+       <div class="col-xl-5 col-md-12">
+           <div class="card card-default">
+               <div class="card-heading"><h2 class="card-title"><span>PRICING</span></h2></div>
+               <div class="card-body">
+                 
+                       <div class="form-group mb-4">
+                           <div class="row">
+                               <label class="col-md-4">Orginal Price :</label>
+                               <div class="col-md-8">
+                                   <input class="form-control" name="orginalprice" type="text" value={{updated_price.actual_price}}>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-group mb-4">
+                           <div class="row">
+                               <label class="col-md-4">Discount rate:</label>
+                               <div class="col-md-8">
+                                   <select class="form-control form-custom" name="discountrate">
+                                       <option value="">Please Select</option>
+                                       <option value="10">10%</option>
+                                       <option value="20">20%</option>
+                                       <option value="30">30%</option>
+                                       <option value="40">40%</option>
+                                   </select>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-group mb-4">
+                           <div class="row">
+                               <label class="col-md-4">Offer Price:</label>
+                               <div class="col-md-8">
+                                   <input class="form-control" name="offerprice" type="text" value={{updated_price.discount_price}}>
+                               </div>
+                           </div>
+                       </div>
+                       
+                       <div class="form-group">
+                           <div class="row">
+                               <label class="col-md-12"><span>Image</span></label>
+                           </div>
+                       </div>
+                       
+                      
+                       <div class="form-group">
+                           <div class="row">
+                               <label class="col-md-4">Image :</label>
+                               <div class="col-md-8">
+                                   <div class="mb-3">
+                                       <div class="custom-file">
+                                           <input type="file"  class="form-control-file" name='image1' id="file-input">
+                                       </div>
+                                       
+                                   </div>
+                                    <div class="mb-3">
+                                       <div class="custom-file">
+                                           <input type="file"  class="form-control-file" name='image2' id="file-input">
+                                       </div>
+                                       
+                                   </div> 
+                                   <div class="mb-3">
+                                       <div class="custom-file">
+                                           <input type="file"  class="form-control-file" name='image3' id="file-input">
+                                       </div>
+                                       
+                                   </div>
+                                   <div class="mb-3">
+                                       <div class="custom-file">
+                                           <input type="file"  class="form-control-file" name='image4' id="file-input">
+                                       </div>
+                                   </div>
+                                   <div class="mb-3">
+                                       <div class="custom-file">
+                                           <input type="file"  class="form-control-file" name='image5' id="file-input">
+                                       </div> 
+                                          
+                               </div>
+                               
+                           </div>
+                       </div>
+                       
+                  
+               </div>
+           </div>
+           <div class="align-center"> 
+               <input value="Insert Product" class="btn" type="submit">
+           </div>
+
+   
+
+       </div>
+   </div>
+</form>

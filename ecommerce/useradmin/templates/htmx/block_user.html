@@ -1,0 +1,75 @@
+
+    {% comment %} <thead>
+        <tr>
+            <th class="checkbox-column">RECORD ID </th>
+            <th>CUSTOMER ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th class="">block user</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td class="checkbox-column">{{user.id}}</td>
+            <td class="">
+                <a class="product-list-img" href="javascript: void(0);">
+                    <img src="  'assets/img/90x90.jpg'" alt="product">
+                </a>
+            </td>
+            <td class="customer-name-1">{{user.first_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone}}</td> {% endcomment %}
+            <td>
+                {% if user.is_active %}  
+                <div class="d-flex">
+                    <div class=" align-self-center d-m-success  mr-1 data-marker"></div>
+                    
+                    <span class="label label-success">
+                       
+            
+
+
+                        {% comment %} <a href="" onclick=" block({{ user.id }})"><button class="btn btn-danger" id="errorAlert">block</button></a> {% endcomment %}
+
+                    <a hx-post="{% url 'block-user' user.id %}"
+                    hx-target="#ecommerce-customers"
+                    hx-swap="outerhtml"
+                    hx-trigger="click"
+                    hx-confirm="are you sure to block user?">
+                    <button type="button"  class="btn btn-outline-danger" >block</button></a>
+
+                {% else %}
+
+                
+                       
+                        <div class=" align-self-center d-m-danger  mr-1 data-marker"></div>
+                        
+                        <span class="label label-danger">
+                           
+                       <a hx-post="{% url 'block-user' user.id %}"
+                       hx-target="#ecommerce-customers"
+                       hx-swap="outerhtml"
+                       hx-trigger="click"
+                       hx-confirm="are you sure to unblock block user?"> 
+                       <button type="button"  class="btn btn-outline-success">active</button></a>
+            
+                </div>
+                    {% endif %}
+            </td>
+            
+        </tr>
+    
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   
+                                                   

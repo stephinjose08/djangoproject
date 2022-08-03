@@ -1,0 +1,39 @@
+<div class="tab-pane active show fade d-flex" id="furniture1" role="tabpanel" >
+    <div class="coustom-row-5  "> 
+        {% for brand in brands  %}
+        <div class="custom-col-two-5 custom-col-style-5 mb-65">
+            <div class="product-wrapper">
+                <div class="product-img rounded-circle">
+                    <a href="{% url 'brandwise' brand.name %}">
+                        <img class=" border-radius-2px-solid-black" src="{{brand.image.url}}" alt="" style="width: 150px;">
+                    </a>
+                    {% comment %} <div class="product-action">
+                        <a class="animate-left" title="Wishlist" href="#">
+                            <i class="pe-7s-like"></i>
+                        </a>
+                        <a class="animate-top" title="Add To Cart" href="#">
+                            <i class="pe-7s-cart"></i>
+                        </a>
+                        <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+                            <i class="pe-7s-look"></i>
+                        </a>
+                    </div> {% endcomment %}
+                </div>
+                {% comment %} <div class="funiture-product-content text-center">
+                    <h4><a href="product-details.html">{{brand.name}}</a></h4>
+                     <span><del>Rs:{{item_price.actual_price}}</del></span>
+                    <span><b>Rs:{{item_price.discount_price}}</b></span>
+                    <div class="product-rating-5">
+                        <i class="pe-7s-star black"></i>
+                        <i class="pe-7s-star black"></i>
+                        <i class="pe-7s-star"></i>
+                        <i class="pe-7s-star"></i>
+                        <i class="pe-7s-star"></i>
+                    </div> 
+                </div> {% endcomment %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>

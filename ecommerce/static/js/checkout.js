@@ -64,7 +64,7 @@ $(document).ready(function () {
                         "currency": "INR",
                         "name": "Uniq Fassion",
                         "description": "Test Transaction",
-                        "image": "https://example.com/your_logo",
+                        "image": "static/img/logo.png",
                         // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                         "handler": function (responseb){
                             alert(responseb.razorpay_payment_id);
@@ -95,13 +95,13 @@ $(document).ready(function () {
                                 url: "/orders/check_out/online/",
                                 data: data,
                                 
-                                success: function (responsec){
-                                    swal("Congratulations!",responsec.status, "success").then ((value) => {
-                                        window.location.href = '/order/my_orders/'
+                                success: function (responsed){
+                                    swal("Congratulations!",responsed.status, "success").then(() => {
+                                        window.location.href = '/my_orders/'
                                       });
 
                                 }
-                            })
+                            });
                             
                         },
                         "prefill": {

@@ -161,7 +161,7 @@ def placeorder(request):
             
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
-
+           
 
     return redirect('/')
 
@@ -252,8 +252,10 @@ def online(request):
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
             paymode=request.POST.get("paymentmode")
-            if paymode=="razorpay":
+            if paymode=="razorpay" or paymode=="paypal":
                 JsonResponse({'status':"payment done"})
+            else:
+                print("havoooooo")
             return redirect('/')  
 
             
@@ -262,5 +264,10 @@ def my_orders(request):
     return HttpResponse("order page")
 
 def test(request):
-    print(request.POST.get("fname"))
+    if request.method=='POST':
+        name=request.POST.get("fname")
+        print(name)
+
+    print(request.POST.get("lname"))
+    print(request.POST.get("address1"))
     return HttpResponse("thank you")

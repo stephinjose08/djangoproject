@@ -26,6 +26,9 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.cs' %}s">
         <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
+
+        <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -584,14 +587,14 @@
                                             <input type="hidden" value="COD" name="payment_mode">
                                             {% comment %}<input type="submit" value="Cash On Delivery" /> {% endcomment %}
                                             <button  type="submit" class="btn-success w-100 py-2">Cash On Delivery</button>
-                                            <button    type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
+                                            <button   type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
                                             <div id="paypal-button-container"></div>
                                             
                                         </div>								
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </form>
                 
@@ -772,7 +775,7 @@
        
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
        
-       <script>"https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"</script> 
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 
        <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
 
@@ -792,43 +795,165 @@
 
         <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
         <script>
-          const paypalButtonsComponent = paypal.Buttons({
+            paypal.Buttons({
               // optional styling for buttons
               // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
               style: {
                 color: "gold",
                 shape: "rect",
-                layout: "vertical"
+                layout: "vertical",
+              
               },
+              onClick:function(data,actions){ 
+                var check=document.querySelector('input[name="check"]:checked')
+                if (!check){
+                
+                    var country = $("[name = 'country']").val();
+                    var firstname = $("[name = 'fname']").val();
+                    var lastname = $("[name = 'lname']").val();
+                    var email = $("[name = 'email']").val();
+                    var phone = $("[name = 'phone']").val();
+                    var address1 = $("[name = 'address1']").val();
+                    var address2 = $("[name = 'address2']").val();
+                    var city = $("[name = 'city']").val();
+                    var state = $("[name = 'state']").val();
+                    var zip = $("[name = 'zipcode']").val();
+                    var order_for_others ="False";
+                    var token = $("[name='csrfmiddlewaretoken']").val();
+                    console.log("else case")
+                }                                     
+                if (check){
+                    var country = $("[name ='tempcountry']").val();
+                    var firstname = $("[name = 'tempfname']").val();
+                    var lastname = $("[name = 'templname']").val();
+                    var email = $("[name = 'tempemail']").val();
+                    var phone = $("[name = 'tempphone']").val();
+                    var address1 = $("[name = 'tempaddress1']").val();
+                    var address2 = $("[name = 'tempaddress2']").val();
+                    var city = $("[name = 'tempc']").val();
+                    var state = $("[name = 'temps']").val();
+                    var zip = $("[name = 'tempz']").val();
+                    var order_for_others = check;
+                    var token = $("[name='csrfmiddlewaretoken']").val();
+                    
+                    console.log("if case")
+        
+                }
+                
+                
+                
+               
+                if(firstname == "" || lastname == "" || email == "" || phone == "" || address1 == "" || 
+                    state == "" || city == "" || country == "" || zip == "") 
+                    {
+                        swal("Alert!", "All fields are mandatory!", "error");
+        
+                        return false;
+        
+                    }
+                else
+                {
+                   return true
+                }
 
+              },
               // set up the transaction
-              createOrder: (data, actions) => {
+              createOrder: function (data, actions) {
+                return actions.order.create({
                   // pass in any options from the v2 orders create call:
                   // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-                  const createOrderPayload = {
-                      purchase_units: [
-                          {
+                  
+                      purchase_units: [{
+                          
                               amount: {
-                                  value: "88.44"
+                                  value:.01         //"{{grand_total}}"
                               }
-                          }
-                      ]
-                  };
-
-                  return actions.order.create(createOrderPayload);
-              },
+                        }]
+                  });
+                },
 
               // finalize the transaction
-              onApprove: (data, actions) => {
-                  const captureOrderHandler = (details) => {
-                      const payerName = details.payer.name.given_name;
-                      console.log('Transaction completed');
-                  };
+              onApprove: function (data, actions)  {
+                return actions.order.capture().then(function(orderData){
+                 
+                     console.log('Capture result',orderData,JSON.stringify(orderData,null,2));
+                     // var transaction=orderData.purchase_units[0].payments.captures[0];
+                      //alert('Transaction'+ transaction.status +':'+ transaction.id);
+                    alert(orderData.id);
+                    console.log(firstname)
+                    var check=document.querySelector('input[name="check"]:checked')
+                    if (!check){
+                    
+                        var country = $("[name = 'country']").val();
+                        var firstname = $("[name = 'fname']").val();
+                        var lastname = $("[name = 'lname']").val();
+                        var email = $("[name = 'email']").val();
+                        var phone = $("[name = 'phone']").val();
+                        var address1 = $("[name = 'address1']").val();
+                        var address2 = $("[name = 'address2']").val();
+                        var city = $("[name = 'city']").val();
+                        var state = $("[name = 'state']").val();
+                        var zip = $("[name = 'zipcode']").val();
+                        var order_for_others ="False";
+                        var token = $("[name='csrfmiddlewaretoken']").val();
+                        console.log("else case")
+                    }                                     
+                    if (check){
+                        var country = $("[name ='tempcountry']").val();
+                        var firstname = $("[name = 'tempfname']").val();
+                        var lastname = $("[name = 'templname']").val();
+                        var email = $("[name = 'tempemail']").val();
+                        var phone = $("[name = 'tempphone']").val();
+                        var address1 = $("[name = 'tempaddress1']").val();
+                        var address2 = $("[name = 'tempaddress2']").val();
+                        var city = $("[name = 'tempc']").val();
+                        var state = $("[name = 'temps']").val();
+                        var zip = $("[name = 'tempz']").val();
+                        var order_for_others = check;
+                        var token = $("[name='csrfmiddlewaretoken']").val();
+                        
+                        console.log("if case")
+            
+                    }
 
-                  return actions.order.capture().then(captureOrderHandler);
-              },
+                     data = {
 
-              // handle unrecoverable errors
+                        "first_name":firstname,
+                        "last_name":lastname ,
+                        "phone": phone ,
+                        "email": email ,
+                        "address1": address1,
+                        "address2": address2,
+                        "zip": zip,
+                        "state": state, 
+                        "city": city ,
+                        "country": country, 
+                        "order_for_others":order_for_others,
+                        "paymentmode": "paypal",
+                        "payment_id" : orderData.id,
+                        csrfmiddlewaretoken : token,
+                        }
+                    
+
+                        $.ajax({
+                      
+                            method: "POST",
+                            url: "/orders/check_out/online/",
+                            data: data,
+                        
+                            success: function (responsed){
+                            swal("Congratulations!",responsed.status, "success").then(() => {
+                                window.location.href = '/my_orders/'
+                              });
+
+                            }
+                        }); 
+                });
+            }
+        }).render('#paypal-button-container');
+              {% comment %} }, {% endcomment %}
+
+              {% comment %} // handle unrecoverable errors
               onError: (err) => {
                   console.error('An error prevented the buyer from checking out with PayPal');
               }
@@ -838,11 +963,16 @@
               .render("#paypal-button-container")
               .catch((err) => {
                   console.error('PayPal Buttons failed to render');
-              });
+              }); {% endcomment %}
         </script>
 
 
-       
+        <script>
+            document.body.addEventListener('htmx:configRequest', (evt)=> {
+               // evt.detail.parameters['auth_token'] = getAuthToken();  add a new parameter into the request
+                 evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
+            });
+        </script>
 
     </body>
 </html>

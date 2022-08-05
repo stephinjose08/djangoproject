@@ -3,24 +3,24 @@ $(document).ready(function () {
     $('#paywithrazorpay').click(function (e){
 
         e.preventDefault();
-        var check=document.querySelector('input[name="check"]:checked')
-        if (!check){
+        if(document.querySelector('input[name="check"]:checked'))
+       {
         
-            var country = $("[name = 'country']").val();
-            var firstname = $("[name = 'fname']").val();
-            var lastname = $("[name = 'lname']").val();
-            var email = $("[name = 'email']").val();
-            var phone = $("[name = 'phone']").val();
-            var address1 = $("[name = 'address1']").val();
-            var address2 = $("[name = 'address2']").val();
-            var city = $("[name = 'city']").val();
-            var state = $("[name = 'state']").val();
-            var zip = $("[name = 'zipcode']").val();
-            var order_for_others ="False";
-            var token = $("[name='csrfmiddlewaretoken']").val();
-            console.log("else case")
-        }                                     
-        if (check){
+        // var country = $("[name = 'country']").val();
+        // var firstname = $("[name = 'fname']").val();
+        // var lastname = $("[name = 'lname']").val();
+        // var email = $("[name = 'email']").val();
+        // var phone = $("[name = 'phone']").val();
+        // var address1 = $("[name = 'address1']").val();
+        // var address2 = $("[name = 'address2']").val();
+        // var city = $("[name = 'city']").val();
+        // var state = $("[name = 'state']").val();
+        // var zip = $("[name = 'zipcode']").val();
+        // var order_for_others ="False";
+        // var token = $("[name='csrfmiddlewaretoken']").val();
+        // console.log("else case")
+                                             
+      
             var country = $("[name ='tempcountry']").val();
             var firstname = $("[name = 'tempfname']").val();
             var lastname = $("[name = 'templname']").val();
@@ -31,15 +31,14 @@ $(document).ready(function () {
             var city = $("[name = 'tempc']").val();
             var state = $("[name = 'temps']").val();
             var zip = $("[name = 'tempz']").val();
-            var order_for_others = check;
-            var token = $("[name='csrfmiddlewaretoken']").val();
+            var order_for_others = true;
             
-            console.log("if case")
+            
 
+            // check_value
+        
+        
         }
-        
-        
-        
        
         if(firstname == "" || lastname == "" || email == "" || phone == "" || address1 == "" || 
             state == "" || city == "" || country == "" || zip == "") 
@@ -68,7 +67,7 @@ $(document).ready(function () {
                         // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                         "handler": function (responseb){
                             alert(responseb.razorpay_payment_id);
-                              
+                            var token = $("[name='csrfmiddlewaretoken']").val(); 
                              
                             data = {
 
@@ -82,7 +81,7 @@ $(document).ready(function () {
                                 "state": state, 
                                 "city": city ,
                                 "country": country, 
-                                "order_for_others":order_for_others,
+                                "check":order_for_others,
                                 "paymentmode": "razorpay",
                                 "payment_id" : responseb.razorpay_payment_id,
                                 csrfmiddlewaretoken : token,
@@ -96,8 +95,8 @@ $(document).ready(function () {
                                 data: data,
                                 
                                 success: function (responsed){
-                                    swal("Congratulations!",responsed.status, "success").then(() => {
-                                        window.location.href = '/my_orders/'
+                                    swal("Congratulations!",responsed.status, "success").then((value) => {
+                                        window.location.href = 'orders/my_orders/'
                                       });
 
                                 }

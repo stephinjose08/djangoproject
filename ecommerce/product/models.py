@@ -22,7 +22,7 @@ class user_address(models.Model):
     addressline1=models.CharField(max_length=200,default="null")
     addressline2=models.CharField(max_length=200,default="null")
     city=models.CharField(max_length=100,default="null")
-    state: models.CharField(max_length=100,default="null")
+    state= models.CharField(max_length=100,default="null")
     country=models.CharField(max_length=100,default="null")
     zip_code=models.CharField(max_length=8,default="null")
 

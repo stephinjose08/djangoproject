@@ -1,0 +1,5 @@
+                                {% if result %}
+                                    <label for="">Tracking Number:{{result.tracking_number}}</label><br>
+                                    <label for="">your order is on <b>{{result.status}}</b> stage</label><br>
+                                    <label for="">payment mode:{{result.payment_mode.payment_mode}}</label>
+                                    {% endif %}

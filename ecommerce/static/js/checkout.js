@@ -87,17 +87,16 @@ $(document).ready(function () {
                                 csrfmiddlewaretoken : token,
                             }
                             
-
+                            
                             $.ajax({
                               
                                 method: "POST",
                                 url: "/orders/check_out/online/",
                                 data: data,
                                 
-                                success: function (responsed){
-                                    swal("Congratulations!",responsed.status, "success").then((value) => {
-                                        window.location.href = 'orders/my_orders/'
-                                      });
+                                success: function (responsea){
+                                    alert(responsea.status)
+                                    swal("success", "order placed!", "success");
 
                                 }
                             });

@@ -33,13 +33,16 @@
      
 
        <td class="product-quantity">
-           <a  class="btn btn-light" type="button"
+        
+           <a  class="btn btn-light " type="button"
            hx-get="{% url 'remove-cart' cart_item.Product.id %}"
            hx-target="#cart_q"
            hx-trigger="click"
            hx-swap="outerhtml"
             >-</a>
+      
             
+           
             <input value={{cart_item.quantity}} min="1" readonly="readonly" >
            {% comment %} <input value={{cart_item.quantity}} min="1" readonly="readonly" id="cart_q"> {% endcomment %}
            <a  class="btn btn-light" type="button"

@@ -126,8 +126,8 @@ def remove_cart(request,product_id):
         if cartitem.quantity>1:
             cartitem.quantity-=1
             cartitem.save()
-        else:
-            cartitem.delete()
+        # else:
+        #     cartitem.delete()
     else:
 
         cart=Cart.objects.get(cart_ID=_cart_ID(request))
@@ -136,8 +136,8 @@ def remove_cart(request,product_id):
         if cartitem.quantity>1:
             cartitem.quantity-=1
             cartitem.save()
-        else:
-            cartitem.delete()
+        # else:
+        #     cartitem.delete()
     
     try:
         if request.user.is_authenticated:

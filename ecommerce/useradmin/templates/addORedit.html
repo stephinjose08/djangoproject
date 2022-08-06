@@ -17,6 +17,9 @@
     <link href="{% static 'plugins/jquery-ui/jquery-ui.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'assets/css/ecommerce/addedit_product.css' %}" rel="stylesheet" type="text/css">
     <!--  END CUSTOM STYLE FILE  -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" type="text/css">
+
 </head>
 <body>
     <div id="eq-loader">
@@ -1393,8 +1396,9 @@
                                                             <label class="col-md-4">Image :</label>
                                                             <div class="col-md-8">
                                                                 <div class="mb-3">
+                                                                    <div id="image-box"></div>
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image1' id="file-input">
+                                                                        <input required type="file"  class="form-control-file" name='image1' id="image-id">
                                                                     </div>
                                                                     
                                                                 </div>
@@ -1518,6 +1522,18 @@
     <!--  BEGIN PROFILE SIDEBAR  -->
     
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    {% comment %} <script src="{% static 'assets/cropper.js'%}"></script>
+    <script src="{% static 'assets/cropping .js'%}"></script>
+    <script src="{% static 'assets/jscropper.js'%}"></script>
+    <script src="{% static 'assets/jsjquery-cropper.js' %}"></script> {% endcomment %}
+    <script src="{% static 'assets/js/crop.js' %}"></script>
+    <script src"https://code.jquery.com/jquery-3.5.1min.js" ></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+
+
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'assets/js/loader.js' %}"></script>
     <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
@@ -1542,7 +1558,11 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     
     <!--  BEGIN CUSTOM SCRIPT FILES  -->
-    <script src="assets/js/ecommerce/autocomplete-addedit_product.js"></script>
-    <!--  END CUSTOM SCRIPT FILES  -->    
+    <script src="{% static 'js/ecommerce/autocomplete-addedit_product.js' %}"></script>
+    <!--  END CUSTOM SCRIPT FILES  -->  
+    
+    <script src="    https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    
+
 </body>
 </html>

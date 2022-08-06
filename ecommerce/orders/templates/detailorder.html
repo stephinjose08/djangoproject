@@ -1,19 +1,16 @@
 {% load static %}
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="zxx">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>check-out</title>
+        <title>Ezone - eCommerce HTML5 Template</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 		
 		<!-- all css here -->
-
-
-        
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
         <link rel="stylesheet" href="{% static 'css/animate.css' %}">
@@ -24,10 +21,11 @@
         <link rel="stylesheet" href="{% static 'css/meanmenu.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'css/responsive.cs' %}s">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
         <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
 
         <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+
 
     </head>
     <body>
@@ -281,233 +279,120 @@
             </div>
         </header>
         <!-- header end -->
-		<div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static 'img/checkout-final.JPG' %})">
-            {% comment %} <div class="container">
+		{% comment %} <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(assets/img/bg/breadcrumb.jpg)">
+            <div class="container">
                 <div class="breadcrumb-content text-center">
-                    <h2>checkout</h2>
+                    <h2>wishlist</h2>
                     <ul>
                         <li><a href="#">home</a></li>
-                        <li> checkout </li>
+                        <li> wishlist </li>
                     </ul>
                 </div>
-            </div> {% endcomment %}
-        </div>
-        <!-- checkout-area start -->
-            <div class="checkout-area ptb-100">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>Billing Details</h3>
-                            <div class="coupon-accordion">
-                                <!-- ACCORDION START -->
-                                <h3>Current Address <span id="showlogin">Click here to see</span></h3>
-                                <div id="checkout-login" class="coupon-content">
-                                    <div class="coupon-info">
-                                        {% if existing_user.fist_name %}
-                                        <label>Name:<span >{{existing_user.fist_name}} {{existing_user.last_name}}</span></label><br>
-                                        {% comment %} <form action="#"> {% endcomment %}
-                                        
-                                                
-                                                <label>Email:<span ></span>{{existing_user.email}}</label><br>
-                                                <label>Phone:<span ></span>{{existing_user.phone}}</label><br>
-                                                <label>Address Line1:<span ></span>{{existing_user.addressline1}}</label><br>
-                                                <label>Address Line2:<span ></span>{{existing_user.addressline2}}</label><br>
-                                                <label>City:<span ></span>{{existing_user.city}}</label><br>
-                                                <label>State:<span ></span>{{existing_user.state}}</label><br>
-                                                <label>Zip_code:<span ></span>{{existing_user.zip_code}}</label><br>
-                                         {% else %}
-                                         <label for="">No address added </label>
-                                        {% endif %}
+            </div>
+        </div> {% endcomment %}
+        <!-- shopping-cart-area start -->
+        <div class="cart-main-area pt-95 pb-100 wishlist">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h1 class="cart-heading ">ORDER DETAILS</h1>
+                        <form action="#"> 
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                           
+                                            <th>image</th>
+                                            <th>Product Name</th>
+                                            <th>price</th>
+                                           
+                                            <th>quantity</th>
                                             
-                                    </div>
-                                </div>
-                                <!-- ACCORDION END -->	
-                                <!-- ACCORDION START -->
-                               
-                                <!-- ACCORDION END -->						
-                            </div>
-                        </div>
-                        {% comment %}  {% endcomment %}
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 col-12" id="test">
-                            <form action="{% url 'place-order' %}" method="post"  >
-                               {% csrf_token %}
-                                <div class="checkbox-form">						
-                                    
-                                    
-                                    <div class="different-address">
-                                        <div class="ship-different-title">
-                                            <h3>
-                                                <label>Ship to a different address?</label>
-                                                <input id="ship-box" type="checkbox" name="check" value="true" />
-                                            </h3>
-                                        </div>
-                                        <div id="ship-box-info" class="row">
-                                            <div class="col-md-12">
-                                                <div class="country-select">
-                                                    <label>Country <span class="required">*</span></label>
-                                                    <select name="tempcountry">
-                                                      <option value="india">India</option>
-                                                      <option value="saab">Algeria</option>
-                                                      <option value="mercedes">Afghanistan</option>
-                                                      <option value="audi">Ghana</option>
-                                                      <option value="audi2">Albania</option>
-                                                      <option value="audi3">Bahrain</option>
-                                                      <option value="audi4">Colombia</option>
-                                                      <option value="audi5">Dominican Republic</option>
-                                                    </select> 										
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>First Name <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="tempfname" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>Last Name <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="templname" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>Email Address <span class="required">*</span></label>										
-                                                    <input type="email" placeholder="" name="tempemail" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="checkout-form-list">
-                                                    <label>Phone  <span class="required">*</span></label>										
-                                                    <input type="text" name="tempphone" />
-                                                </div>
-                                            </div>
                                             
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>Address <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Street address" name="tempaddress1" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">									
-                                                    <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="tempaddress2" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>City <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Town / City"  name="tempc"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>State  <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="temps" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="checkout-form-list">
-                                                    <label>Zip <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="Postcode / Zip" name="tempz" />
-                                                </div>
-                                            </div>
-                                            								
-                                        </div>
-                                        <div class="order-notes">
-                                            <div class="checkout-form-list mrg-nn">
-                                                <label>Order Notes</label>
-                                                <textarea id="checkout-mess" cols="30" rows="10" placeholder="Notes about your order, e.g. special notes for delivery." name="notes" ></textarea>
-                                            </div>									
-                                        </div>
-                                    </div>													
-                                </div>
-                                
-                         
-                        </div>	
-                        <div class="col-lg-6 col-md-12 col-12">
-                            <div class="your-order">
-                                <h3>Your order</h3>
-                                <div class="your-order-table table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="product-name">Product</th>
-                                                <th class="product-total">Total</th>
-                                            </tr>							
-                                        </thead>
-                                        {% for cart_item in cart_items %}
-                                        <tbody>
-                                            <tr class="cart_item">
-                                                <td class="product-name">{{cart_item.Product.product_name}}
-                                                    <strong class="product-quantity"> {{cart_item.Product.discount_price}}×{{cart_item.quantity}} </strong>
-                                                </td>
-                                                <td class="product-total">
-                                                    <span class="amount">{% widthratio cart_item.Product.discount_price 1 cart_item.quantity%}</span>
-                                                </td>
-                                            </tr>
                                             
-                                        </tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for orderitem in orderitems %}
+                                        <tr>
+                                            
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img src="{{orderitem.product.cover_image.url}}" width="50px" alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="#">{{orderitem.product.product_name}}</a></td>
+                                            <td class="product-price-cart"><span class="amount">{{orderitem.product.discount_price}}</span></td>
+                                           
+                                            <td class="product-quantity">
+                                                {{orderitem.quantity}}
+                                            </td>
+                                           
+                                        </tr>
                                         {% endfor %}
-                                        <tfoot>
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">{{totalprice}}</span></td>
-                                            </tr>
-                                            <tr class="cart-subtotal">
-                                                <th>tax applied</th>
-                                                <td><span class="amount">{{tax}}</span></td>
-                                            </tr>
-                                            <tr class="order-total">
-                                                <th>Order Total</th>
-                                                <td><strong><span class="amount">Rs:{{grand_total}}</span></strong>
-                                                </td>
-                                            </tr>								
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <div class="payment-method">
-                                    <div class="payment-accordion">
-                                        <div class="panel-group" id="faq">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h5 class="panel-title"><a data-bs-toggle="collapse" aria-expanded="true" href="#payment-1">PLACE YOUR ORDER</a></h5>
-                                                </div>
-                                                {% comment %} <div id="payment-1" class="panel-collapse collapse show" data-bs-parent="#faq">
-                                                    <div class="panel-body">
-                                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                                    </div>
-                                                </div> {% endcomment %}
-                                            </div>
-                                            {% comment %} <div class="order-button-payment">
-                                                <input type="submit" value="PayPal" />
-                                            </div> 
-                                            <div class="order-button-payment">
-                                                <input type="submit" value="RAZORPAY" />
-                                            </div>   {% endcomment %}
-                                            
-                                        </div>
-                                        <div class="order-button-payment">
-                                            <input type="hidden" value="COD" name="payment_mode">
-                                            {% comment %}<input type="submit" value="Cash On Delivery" /> {% endcomment %}
-                                            <button  type="submit" class="btn-success w-100 py-2">Cash On Delivery</button>
-                                            <button   type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
-                                            <div id="paypal-button-container"></div>
-                                            
-                                        </div>								
-                                    </div>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div> 
+                      </form>
+                    
+                      <address >
+                        <label for=""><span><b>SHIPPING ADDRESS</b></span></label><br>
+                       
+                        <label for="">{{userdetails.fist_name}} {{userdetails.last_name}}</label><br>
+                        <label for="">{{userdetails.phone}}</label><br>
+                        <label for="">{{userdetails.email}}</label><br>
+                        <label for="">{{userdetails.addressline1}}</label><br>
+                        <label for="">{{userdetails.addressline2}}</label><br>
+                        <label for="">{{userdetails.city}}</label><br>
+                        <label for="">{{userdetails.state}}</label><br>
+                        <label for="">{{userdetails.zip}}</label><br>
+                        
+            
+                    </address>
+                    <a  hx-get={% url 'track' userdetails.tracking_number %} hx-trigger="click" hx-target="#track-order" ><button type="button" class="btn btn-outline-dark">track order</button></a>
+            
+                    {% include 'htmx/track.html' %}
+                    <div id="track-order">
                     </div>
-                </form>
-                
+              
+                    </div>
+                </div>
+                <div class="coupon-accordion">
+                    <!-- ACCORDION START -->
+                    <h3>Cancel order? <span id="showlogin">Click here </span></h3>
+                    <div id="checkout-login" class="coupon-content">
+                        <div class="coupon-info">
+                               
+                            <form action="">
+                                <p class="form-row-first">
+                                    <label>reason for Cancel<span class="required">*</span></label>
+                                    <input type="text" />
+                                </p>
+                                {% comment %} <p class="form-row-last">
+                                    <label>Password  <span class="required">*</span></label>
+                                    <input type="text" />
+                                </p> {% endcomment %}
+                                <p class="form-row">					
+                                    <input type="submit" value="Return" />
+                                    <label>
+                                       
+                                         
+                                    </label>
+                                </p>
+                                <p class="lost-password">
+                                   
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- ACCORDION END -->	
+                    <!-- ACCORDION START -->
+                    
+                    <!-- ACCORDION END -->						
                 </div>
             </div>
+        </div>
         
-            <!-- checkout-area end -->	
-            <footer class="footer-area">
+        <!-- shopping-cart-area end -->
+		<footer class="footer-area">
             <div class="footer-top-area bg-img pt-105 pb-65" style="background-image: url(assets/img/bg/1.jpg)" data-overlay="9">
                 <div class="container">
                     <div class="row">
@@ -673,192 +558,30 @@
         </div>
 		
 		
-		
-		
-		
-		<!-- all js here -->
-         {% for msg in messages %}
-     
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
-           
-            <script>
-            
-                swal("Congratulations!", "{{msg}}", "success");
-          
-            </script>
-            {% endfor %} 
-       
-       
-        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-       
-        
-
-       <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
-
-        <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
-        <script src="{% static 'js/popper.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-        <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
-        <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
-        <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
-        <script src="{% static 'js/waypoints.min.js' %}"></script>
-        <script src="{% static 'js/ajax-mail.js' %}"></script>
-        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-        <script src="{% static 'js/plugins.js' %}"></script>
-        <script src="{% static 'js/main.js' %}"></script>
-        <script src="{% static 'js/checkout.js' %}"></script>
-
-        <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
-        <script>
-            paypal.Buttons({
-              // optional styling for buttons
-              // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
-              style: {
-                color: "gold",
-                shape: "rect",
-                layout: "vertical",
-              
-              },
-              onClick:function(data,actions){ 
-                if(document.querySelector('input[name="check"]:checked'))
-                {
-                    var country = $("[name ='tempcountry']").val();
-                    var firstname = $("[name = 'tempfname']").val();
-                    var lastname = $("[name = 'templname']").val();
-                    var email = $("[name = 'tempemail']").val();
-                    var phone = $("[name = 'tempphone']").val();
-                    var address1 = $("[name = 'tempaddress1']").val();
-                    var address2 = $("[name = 'tempaddress2']").val();
-                    var city = $("[name = 'tempc']").val();
-                    var state = $("[name = 'temps']").val();
-                    var zip = $("[name = 'tempz']").val();
-                    var order_for_others = true;
-                    
-                    
-                  
-        
-                }
-                
-                
-                
-               
-                if(firstname == "" || lastname == "" || email == "" || phone == "" || address1 == "" || 
-                    state == "" || city == "" || country == "" || zip == "") 
-                    {
-                        swal("Alert!", "All fields are mandatory!", "error");
-        
-                        return false;
-        
-                    }
-                else
-                {
-                   return true
-                }
-
-            },
-              // set up the transaction
-              createOrder: function (data, actions) {
-                return actions.order.create({
-                  // pass in any options from the v2 orders create call:
-                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-                  
-                      purchase_units: [{
-                          
-                              amount: {
-                                  value:.01         //"{{grand_total}}"
-                              }
-                        }]
-                  });
-                },
-
-              // finalize the transaction
-                onApprove: function(data, actions) {
-                  return actions.order.capture().then(function(orderData){
-                 
-                        console.log('Capture result',orderData,JSON.stringify(orderData, null, 2));
-                     // var transaction=orderData.purchase_units[0].payments.captures[0];
-                      //alert('Transaction'+ transaction.status +':'+ transaction.id);
-                        alert(orderData.id);
-                    
-                   // var check=document.querySelector('input[name="check"]:checked')
-                        var token = $("[name='csrfmiddlewaretoken']").val();
-                        if(document.querySelector('input[name="check"]:checked'))
-                        {
-                            var country = $("[name ='tempcountry']").val();
-                            var firstname = $("[name = 'tempfname']").val();
-                            var lastname = $("[name = 'templname']").val();
-                            var email = $("[name = 'tempemail']").val();
-                            var phone = $("[name = 'tempphone']").val();
-                            var address1 = $("[name = 'tempaddress1']").val();
-                            var address2 = $("[name = 'tempaddress2']").val();
-                            var city = $("[name = 'tempc']").val();
-                            var state = $("[name = 'temps']").val();
-                            var zip = $("[name = 'tempz']").val();
-                            var order_for_others = true;
-                            
-                            
-                          
-                
-                        }                              
-                    
-                        data = {
-
-                            "first_name":firstname,
-                            "last_name":lastname ,
-                            "phone": phone ,
-                            "email": email ,
-                            "address1": address1,
-                            "address2": address2,
-                            "zip": zip,
-                            "state": state, 
-                            "city": city ,
-                            "country": country, 
-                            "check":order_for_others,
-                            "paymentmode": "paypal",
-                            "payment_id" : orderData.id,
-                            csrfmiddlewaretoken : token,
-                        }
-                    
-
-                        $.ajax({
-                      
-                            method: "POST",
-                            url: "/orders/check_out/online/",
-                            data: data,
-                        
-                            success: function(responsec){
-                            swal("Congratulations!",responsec.status, "success").then((value) => {
-                                window.location.href = '/my_orders/'
-                              });
-                              window.location.href = '/my_orders/'
-                            }
-                        }); 
-                });
-            }
-        }).render('#paypal-button-container');
-              {% comment %} }, {% endcomment %}
-
-              {% comment %} // handle unrecoverable errors
-              onError: (err) => {
-                  console.error('An error prevented the buyer from checking out with PayPal');
-              }
-          });
-
-          paypalButtonsComponent
-              .render("#paypal-button-container")
-              .catch((err) => {
-                  console.error('PayPal Buttons failed to render');
-              }); {% endcomment %}
-        </script>
-
-
         <script>
             document.body.addEventListener('htmx:configRequest', (evt)=> {
                // evt.detail.parameters['auth_token'] = getAuthToken();  add a new parameter into the request
                  evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
             });
         </script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+		
+		
+		<!-- all js here -->
+        <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %} "></script>
+        <script src="{% static 'js/popper.js' %} "></script>
+        <script src="{% static 'js/bootstrap.min.js' %} "></script>
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %} "></script>
+        <script src="{% static 'js/isotope.pkgd.min.js' %} "></script>
+        <script src="{% static 'js/imagesloaded.pkgd.min.js' %} "></script>
+        <script src="{% static 'js/jquery.counterup.min.js' %} "></script>
+        <script src="{% static 'js/waypoints.min.js' %} "></script>
+        <script src="{% static 'js/ajax-mail.js' %} "></script>
+        <script src="{% static 'js/owl.carousel.min.js' %} "></script>
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %} "></script>
+
+
+    
+
     </body>
 </html>

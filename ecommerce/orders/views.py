@@ -1,5 +1,5 @@
 from pyexpat.errors import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from itertools import count
 from multiprocessing import context
@@ -14,6 +14,7 @@ from cart.views import _cart_ID
 from product.models import product,price,media,user_address
 from cart.models import Cart, cartItem
 import random
+from django.contrib import messages
 # Create your views here.
 @login_required(login_url="login")
 def check_out(request,total=0,quantity=0,cart_items=None,number=0,tax=0,grand_total=0):
@@ -118,7 +119,6 @@ def placeorder(request):
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
             
-
             
 
 
@@ -162,9 +162,9 @@ def placeorder(request):
             
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
-           
-
-    return redirect(my_orders)
+ 
+        messages.success(request,"order placed!")
+        return redirect(my_orders)
 
 def proced_to_pay(request):
     cart_items=cartItem.objects.filter(useID=request.user)
@@ -298,26 +298,28 @@ def online(request):
 
 
        
-        paymode=request.POST.get("paymentmode")
-        if paymode=="razorpay" or paymode=="paypal":
-            JsonResponse({'status':"payment done"})
-        else:
+    paymode=request.POST.get("paymentmode")
+    print(paymode)
+    if paymode=="razorpay" or paymode=="paypal":
+            JsonResponse({"status":"payment done"})
+    else:
             print("havoooooo")
     return redirect(my_orders) 
 
             
 
-def my_orders(request,id):
-    orders=order.objects.filter(user=id)
+def my_orders(request):
+    orders=order.objects.filter(user=request.user.id)
     orderedItems=orderproduct.objects.filter(order_id__in=orders)
     products=product.objects.filter(id__in=orderedItems)
     ziped_data=zip(orders,orderedItems,products)
     return render(request,'myorders.html',{"ziped_data":ziped_data})
 
-def test(request):
-    if request.method=='POST':
-        if not request.POST.get('check'):
-            name=request.POST.get("fname")
-        print(name)
-    return render(request,'htmx/accordian.html')
+def order_details(request,id):
+    orderitems=orderproduct.objects.filter(order_id=id)
+    userdetails=order.objects.get(id=id)
+    return render(request,'detailorder.html',{"orderitems":orderitems,"userdetails":userdetails})
     
+def trackorder(request,track):
+    result=order.objects.get(tracking_number=track)
+    return render(request,'htmx/track.html',{"result":result})

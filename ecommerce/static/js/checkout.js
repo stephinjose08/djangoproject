@@ -39,7 +39,8 @@ $(document).ready(function () {
         
         
         }
-       
+        
+        
         if(firstname == "" || lastname == "" || email == "" || phone == "" || address1 == "" || 
             state == "" || city == "" || country == "" || zip == "") 
             {
@@ -66,7 +67,7 @@ $(document).ready(function () {
                         "image": "static/img/logo.png",
                         // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                         "handler": function (responseb){
-                            alert(responseb.razorpay_payment_id);
+                            // alert(responseb.razorpay_payment_id);
                             var token = $("[name='csrfmiddlewaretoken']").val(); 
                              
                             data = {
@@ -95,8 +96,10 @@ $(document).ready(function () {
                                 data: data,
                                 
                                 success: function (responsea){
-                                    alert(responsea.status)
-                                    swal("success", "order placed!", "success");
+                                    
+                                    swal("success",responsea.status, "success").then((value) => {
+                                        window.location.href='check_out/my_orders/'
+                                    });
 
                                 }
                             });

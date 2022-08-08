@@ -1,6 +1,6 @@
 from ast import Return
 from email.mime import image
-from pyexpat.errors import messages
+from django.contrib import messages
 from turtle import color
 from unicodedata import category, name
 from urllib.request import Request
@@ -9,8 +9,9 @@ from django.shortcuts import redirect, render
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate,login
 
-from product.models import price
-from orders.models import order,orderproduct
+
+from product.models import price,coupons
+from orders.models import order,orderproduct,canceled_orders
 from django.contrib import messages
 
 from product.models import brand, product,subcategory,media,Category,color,size,price,banners
@@ -42,7 +43,7 @@ def add_edit_categories(request,id=0):
         else:
             editing_category=Category.objects.get(id=id)
             categories=Category.objects.all()
-            return render(request,'add_edit_categories.html',{'editing_category':editing_category,'categry':categories})  
+            return render(request,'add_edit_categories.html',{'editing_category':editing_category,'categories':categories})  
 
 def delete_category(request,id):
     deleted_category=Category.objects.get(id=id)
@@ -107,15 +108,22 @@ def block_user(request,id):
     
    
     blocked_user=CustomUser.objects.get(id=id)
+    users=CustomUser.objects.all()
     if blocked_user.is_active:
         blocked_user.is_active=False
+        blocked_user.save()
+        messages.success(request,"user is blocked")
+        # return render(request,'htmx/block_user.html',{'users':users})
     else:
         blocked_user.is_active=True
+        blocked_user.save()
+        messages.success(request,"user is unblocked")
+    return render(request,'htmx/block_user.html',{'users':users})
 
-    blocked_user.save()
-    users=CustomUser.objects.all()
+    
+    
     # messages.success(request,"user blocked")
-    return render(request,'block_user.html',{'users':users})
+    
     # return redirect(displayUsers)
 
 def productlist(request):
@@ -325,8 +333,8 @@ def baner_manage(request):
 
 def orders(request):
     orders=order.objects.all()
-
-    return render(request,"orders.html" ,{'orders':orders})
+    cancel_orders=canceled_orders.objects.all()
+    return render(request,"orders.html" ,{'orders':orders,'cancel_orders':cancel_orders})
 
 def subcategory_get(request):
     id=request.GET.get("Category")
@@ -356,8 +364,8 @@ def order_detail(request,id):
     products=product.objects.filter(id__in=orderedproducts)
     # print(orderedproducts[0].product_name)
     print(products)
-    ziped_data=zip(products,orderedproducts)
-    return render(request,'order_details.html',{'ziped_data':ziped_data,'order':orders})
+    # ziped_data=zip(products,orderedproducts)
+    return render(request,'order_details.html',{'orderedproducts':orderedproducts,'order':orders})
 
 def delete_order(request,id):
     deleting_order=order.objects.get(id=id)
@@ -373,3 +381,71 @@ def order_status_change(request,pid):
     update_order.status=status
     update_order.save()
     return redirect(orders)
+
+
+
+# def (request):
+#     brands=brand.objects.all()
+#     return render(request,'brands.html',{'brands':brands})
+
+def brands(request,id=0):
+    if id==0:
+        if request.method=='POST':
+            brand_name=request.POST.get('brand')
+            
+            new_brand=brand(name=brand_name,image=request.FILES['image'])
+            new_brand.save()
+            return redirect(brands)
+        else:
+            allbrand=brand.objects.all()
+            return render(request,'brands.html',{'brands':allbrand})
+    else:
+        if request.method=='POST':
+            updated_brand=request.POST.get('brand')
+            edited=brand.objects.get(id=id)
+            
+            edited.name=updated_brand
+            edited.image=request.FILES['image']
+            edited.save()
+            return redirect(brands)
+        else:
+            editing_brand=brand.objects.get(id=id)
+            allbrand=brand.objects.all()
+            return render(request,'brands.html',{'editing_brand':editing_brand,'brands':allbrand}) 
+
+def delete_brand(request,id):
+    deleting_brand=brand.objects.get(id=id)
+    deleting_brand.delete()
+    return redirect(brands)
+
+# def couponadd(request):
+#     coupon=coupons.objects.all()
+#     return render(request,'coupon.html',{'coupons':coupon})
+
+def couponadd(request,id=0):
+    if id==0:
+        if request.method=='POST':
+            code=request.POST.get('code')
+            discription=request.POST.get('discription')
+            discount_rate=request.POST.get('rate')
+            new_coupon=coupons(couponcode=code,discription=discription,discount_percentage=discount_rate)
+            new_coupon.save()
+            return redirect(couponadd)
+        else:
+            coupon=coupons.objects.all()
+            return render(request,'coupon.html',{'coupon':coupon})
+    else:
+        if request.method=='POST':
+            code=request.POST.get('code')
+            discription=request.POST.get('discription')
+            discount_rate=request.POST.get('rate')
+            edited=coupons.objects.get(id=id)
+            edited.couponcode=code
+            edited.discription=discription    
+            edited.discount_percentage=discount_rate         
+            edited.save()
+            return redirect(couponadd)
+        else:
+            editing_coupon=coupons.objects.get(id=id)
+            coupon=coupons.objects.all()
+            return render(request,'coupon.html',{'editing_coupon':editing_coupon,'coupon':coupon})

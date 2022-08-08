@@ -1275,6 +1275,56 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>canceled orders</h4>
+                                    </div>                                   
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    <table id="ecommerce-order-list" class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="checkbox-column"> Record No. </th>
+                                                <th>Order</th>
+                                                <th>Cancel date</th>
+                                                <th>User </th>
+                                                <th>Reason for cancelation</th>
+                                                <th>TOTAL PRICE</th>
+                                                <th class="align-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for cancel_orders in cancel_orders %}
+                                            <tr>
+                                               
+                                                <td class="checkbox-column"> {{cancel_orders.id}} </td>
+                                                <td>{{order.id}}</td>
+                                                <td>{{cancel_orders.cancel_date}}</td>
+                                                <td>{{cancel_orders.order.fist_name}} {{cancel_orders.order.last_name}}</td>
+                                                <td>{{cancel_orders.reason_for_cancel}}</td> 
+                                               
+                                                <td>{{cancel_orders.order.total_price}}</td>
+                                            
+                                                <td class="align-center"><a href=""><button type="button" class="btn btn-default btn-sm"><i class="icon-search"></i>confirm</button></a></td>
+
+                                               
+ 
+                                            </tr>
+                                           
+                                           
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

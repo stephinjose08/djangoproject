@@ -1,7 +1,8 @@
-from pyexpat.errors import messages
+
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from itertools import count
+from django.contrib import messages
 from multiprocessing import context
 from tokenize import Number
 from xml.sax.handler import all_properties
@@ -9,9 +10,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
-from .models import  order,orderproduct, payment
+from .models import  order,orderproduct, payment,canceled_orders
 from cart.views import _cart_ID
-from product.models import product,price,media,user_address
+from product.models import product,price,media,user_address,coupons
 from cart.models import Cart, cartItem
 import random
 from django.contrib import messages
@@ -65,11 +66,22 @@ def placeorder(request):
 
             
                 total+=Price.discount_price * cart_item.quantity
-             
-                
-        grand_total=0
-        tax=(2*total)/100
-        grand_total=total+tax  
+        grand_total=0 
+        offerrate=0
+        amount_discounted=0 
+        tax=0   
+        if request.session['coupon']:
+           
+            offerrate=request.session['coupon']
+            amount_discounted=total*(offerrate/100)
+            total=total-amount_discounted
+            tax=(2*total)/100
+            grand_total=total+tax
+            request.session.delete('coupon')   
+        else:     
+            
+            tax=(2*total)/100
+            grand_total=total+tax  
         new_payment=payment.objects.create(
                 user=request.user,
                 payment_mode="COD",
@@ -163,11 +175,11 @@ def placeorder(request):
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
  
-        messages.success(request,"order placed!")
+            messages.success(request,"order placed!")
         return redirect(my_orders)
 
 def proced_to_pay(request):
-    cart_items=cartItem.objects.filter(useID=request.user)
+    cart_items=cartItem.objects.filter(useID=request.user)   
     total=0   
     for cart_item in cart_items:
 
@@ -178,8 +190,22 @@ def proced_to_pay(request):
              
                 
     grand_total=0
-    tax=(2*total)/100
-    grand_total=total+tax  
+    offerrate=0
+    amount_discounted=0
+    if request.session['coupon']:
+        print("coupon kandu")
+        print(request.session['coupon'])
+        offerrate=request.session['coupon']
+        amount_discounted=total*(offerrate/100)
+        print(amount_discounted)
+        total=total-amount_discounted
+        tax=(2*total)/100
+        grand_total=total+tax
+        print(grand_total)
+        
+    else:
+        tax=(2*total)/100   
+        grand_total=total+tax
     
     return JsonResponse({
         'total_price':grand_total
@@ -198,8 +224,26 @@ def online(request):
                 
                     
         grand_total=0
-        tax=(2*total)/100
-        grand_total=total+tax  
+        offerrate=0
+        amount_discounted=0
+        # tax=(2*total)/100
+        # grand_total=total+tax 
+        if request.session['coupon']:
+            
+            
+            offerrate=request.session['coupon']
+            amount_discounted=total*(offerrate/100)
+            
+            total=total-amount_discounted
+            tax=(2*total)/100
+            grand_total=total+tax
+           
+            request.session.delete('coupon')
+        else:
+            tax=(2*total)/100   
+            grand_total=total+tax
+
+
         new_payment=payment.objects.create(
                     user=request.user,
                     payment_mode=request.POST.get('paymentmode'),
@@ -300,8 +344,8 @@ def online(request):
        
     paymode=request.POST.get("paymentmode")
     print(paymode)
-    if paymode=="razorpay" or paymode=="paypal":
-            JsonResponse({"status":"payment done"})
+    if (paymode=="razorpay" or paymode=="paypal"):
+           return JsonResponse({"status":'payment done'})
     else:
             print("havoooooo")
     return redirect(my_orders) 
@@ -309,7 +353,7 @@ def online(request):
             
 
 def my_orders(request):
-    orders=order.objects.filter(user=request.user.id)
+    orders=order.objects.filter(user=request.user.id).order_by('created_at')
     orderedItems=orderproduct.objects.filter(order_id__in=orders)
     products=product.objects.filter(id__in=orderedItems)
     ziped_data=zip(orders,orderedItems,products)
@@ -323,3 +367,143 @@ def order_details(request,id):
 def trackorder(request,track):
     result=order.objects.get(tracking_number=track)
     return render(request,'htmx/track.html',{"result":result})
+
+def cancel_order(request,rack):
+    
+    canceled_order=order.objects.get(tracking_number=rack)
+    print(rack)
+    canceled_order.status="canceled"
+    canceled_order.save()
+    reason=request.POST.get("reason")
+    print(reason)
+    canceledorder=canceled_orders.objects.create(user=request.user,
+                                                 order=canceled_order,
+                                                 reason_for_cancel=reason)
+    canceledorder.save()
+    return redirect(my_orders)
+
+def coupenoffer(request):
+    user=request.user
+    f=False
+    code=request.POST.get("code")
+    print(code)
+    print("helooo")
+    cart_items=cartItem.objects.filter(useID=request.user)
+    total=0
+    grand_total=0
+    tax=0
+    amount_discounted=0
+    offerprice=0
+    if coupons.objects.filter(couponcode=code).exists():
+        coupon=coupons.objects.get(couponcode=code)
+        print("coupon und")
+        if coupons.objects.filter(couponcode=code,user_is_used=user).exists():
+            print("keri")
+            messages.error(request,"already used coupon")
+            for cart_item in cart_items:
+
+                Price=product.objects.get(id=cart_item.Product.id)
+            
+                total+=Price.discount_price * cart_item.quantity
+           
+        
+            tax=(2*total)/100
+            grand_total=total+tax  
+            print(grand_total)
+            print(tax)
+            print(total)
+    
+            if user_address.objects.get(user=request.user):
+                existing_user=user_address.objects.get(user=request.user)
+            context={
+            'cart_items':cart_items,
+            'totalprice':total,
+             'f':f,
+            'tax':tax,
+            'grand_total':grand_total,
+            'existing_user':existing_user,       
+            }
+
+        else:
+            coupon.user_is_used.add(user)
+            f=True
+            coupon.save()
+            
+            
+            for cart_item in cart_items:
+
+                    Price=product.objects.get(id=cart_item.Product.id)
+
+                
+                    total+=Price.discount_price * cart_item.quantity
+                
+                    
+            
+            offer=coupon.discount_percentage
+            print(offer)
+            amount_discounted=round(total*(offer/100),2)
+            print(offerprice)
+            
+            offerprice=round(total-amount_discounted,2)
+            print(offerprice)
+            tax=round((2*offerprice)/100,2)
+            grand_total=round(offerprice+tax,2)
+            print(amount_discounted)  
+            new_payment=payment.objects.create(
+                    user=request.user,
+                    
+                    amount_paid=grand_total,
+                    status="pending",
+                    
+                    
+                )
+            new_payment.save()
+            request.session['coupon']=offer
+        context={
+            'cart_items':cart_items,
+            'totalprice':total,
+            'f':f,
+            'tax':tax,
+            'grand_total':grand_total,
+            'amount_discounted':amount_discounted
+            
+                
+            }
+        return render(request,'htmx/offer.html',context)
+    else:
+        
+        for cart_item in cart_items:
+
+            Price=product.objects.get(id=cart_item.Product.id)
+            
+            total+=Price.discount_price * cart_item.quantity
+           
+        
+        tax=(2*total)/100
+        grand_total=total+tax  
+        print(grand_total)
+        print(tax)
+        print(total)
+    
+        if user_address.objects.get(user=request.user):
+            existing_user=user_address.objects.get(user=request.user)
+        context={
+            'cart_items':cart_items,
+            'totalprice':total,
+            'f':f,
+            'tax':tax,
+            'grand_total':grand_total,
+            'existing_user':existing_user,
+                
+            }
+    
+        
+        messages.error(request,"invalid coupon")
+        return render(request,'htmx/offer.html',context)
+        
+
+    
+   
+
+
+

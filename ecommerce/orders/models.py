@@ -1,3 +1,4 @@
+from random import choices
 from django.db import models
 from accounts.models import CustomUser
 from product.models import product
@@ -56,3 +57,16 @@ class orderproduct(models.Model):
     product=models.ForeignKey(product, on_delete=models.CASCADE)
     price=models.FloatField(null=True)
     quantity=models.IntegerField(null=True)  
+
+class canceled_orders(models.Model):
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    order=models.ForeignKey(order,on_delete=models.DO_NOTHING)
+    reason=(
+       ( "order  placed by mistake","order  placed by mistake"),
+       ("price for the product has decreased","price for the product has decreased"),
+       ("i have purchased the product elsewhere","i have purchased the product elsewhere"),
+       ("i want to cance  due to the prodduct quality issues","i want to cance  due to the prodduct quality issues"),
+    )
+    reason_for_cancel=models.TextField(choices=reason,blank=True,null=True)
+    cancel_date=models.DateField(auto_created=True,null=True)
+

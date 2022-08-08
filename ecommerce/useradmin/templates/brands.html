@@ -5,19 +5,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>order_details </title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
+    <title>Add/Edit Categories | Equation - Multipurpose Bootstrap Dashboard Template </title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'assets/css/ecommerce/addedit_categories.css' %}" rel="stylesheet" type="text/css">
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'assets/css/loader.css' %}" rel="stylesheet" type="text/css" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!--  BEGIN CUSTOM STYLE FILE  -->
-    <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">    
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/ecommerce/order.css' %}">
-    <link href="{% static 'assets/css/ecommerce/product-details-1.css' %}" rel="stylesheet" type="text/css" />
-    <!--  END CUSTOM STYLE FILE  -->    
+    <link href="{% static 'plugins/drag-and-drop/jquery-ui/scrollable/style.css' %}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
 </head>
 <body>
     <div id="eq-loader">
@@ -74,7 +83,7 @@
                             <div class="">
                                 <div class="media notification-new">
                                     <div class="usr-img align-self-center mr-3">
-                                        <img class="usr-img rounded-circle" src="assets/img/90x90.jpg" alt="profile">
+                                        <img class="usr-img rounded-circle" src="{% static 'assets/img/90x90.jpg' %}" alt="profile">
                                     </div>
                                     <div class="media-body">
                                         <div class="d-flex justify-content-between">
@@ -144,7 +153,7 @@
                             <a href="">
                                 <div class="media">
                                     <div class="user-profile">
-                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                        <img src="{% static 'assets/img/90x90.jpg' %}" alt="admin-profile" class="img-fluid">
                                     </div>
                                     <div class="media-body">
                                         <span>Irene Collins</span>
@@ -156,7 +165,7 @@
                             <a href="">
                                 <div class="media">
                                     <div class="user-profile">
-                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                        <img src="{% static 'assets/img/90x90.jpg' %}" alt="admin-profile" class="img-fluid">
                                     </div>
                                     <div class="media-body">
                                         <span>Sonia Shaw</span>
@@ -736,10 +745,10 @@
                                                 <li>
                                                     <a href="ecommerce_product_catalog.html"> Product Catalog </a>
                                                 </li>
-                                                <li class="sub-sub-submenu-list active">
-                                                    <a href="#product-details" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle" data-parent="#ecommerce"> Product Details <i class="flaticon-right-arrow"></i> </a>
-                                                    <ul class="collapse list-unstyled sub-submenu eq-animated eq-fadeInUp show" id="product-details">
-                                                        <li class="active">
+                                                <li class="sub-sub-submenu-list">
+                                                    <a href="#product-details" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" data-parent="#ecommerce"> Product Details <i class="flaticon-right-arrow"></i> </a>
+                                                    <ul class="collapse list-unstyled sub-submenu eq-animated eq-fadeInUp" id="product-details">
+                                                        <li>
                                                             <a href="ecommerce_product_details_1.html"> Product Details 1 </a>
                                                         </li>
                                                         <li>
@@ -750,7 +759,7 @@
                                                 <li>
                                                     <a href="ecommerce_addedit_product.html"> Add/Edit Products </a>
                                                 </li>
-                                                <li>
+                                                <li class="active">
                                                     <a href="ecommerce_addedit_categories.html"> Add/Edit Categories </a>
                                                 </li>
                                                 <li>
@@ -1146,195 +1155,107 @@
             <div class="container">
                 <div class="page-header">
                     <div class="page-title">
-                        <h3>Product Details</h3>
+                        <h3>Add/Edit Categories</h3>
                     </div>
                 </div>
+                
+                
+       
+                <div class="col-lg-6 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>LIST OF BRANDS</h4>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="statbox widget box box-shadow">
-                    <div class="widget-content">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing">
-                                <div class="widget-content-area product-detail-1">
-                                    <div class="row">
-                                        <div class="table-responsive mb-4">
+                        <form class="form-horizontal" action="" method='post' enctype="multipart/form-data" >
+                        <div class="widget-content widget-content-area">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="sortable2" class="content">
+                                        <h5>Categories</h5>
+                                        <hr />
+                                        <ul  style="overflow-y:scroll; height:300px">
+                                          {% for brand in brands %}
+                                            <li>
+                                                
+                                                <div class="media">
+                                                    <img class="mr-3 rounded-circle" src="{{brand.image.url}}" alt="Generic placeholder image">
+                                                    <div class="media-body">
+                                                        <h6 class="mt-2">{{brand.name}}</h6>
+                                                        <a href="{% url 'edit-brand' brand.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                                                    </div>
+                                                    <a href="{% url 'delete-brand' brand.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
                                             
+                                        </ul>
+                                        <hr />
+                                        <p>End of content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">                                
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Add Brands </h4>
+                                    </div>
+                                </div>
+                            </div>
 
-                                            <table id="ecommerce-order-list" class="table table-hover table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="checkbox-column">id </th>
-                                                        <th>image</th>
-                                                        <th>product</th>
-                                                        <th>Purchased On</th>
-                                                        <th>TRACK NUMBER</th>
-                                                        <th>quantity</th>
-                                                        <th>unit price</th>
-                                                      
-                                                       
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                            <div class="widget-content widget-content-area add-sub-category">
+                                <div class="row">
+                                    <div class="mx-xl-auto col-xl-10 col-md-12">
+                                        <div class="card card-default">
+                                            <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
+                                            <div class="card-body">
+                                                <div class="card-body">
                                                     
-                                                    <tr>
-                                                        {% for orderedproducts in orderedproducts %}
-                                                        <td class="checkbox-column">  </td>
-                                                        <td><img src="{{orderedproducts.product.cover_image.url}}" alt="product" width="100px"></td>
-                                                        <td>{{orderedproducts.product.product_name}}</td>
-                                                        <td>{{order.created_at}}</td>
-                                                        <td>{{order.tracking_number}}</td>
-                                                        <td>{{orderedproducts.quantity}}</td>
-                                                        <td>{{orderedproducts.product.discount_price}}</td>
-                                                      
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4"> Brand Name :</label>
+                                                                <div class="col-md-8">
+                                                                    <input required class="form-control" name="brand" type="text" value="{{editing_brand.name}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
                                                         
-                                                        
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-
-                                            <a href="{% url 'delete-order' order.id %}"><button type="button" class="btn btn-danger ">Delete Order</button></a>
-                                                        <br><br>
-                                                        {% comment %} <div class="btn-group dropright">
-                                                            <a href=""><button type="button" class="btn btn-secondary dropdown-toggle" name="status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                                                             Actions
-                                                            </button>
-                                                          <div class="dropdown-menu align-center">
-                                                               <li>pending</li>
-                                                                <li>out  for  shipping</li>
-                                                                <li>completed</li>
-                                                                <li>canceled</li>
-                                                            </div> 
-                                                          </div>     {% endcomment %}
-                                                        <form action="{% url 'order-status' order.id %}" method="post">
-                                                            {% csrf_token %}
-                                                          <select name="status" id="">
-                                                            <option value="pending">pending</option>
-                                                            <option value="out  for  shipping">out  for  shipping</option>
-                                                            <option value="completed">completed</option>
-                                                            <option value="canceled">canceled</option>
-
-                                                          </select>
-                                                          <button type="submit" class="btn btn-danger ">save</button>
-                                                        </form>   
-                                            {% comment %} <div class="product-slider">
-                                                <a class="product-image">
-                                                    <div class="preview-pic tab-content">
-                                                        <div class="tab-pane active" id="pic-1">
-                                                            <img src="{{products.cover_image.url}}" alt="img" class="img-fluid" width="100px" />
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Thumbnail Image :</label>
+                                                                <div class="col-md-8">
+                                                                   
+                                                                    <div class="custom-file">
+                                                                        {% csrf_token %}
+                                                                        <input required type="file" class="form-control-file" name='image' value="">
+                                                                    
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         
-                                                    </div>
-                                                </a>
+                                                        <div class="align-center"> 
+                                                            <input value="Submit" class="btn mt-5 mb-4" type="submit">
+                                                        </div>
                                                 
-                                            </div>
-                                        </div>
-                                      
-                                        <div class="col-lg-6">
-                                            <div class="product-detailing">
-                                                <h2 class="product-name mt-4">{{products.product_name}}</h2>
-                                                                                                
-                                                <h2 class="product-price">{{products.discount_price}}</h2>                                                
-                                                <div class="product-description mt-4 mb-5">
-                                                    <p>{{products.discription}}</p>
+                                                    </form>
                                                 </div>
-                                                <div class="form-row product-attribute-select">
-                                                    <div class="form-group col-md-6">
-                                                        <input class="form-control" type="number" value={{"1"}}>
-                                                    </div>
-                                                    <div class="form-group col-md-6 mb-4">
-                                                        <select class="form-control">
-                                                            <option selected="selected">Choose Size</option>
-                                                            <option>EU 35</option>
-                                                            <option disabled="">EU 36</option>
-                                                            <option>EU 35</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row product-btn-cart">
-                                                    <div class="form-group col-md-6">
-                                                        <a class="btn btn-dark" href="#">confirm order</a>
-                                                    </div>
-                                                </div>
-                                                <hr class="mt-3 mb-3">
-                                                <ul class="info-list list-unstyled mb-0">
-                                                    <li>
-                                                        <span class="info-list-title">quantity</span>
-                                                        <span class="info-list-text">213496</span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="info-list-title">Category:</span><span class="info-list-text">
-                                                            <a href="#">Interior</a>
-                                                        </span>
-                                                    </li>
-                                                    
-                                                </ul>
-                                                <hr class="mt-3 mb-3">
-                                                <ul class="info-list list-unstyled social-icons mb-0">
-                                                    <li>
-                                                        
-                                                    </li>
-                                                </ul>
-                                            </div> {% endcomment %}
-                                         
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-12 col-md-12">
-                                        <div class="product-breif-description">
-                                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" id="pills-description" data-toggle="pill" href="#pills-desc" role="tab" aria-controls="pills-desc" aria-selected="true">User Address</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="pills-additional-info" data-toggle="pill" href="#pills-add-info" role="tab" aria-controls="pills-add-info" aria-selected="false">Product has to be send this address</a>
-                                                </li>
-                                                
-                                            </ul>
-                                            <div class="tab-content" id="pills-tabContent">
-                                                <div class="tab-pane fade show active" id="pills-desc" role="tabpanel" aria-labelledby="pills-description">
-                                                    <label for="username">User  name:</label>
-                                                    <h3 class="mb-4 mt-5 text-dark">{{order.user.fist_name}} {{order.user.last_name}}</h3>
-                                                   <label for="email">Email</label>
-                                                   <h5 class="text-dark">{{order.user.email}}</h5>
-                                                   <h5 class="text-dark">{{order.user.phone}}</h5>
-                                                    {% if order.order_for_others %}
-                                                    <h5>{{order.user.first_name}} ordered items for {{order.fist_name}} {{order.last_name}}</h5>
-                                                    {% endif %}
-                                                    <label for="grand total">grand total:{{order.total_price}}</label>
-                                                    <br>
-                                                    <label for="">Payment Method:{{order.payment_mode.payment_mode}}</label>
-                                                    
-                                                </div>
-                                                <div class="tab-pane fade" id="pills-add-info" role="tabpanel" aria-labelledby="pills-additional-info">
-                                                    <h5 class="mb-4 mt-5 text-danger">Delivery address</h5>
-                                                   <label for="name">Name:</label>
-                                                   <h5 class="text-dark">{{order.fist_name}} {{order.last_name}}</h5>
-                                                   <label for="email">Email</label>
-                                                   <h5 class="text-dark">{{order.email}}</h5>
-                                                   <label for="phone">Addressline 1:</label>
-                                                   <h5 class="text-dark">{{order.addressline1}} </h5>
-                                                   <label for="name">Addressline2:</label>
-                                                   <h5 class="text-dark">{{order.addressline2}}</h5>
-                                                   <label for="name">City</label>
-                                                   <h5 class="text-dark">{{order.city}}</h5>
-                                                   <label for="name">State</label>
-                                                   <h5 class="text-dark">{{order.state}}</h5>
-                                                   <label for="name">Phone:</label>
-                                                   <h5 class="text-dark">{{order.phone}}</h5>
-
-
-                                                </div>
-                                                {% comment %} <div class="tab-pane fade" id="pills-rev" role="tabpanel" aria-labelledby="pills-review">
-                                                    <h3 class="mb-4 mt-5">Reviews:</h3>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                                    </p>
-                                                </div> {% endcomment %}
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                   
                                 </div>
                             </div>
                         </div>
@@ -1343,6 +1264,7 @@
             </div>
         </div>
         <!--  END CONTENT PART  -->
+
     </div>
     <!-- END MAIN CONTAINER -->
 
@@ -1421,6 +1343,7 @@
     <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
     
     <script>
@@ -1430,12 +1353,49 @@
     </script>
     <script src="{% static 'assets/js/custom.js' %}"></script>
     <!-- END GLOBAL MANDATORY STYLES -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
 
-    <!--  BEGIN CUSTOM SCRIPT FILES  -->
-    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
-    <script src="{% static 'plugins/progressbar/progressbar.min.js' %}"></script>
-    <script src="{% static 'assets/js/ecommerce/order.js' %}"></script>
-    <script src="{% static 'assets/js/ecommerce/custom-ecommerce_pro_detail1.js' %}"></script>
-    <!--  END CUSTOM SCRIPT FILES  -->    
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <script>
+        /* 
+            call mCustomScrollbar function before jquery ui sortable()
+        */
+        $("#sortable, #sortable2").mCustomScrollbar({
+            scrollbarPosition:"outside",
+            scrollInertia:450,
+        });
+
+        $("#sortable ul, #sortable2 ul").sortable({
+            axis:"y",
+            cursor:"move",
+            tolerance:"intersect",
+            change:function(e,ui){
+                var h=ui.helper.outerHeight(true),
+                    elem=$("#sortable .mCustomScrollBox"),
+                    elemHeight=elem.height(),
+                    moveBy=$("#sortable li").outerHeight(true)*3,
+                    mouseCoordsY=e.pageY-elem.offset().top;
+                if(mouseCoordsY<h){
+                    $("#sortable").mCustomScrollbar("scrollTo","+="+moveBy);
+                }else if(mouseCoordsY>elemHeight-h){
+                    $("#sortable").mCustomScrollbar("scrollTo","-="+moveBy);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

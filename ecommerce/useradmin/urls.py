@@ -25,4 +25,11 @@ urlpatterns = [
   path("orders/order_details/<int:id>/",views.order_detail,name="order-details"),
   path("delete_order/<int:id>/",views.delete_order,name="delete-order"),
   path("update_status/<int:pid>/",views.order_status_change,name="order-status"),
+  path("admin_home/coupons/",views.couponadd,name="coupon-add"),
+  path("admin_home/brands/",views.brands,name="brands"),
+  path("admin_home/brands/<int:id>/",views.brands,name="edit-brand"),
+  path("admin_home/delete_brand/<int:id>/",views.delete_brand,name="delete-brand"),
+   path("admin_home/coupons_edit/<int:id>",views.couponadd,name="coupon-edit"),
+  
+
 ]

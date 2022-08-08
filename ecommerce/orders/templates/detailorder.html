@@ -343,7 +343,8 @@
                         <label for="">{{userdetails.addressline2}}</label><br>
                         <label for="">{{userdetails.city}}</label><br>
                         <label for="">{{userdetails.state}}</label><br>
-                        <label for="">{{userdetails.zip}}</label><br>
+                        <label for="">{{userdetails.zip_code}}</label><br>
+                        <label for="">Total Price Rs:<span>{{userdetails.total_price}}</span></label>
                         
             
                     </address>
@@ -357,21 +358,29 @@
                 </div>
                 <div class="coupon-accordion">
                     <!-- ACCORDION START -->
+                    {% if userdetails.status != "canceled" %}
                     <h3>Cancel order? <span id="showlogin">Click here </span></h3>
                     <div id="checkout-login" class="coupon-content">
                         <div class="coupon-info">
                                
-                            <form action="">
+                            <form action="{% url 'cancel-order' userdetails.tracking_number %}" method="POST">
+                                {% csrf_token %}
                                 <p class="form-row-first">
-                                    <label>reason for Cancel<span class="required">*</span></label>
-                                    <input type="text" />
+                                    <label>Reason for Cancel<span class="required">*</span></label>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="reason">
+                                        <option selected></option>
+                                        <option value="i want to cance  due to the prodduct quality issues">i want to cance  due to the prodduct quality issues</option>
+                                        <option value="order  placed by mistake">order  placed by mistake</option>
+                                        <option value="price for the product has decreased">price for the product has decreased</option>
+                                        <option value="i have purchased the product elsewhere">i have purchased the product elsewhere</option>
+                                      </select>
                                 </p>
                                 {% comment %} <p class="form-row-last">
                                     <label>Password  <span class="required">*</span></label>
                                     <input type="text" />
                                 </p> {% endcomment %}
-                                <p class="form-row">					
-                                    <input type="submit" value="Return" />
+                                <p class="form-row mt-3">					
+                                    <input type="submit" value="cancel Order" />
                                     <label>
                                        
                                          
@@ -383,6 +392,7 @@
                             </form>
                         </div>
                     </div>
+                    {% endif %}
                     <!-- ACCORDION END -->	
                     <!-- ACCORDION START -->
                     

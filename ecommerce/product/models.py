@@ -124,6 +124,8 @@ class banners(models.Model):
 class coupons(models.Model):
     couponcode=models.CharField(max_length=15)
     discription=models.CharField(max_length=200)
+    discount_percentage=models.IntegerField(blank=True,null=True)
+    user_is_used=models.ManyToManyField(CustomUser,blank=True)
 
     def __str__(self):
         return self.couponcode

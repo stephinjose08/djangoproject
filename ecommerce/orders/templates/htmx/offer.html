@@ -1,0 +1,64 @@
+
+            <table id="table-item">
+                <thead>
+                    <tr>
+                        <th class="product-name">Product</th>
+                        <th class="product-total">Total</th>
+                    </tr>							
+                </thead>
+                {% for cart_item in cart_items %}
+                <tbody>
+                    <tr class="cart_item">
+                        <td class="product-name">{{cart_item.Product.product_name}}
+                            <strong class="product-quantity"> {{cart_item.Product.discount_price}}×{{cart_item.quantity}} </strong>
+                        </td>
+                        <td class="product-total">
+                            <span class="amount">{% widthratio cart_item.Product.discount_price 1 cart_item.quantity%}</span>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+                {% endfor %}
+                <tfoot>
+                    <tr class="cart-subtotal">
+                        <th>Cart Subtotal</th>
+                        <td><span class="amount">{{totalprice}}</span></td>
+                    </tr>
+                    <tr class="cart-subtotal">
+                        <th>tax applied</th>
+                        <td><span class="amount">{{tax}}</span></td>
+                    </tr>
+                    {% if f %}
+                    <tr class="order-total">
+                        <th>Order Total</th>
+                        <td><strong><span class="amount">Rs:{{grand_total}}</span></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <label for="couponmsg" id="msg" class="text-success">offer applied,Rs:{{amount_discounted}} discounted</label>
+                    </tr>
+                    {% else %}
+                    <tr class="order-total">
+                        <th>Order Total</th>
+                        <td name="grand_total"><strong><span class="amount" >Rs:{{grand_total}}</span></strong>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                       
+                     
+                    </tr>								
+                </tfoot>
+            </table>
+            {% for msg in messages %}
+     
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+           
+            <script>
+            
+                swal( "{{msg}}");
+          
+            </script>
+            {% endfor %} 
+        </div>
+        

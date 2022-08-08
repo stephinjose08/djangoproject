@@ -22,6 +22,30 @@
             <td class="customer-name-1">{{user.first_name}}</td>
             <td>{{user.email}}</td>
             <td>{{user.phone}}</td> {% endcomment %}
+            <table  class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="checkbox-column">RECORD ID </th>
+                    <th>CUSTOMER ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th class="">block user</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td class="checkbox-column">{{user.id}}</td>
+                    <td class="">
+                        <a class="product-list-img" href="javascript: void(0);">
+                            <img src="  'assets/img/90x90.jpg'" alt="product">
+                        </a>
+                    </td>
+                    <td class="customer-name-1">{{user.first_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phone}}</td>
             <td>
                 {% if user.is_active %}  
                 <div class="d-flex">
@@ -61,8 +85,20 @@
             </td>
             
         </tr>
-    
-                                                   
+        {% endfor %}
+                                                  
+    </tbody>
+</table>
+{% for msg in messages %}
+     
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+
+<script>
+
+    swal(, "{{msg}}");
+
+</script>
+{% endfor %}                                                
                                                    
                                                    
                                                    

@@ -314,22 +314,35 @@
                                                 <label>Address Line2:<span ></span>{{existing_user.addressline2}}</label><br>
                                                 <label>City:<span ></span>{{existing_user.city}}</label><br>
                                                 <label>State:<span ></span>{{existing_user.state}}</label><br>
-                                                <label>Zip_code:<span ></span>{{existing_user.zip_code}}</label><br>
+                                                <label>Zip code:<span ></span>{{existing_user.zip_code}}</label><br>
                                          {% else %}
                                          <label for="">No address added </label>
                                         {% endif %}
                                             
                                     </div>
                                 </div>
+                                
+                                
                                 <!-- ACCORDION END -->	
                                 <!-- ACCORDION START -->
                                
                                 <!-- ACCORDION END -->						
                             </div>
+                            
                         </div>
+                        
                         {% comment %}  {% endcomment %}
                     </div>
+                    <form hx-post="{% url 'coupon-offer' %}" hx-trigger "click" hx-target="#table-item" hx-swap="outerhtml" >
+                        <table><tr>
+                            
+                        <td><input type="text" placeholder="Enter coupon code if any..." name="code"></td>
+                        <td><button type="submit" class="btn btn-outline-dark">Check</button></td>
+                            </tr>
+                        </table>
+                        </form>
                     <div class="row">
+                        
                         <div class="col-lg-6 col-md-12 col-12" id="test">
                             <form action="{% url 'place-order' %}" method="post"  >
                                {% csrf_token %}
@@ -425,86 +438,52 @@
                                 </div>
                                 
                          
-                        </div>	
-                        <div class="col-lg-6 col-md-12 col-12">
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-12" >
                             <div class="your-order">
                                 <h3>Your order</h3>
-                                <div class="your-order-table table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="product-name">Product</th>
-                                                <th class="product-total">Total</th>
-                                            </tr>							
-                                        </thead>
-                                        {% for cart_item in cart_items %}
-                                        <tbody>
-                                            <tr class="cart_item">
-                                                <td class="product-name">{{cart_item.Product.product_name}}
-                                                    <strong class="product-quantity"> {{cart_item.Product.discount_price}}×{{cart_item.quantity}} </strong>
-                                                </td>
-                                                <td class="product-total">
-                                                    <span class="amount">{% widthratio cart_item.Product.discount_price 1 cart_item.quantity%}</span>
-                                                </td>
-                                            </tr>
-                                            
-                                        </tbody>
-                                        {% endfor %}
-                                        <tfoot>
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">{{totalprice}}</span></td>
-                                            </tr>
-                                            <tr class="cart-subtotal">
-                                                <th>tax applied</th>
-                                                <td><span class="amount">{{tax}}</span></td>
-                                            </tr>
-                                            <tr class="order-total">
-                                                <th>Order Total</th>
-                                                <td><strong><span class="amount">Rs:{{grand_total}}</span></strong>
-                                                </td>
-                                            </tr>								
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <div class="payment-method">
-                                    <div class="payment-accordion">
-                                        <div class="panel-group" id="faq">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h5 class="panel-title"><a data-bs-toggle="collapse" aria-expanded="true" href="#payment-1">PLACE YOUR ORDER</a></h5>
-                                                </div>
-                                                {% comment %} <div id="payment-1" class="panel-collapse collapse show" data-bs-parent="#faq">
-                                                    <div class="panel-body">
-                                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                                    </div>
-                                                </div> {% endcomment %}
-                                            </div>
-                                            {% comment %} <div class="order-button-payment">
-                                                <input type="submit" value="PayPal" />
-                                            </div> 
-                                            <div class="order-button-payment">
-                                                <input type="submit" value="RAZORPAY" />
-                                            </div>   {% endcomment %}
-                                            
+                                <div class="your-order-table table-responsive" id="price-details">
+                                      
+                        {%include 'htmx/offer.html' %}
+                        <div class="payment-method">
+                            <div class="payment-accordion">
+                                <div class="panel-group" id="faq">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h5 class="panel-title"><a data-bs-toggle="collapse" aria-expanded="true" href="#payment-1">PLACE YOUR ORDER</a></h5>
                                         </div>
-                                        <div class="order-button-payment">
-                                            <input type="hidden" value="COD" name="payment_mode">
-                                            {% comment %}<input type="submit" value="Cash On Delivery" /> {% endcomment %}
-                                            <button  type="submit" class="btn-success w-100 py-2">Cash On Delivery</button>
-                                            <button   type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
-                                            <div id="paypal-button-container"></div>
-                                            
-                                        </div>								
+                                        {% comment %} <div id="payment-1" class="panel-collapse collapse show" data-bs-parent="#faq">
+                                            <div class="panel-body">
+                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                            </div>
+                                        </div> {% endcomment %}
                                     </div>
+                                    {% comment %} <div class="order-button-payment">
+                                        <input type="submit" value="PayPal" />
+                                    </div> 
+                                    <div class="order-button-payment">
+                                        <input type="submit" value="RAZORPAY" />
+                                    </div>   {% endcomment %}
+                                    
                                 </div>
+                                <div class="order-button-payment">
+                                    <input type="hidden" value="COD" name="payment_mode">
+                                    {% comment %}<input type="submit" value="Cash On Delivery" /> {% endcomment %}
+                                    <button  type="submit" class="btn-success w-100 py-2">Cash On Delivery</button>
+                                    <button   type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
+                                    <div id="paypal-button-container"></div>
+                                    
+                                </div>								
                             </div>
-                        </div> 
+                        </div>
+                    </div>
+                        </div>
                     </div>
                 </form>
                 
                 </div>
             </div>
+            
         
             <!-- checkout-area end -->	
             <footer class="footer-area">
@@ -683,7 +662,7 @@
            
             <script>
             
-                swal("Congratulations!", "{{msg}}", "success");
+                swal(, "{{msg}}");
           
             </script>
             {% endfor %} 
@@ -828,10 +807,11 @@
                             data: data,
                         
                             success: function(responsec){
-                            swal("Congratulations!",responsec.status, "success").then((value) => {
-                                window.location.href = '/my_orders/'
-                              });
-                              window.location.href = '/my_orders/'
+                            swal("success",responsea.status, "success").then((value) => {
+                                        window.location.href='check_out/my_orders/'
+                                    });
+
+                                    
                             }
                         }); 
                 });

@@ -33,13 +33,15 @@ class order(models.Model):
     state=models.CharField(max_length=100 ,null=True)
     country=models.CharField(max_length=100)
     zip_code=models.CharField(max_length=8)
-    total_price=models.CharField(max_length=100)
+    total_price=models.FloatField()
     payment_mode=models.ForeignKey(payment, on_delete=models.CASCADE)
     order_status=(
        ( "pending","pending"),
        ("out  for  shipping","out or shipping"),
        ("completed","completed"),
        ("canceled","canceled"),
+
+       ("returned","returned"),
 
        
 
@@ -60,7 +62,7 @@ class orderproduct(models.Model):
 
 class canceled_orders(models.Model):
     user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    order=models.ForeignKey(order,on_delete=models.DO_NOTHING)
+    order=models.ForeignKey(order,on_delete=models.CASCADE)
     reason=(
        ( "order  placed by mistake","order  placed by mistake"),
        ("price for the product has decreased","price for the product has decreased"),
@@ -69,4 +71,16 @@ class canceled_orders(models.Model):
     )
     reason_for_cancel=models.TextField(choices=reason,blank=True,null=True)
     cancel_date=models.DateField(auto_created=True,null=True)
+
+class returned_orders(models.Model):
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    order=models.ForeignKey(order,on_delete=models.CASCADE)
+    reason=(
+       ( "order  placed by mistake","order  placed by mistake"),
+       ("price for the product has decreased","price for the product has decreased"),
+       ("i have purchased the product elsewhere","i have purchased the product elsewhere"),
+       ("i want to cance  due to the prodduct quality issues","i want to cance  due to the prodduct quality issues"),
+    )
+    reason_for_return=models.TextField(choices=reason,blank=True,null=True)
+    return_date=models.DateField(auto_created=True,null=True)
 

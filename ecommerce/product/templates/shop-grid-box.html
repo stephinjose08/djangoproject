@@ -1,4 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
+
+{% block title %}
+<title>Uniq-fasion-products</title>
+{% endblock  %}
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
@@ -11,6 +16,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
 		<script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
 		<!-- all css here -->
+        {% block static-css %}
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
         <link rel="stylesheet" href="{% static 'css/animate.css' %}">
@@ -24,258 +30,9 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
         <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <!-- header start -->
-        <header>
-            <div class="header-top-furniture wrapper-padding-2 res-header-sm">
-                <div class="container-fluid">
-                    <div class="header-bottom-wrapper">
-                        <div class="logo-2 furniture-logo ptb-30">
-                            <a href="index.html">
-                                <img src="{% static "img/logo.png" %}" alt=""  style="width:130px;">
-                            </a>
-                        </div>
-                        <div class="menu-style-2 furniture-menu menu-hover">
-                            <nav>
-                                <ul>
-                                    <li><a href="#">home</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="index.html">Fashion</a></li>
-                                            <li><a href="index-fashion-2.html">Fashion style 2</a></li>
-                                            <li><a href="index-fruits.html">fruits</a></li>
-                                            <li><a href="index-book.html">book</a></li>
-                                            <li><a href="index-electronics.html">electronics</a></li>
-                                            <li><a href="index-electronics-2.html">electronics style 2</a></li>
-                                            <li><a href="index-food.html">food & drink</a></li>
-                                            <li><a href="index-furniture.html">furniture</a></li>
-                                            <li><a href="index-handicraft.html">handicraft</a></li>
-                                            <li><a target="_blank" href="index-smart-watch.html">smart watch</a></li>
-                                            <li><a href="index-sports.html">sports</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">pages</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="about-us.html">about us</a></li>
-                                            <li><a href="menu-list.html">menu list</a></li>
-                                            <li><a href="login.html">login</a></li>
-                                            <li><a href="register.html">register</a></li>
-                                            <li><a href="cart.html">cart page</a></li>
-                                            <li><a href="checkout.html">checkout</a></li>
-                                            <li><a href="wishlist.html">wishlist</a></li>
-                                            <li><a href="contact.html">contact</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="shop.html">shop</a>
-                                        <div class="category-menu-dropdown shop-menu">
-                                            <div class="category-dropdown-style category-common2 mb-30">
-                                                <h4 class="categories-subtitle"> shop layout</h4>
-                                                <ul>
-                                                    <li><a href="shop-grid-2-col.html"> grid 2 column</a></li>
-                                                    <li><a href="shop-grid-3-col.html"> grid 3 column</a></li>
-                                                    <li><a href="shop.html">grid 4 column</a></li>
-                                                    <li><a href="shop-grid-box.html">grid box style</a></li>
-                                                    <li><a href="shop-list-1-col.html"> list 1 column</a></li>
-                                                    <li><a href="shop-list-2-col.html">list 2 column</a></li>
-                                                    <li><a href="shop-list-box.html">list box style</a></li>
-                                                    <li><a href="cart.html">shopping cart</a></li>
-                                                    <li><a href="wishlist.html">wishlist</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="category-dropdown-style category-common2 mb-30">
-                                                <h4 class="categories-subtitle"> product details</h4>
-                                                <ul>
-                                                    <li><a href="product-details.html">tab style 1</a></li>
-                                                    <li><a href="product-details-2.html">tab style 2</a></li>
-                                                    <li><a href="product-details-3.html"> tab style 3</a></li>
-                                                    <li><a href="product-details-4.html">sticky style</a></li>
-                                                    <li><a href="product-details-5.html">sticky style 2</a></li>
-                                                    <li><a href="product-details-6.html">gallery style</a></li>
-                                                    <li><a href="product-details-7.html">gallery style 2</a></li>
-                                                    <li><a href="product-details-8.html">fixed image style</a></li>
-                                                    <li><a href="product-details-9.html">fixed image style 2</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega-banner-img">
-                                                <a href="single-product.html">
-                                                    <img src="assets/img/banner/18.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li><a href="blog.html">blog</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="blog.html">blog 3 colunm</a></li>
-                                            <li><a href="blog-2-col.html">blog 2 colunm</a></li>
-                                            <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                            <li><a href="blog-details.html">blog details</a></li>
-                                            <li><a href="blog-details-sidebar.html">blog details 2</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">contact</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div class="header-cart">
-                            <a class="icon-cart-furniture" href="#">
-                                <i class="ti-shopping-cart"></i>
-                                <span class="shop-count-furniture green">02</span>
-                            </a>
-                            <ul class="cart-dropdown">
-                                <li class="single-product-cart">
-                                    <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/1.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
-                                    </div>
-                                    <div class="cart-delete">
-                                        <a href="#"><i class="ti-trash"></i></a>
-                                    </div>
-                                </li>
-                                <li class="single-product-cart">
-                                    <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
-                                    </div>
-                                    <div class="cart-delete">
-                                        <a href="#"><i class="ti-trash"></i></a>
-                                    </div>
-                                </li>
-                                <li class="single-product-cart">
-                                    <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
-                                    </div>
-                                    <div class="cart-delete">
-                                        <a href="#"><i class="ti-trash"></i></a>
-                                    </div>
-                                </li>
-                                <li class="cart-space">
-                                    <div class="cart-sub">
-                                        <h4>Subtotal</h4>
-                                    </div>
-                                    <div class="cart-price">
-                                        <h4>$240.00</h4>
-                                    </div>
-                                </li>
-                                <li class="cart-btn-wrapper">
-                                    <a class="cart-btn btn-hover" href="#">view cart</a>
-                                    <a class="cart-btn btn-hover" href="#">checkout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mobile-menu-area d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">
-                            <div class="mobile-menu">
-                                <nav id="mobile-menu-active">
-                                    <ul class="menu-overflow">
-                                        <li><a href="#">HOME</a>
-                                            <ul>
-                                                <li><a href="index.html">Fashion</a></li>
-                                                <li><a href="index-fashion-2.html">Fashion style 2</a></li>
-                                                <li><a href="index-fruits.html">Fruits</a></li>
-                                                <li><a href="index-book.html">book</a></li>
-                                                <li><a href="index-electronics.html">electronics</a></li>
-                                                <li><a href="index-electronics-2.html">electronics style 2</a></li>
-                                                <li><a href="index-food.html">food & drink</a></li>
-                                                <li><a href="index-furniture.html">furniture</a></li>
-                                                <li><a href="index-handicraft.html">handicraft</a></li>
-                                                <li><a href="index-smart-watch.html">smart watch</a></li>
-                                                <li><a href="index-sports.html">sports</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">pages</a>
-                                            <ul>
-                                                <li><a href="about-us.html">about us</a></li>
-                                                <li><a href="menu-list.html">menu list</a></li>
-                                                <li><a href="login.html">login</a></li>
-                                                <li><a href="register.html">register</a></li>
-                                                <li><a href="cart.html">cart page</a></li>
-                                                <li><a href="checkout.html">checkout</a></li>
-                                                <li><a href="wishlist.html">wishlist</a></li>
-                                                <li><a href="contact.html">contact</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">shop</a>
-                                            <ul>
-                                                <li><a href="shop-grid-2-col.html"> grid 2 column</a></li>
-                                                <li><a href="shop-grid-3-col.html"> grid 3 column</a></li>
-                                                <li><a href="shop.html">grid 4 column</a></li>
-                                                <li><a href="shop-grid-box.html">grid box style</a></li>
-                                                <li><a href="shop-list-1-col.html"> list 1 column</a></li>
-                                                <li><a href="shop-list-2-col.html">list 2 column</a></li>
-                                                <li><a href="shop-list-box.html">list box style</a></li>
-                                                <li><a href="product-details.html">tab style 1</a></li>
-                                                <li><a href="product-details-2.html">tab style 2</a></li>
-                                                <li><a href="product-details-3.html"> tab style 3</a></li>
-                                                <li><a href="product-details-4.html">sticky style</a></li>
-                                                <li><a href="product-details-5.html">sticky style 2</a></li>
-                                                <li><a href="product-details-6.html">gallery style</a></li>
-                                                <li><a href="product-details-7.html">gallery style 2</a></li>
-                                                <li><a href="product-details-8.html">fixed image style</a></li>
-                                                <li><a href="product-details-9.html">fixed image style 2</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">BLOG</a>
-                                            <ul>
-                                                <li><a href="blog.html">blog 3 colunm</a></li>
-                                                <li><a href="blog-2-col.html">blog 2 colunm</a></li>
-                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                                <li><a href="blog-details.html">blog details</a></li>
-                                                <li><a href="blog-details-sidebar.html">blog details 2</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="contact.html"> Contact  </a></li>
-                                    </ul>
-                                </nav>							
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-bottom-furniture wrapper-padding-2 border-top-3">
-                <div class="container-fluid">
-                    <div class="furniture-bottom-wrapper">
-                        <div class="furniture-login">
-                            <ul>
-                                <li>Get Access: <a href="login.html">Login </a></li>
-                                <li><a href="register.html">Reg </a></li>
-                            </ul>
-                        </div>
-                        <div class="furniture-search">
-                            <form action="#">
-                                <input placeholder="I am Searching for . . ." type="text">
-                                <button>
-                                    <i class="ti-search"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="furniture-wishlist">
-                            <ul>
-                                <li><a data-bs-toggle="modal" data-target="#exampleCompare" href="#"><i class="ti-reload"></i> Compare</a></li>
-                                <li><a href="wishlist.html"><i class="ti-heart"></i> Wishlist</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
+        {% endblock  %}
         <!-- header end -->
+        {% block content %}
 		<div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static 'img/grid-view.png' %})">
             {% comment %} <div class="container">
                 <div class="breadcrumb-content text-center-top">
@@ -472,248 +229,14 @@
                                  <div class="shop-product-content tab-content">
                                     
                                     <div id="grid-sidebar7" class="tab-pane fade active show">
-                                        {% comment %}
-                                        <div class="row">
-                                            {% if not products %}
-                                            <h2 class="txt-align-center">sorry no products available currently</h2>
-                                            {% else %}
-                                             
-                                       {% for product in products %}  
-                                            <div class="col-lg-4 col-md-6">
-                                                
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        
-                                                        <a href="{% url 'detail-view-product' product.id %}">
-                                                            <img src="{{product.cover_image.url}}" alt="">
-                                                        </a>
-                                                        {% if product.is_new_item %}
-                                                        <span>new</span>
-                                                        {% else %}
-                                                        <span>hot</span>
-                                                        {% endif %}
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div> 
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">{{product.product_title}} </a></h4>
-                                                        <span class="text-secondary"><del>Rs:{{product.actual_price}}</del></span>
-                                                        <span><b>Rs:{{product.discount_price}}</b></span>
-                                                        <span><h5 class="text-danger">{{product.discount_rate}}%off</h5></span>
-                                                    </div>
-                                                </div>  
-                                           </div> {% endcomment %}
+                                        
                                           
                                          
                                            <div id="test"> {% include 'htmx/search_gird.html' %}</div>
                                         </div> 
                                     </div>
                                     
-                                            {% comment %} <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/2.jpg" alt="">
-                                                        </a>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Denim Stonewash</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/3.jpg" alt="">
-                                                        </a>
-                                                        <span>new</span>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Mini Waffle 5 Pack</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/4.jpg" alt="">
-                                                        </a>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Dagger Smart Trousers</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/5.jpg" alt="">
-                                                        </a>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Homme Tapered Smart</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/1.jpg" alt="">
-                                                        </a>
-                                                        <span>sell</span>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Skinny Jeans Terry</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/2.jpg" alt="">
-                                                        </a>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Navy Bird Print</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/3.jpg" alt="">
-                                                        </a>
-                                                        <span>hot</span>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Leg Smart Trousers </a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="product-wrapper product-box-style mb-30">
-                                                    <div class="product-img">
-                                                        <a href="#">
-                                                            <img src="assets/img/product/fashion-colorful/4.jpg" alt="">
-                                                        </a>
-                                                        <span>hot</span>
-                                                        <div class="product-action">
-                                                            <a class="animate-left" title="Wishlist" href="#">
-                                                                <i class="pe-7s-like"></i>
-                                                            </a>
-                                                            <a class="animate-top" title="Add To Cart" href="#">
-                                                                <i class="pe-7s-cart"></i>
-                                                            </a>
-                                                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                                                <i class="pe-7s-look"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-content">
-                                                        <h4><a href="#">Black Faux Suede</a></h4>
-                                                        <span>$115.00</span>
-                                                    </div>
-                                                </div>
-                                           </div> {% endcomment %}
+                                             
                                           
                                     <div id="grid-sidebar8" class="tab-pane fade">
                                         <div class="row">
@@ -831,6 +354,9 @@
                 </div>
             </div>
         </div>
+        {% endblock  %} 
+        
+        {% block footer %}
 		<footer class="footer-area">
             <div class="footer-top-area bg-img pt-105 pb-65" style="background-image: url(assets/img/bg/1.jpg)" data-overlay="9">
                 <div class="container">
@@ -909,6 +435,7 @@
                 </div>
             </div>
         </footer>
+        
         <!-- modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -1000,95 +527,11 @@
             </div>
         </div>
 		<!-- modal -->
-        <div class="modal fade" id="exampleCompare" tabindex="-1" role="dialog" aria-hidden="true">
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span class="pe-7s-close" aria-hidden="true"></span>
-            </button>
-            <div class="modal-dialog modal-compare-width" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form action="#">
-                            <div class="table-content compare-style table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                <a href="#">Remove <span>x</span></a>
-                                                <img src="assets/img/cart/4.jpg" alt="">
-                                                <p>Blush Sequin Top </p>
-                                                <span>$75.99</span>
-                                                <a class="compare-btn" href="#">Add to cart</a>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="compare-title"><h4>Description </h4></td>
-                                            <td class="compare-dec compare-common">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has beenin the stand ard dummy text ever since the 1500s, when an unknown printer took a galley</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Sku </h4></td>
-                                            <td class="product-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Availability  </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>In stock</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Weight   </h4></td>
-                                            <td class="compare-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Dimensions   </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>N/A</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>brand   </h4></td>
-                                            <td class="compare-brand compare-common">
-                                                <p>HasTech</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>color   </h4></td>
-                                            <td class="compare-color compare-common">
-                                                <p>Grey, Light Yellow, Green, Blue, Purple, Black </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>size    </h4></td>
-                                            <td class="compare-size compare-common">
-                                                <p>XS, S, M, L, XL, XXL </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"></td>
-                                            <td class="compare-price compare-common">
-                                                <p>$75.99 </p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endblock  %}
 		
 		
 		
-		
+		{% block static-js %}
 		
 		<!-- all js here -->
         <script>
@@ -1109,5 +552,5 @@
         <script src="{% static 'js/owl.carousel.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-    </body>
-</html>
+        {% endblock  %}
+  

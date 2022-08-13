@@ -1,0 +1,14 @@
+<form action="{% url 'newuservarify' %}" method='post' >
+    {% csrf_token %}
+    <label for=""><b>enter Your 5 digit varification code has sent to your phone</b></label>
+    <input hx-post="{%url 'username-check' %}" hx-swap="outerhtml" hx-trigger="keyup" hx-target="#username-error" type="tel" name="otp" placeholder="login with phone number" required>
+    <p id="username-error"></p>
+
+    <a href="{% url 'varification' %}">did'nt get an otp</a>
+    
+   <div class="button-box">  
+       <button type="submit" class="default-btn floatright">varify</button>
+       <p id="login_submit_error"></p>
+      
+   </div>
+</form>

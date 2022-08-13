@@ -1,23 +1,22 @@
+{% extends 'admin_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Products | Equation - Multipurpose Bootstrap Dashboard Template </title>
+{% block title %}
+<title>products </title>
+{% endblock title %}
+    
     <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
-
+{% block static-css %}
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/ecommerce/product.css' %}">
     <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
     <!--  END CUSTOM STYLE FILE  -->
+    {% endblock static-css %}
 </head>
 <body>
     <div id="eq-loader">
@@ -1140,7 +1139,7 @@
             </div>
         </div>
         <!--  END MODERN  -->
-
+{% block content %}
         <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
             <div class="container">
@@ -1188,240 +1187,7 @@
                                     <table id="ecommerce-product-list" class="table  table-bordered">
                                        {% include 'htmx/product_delet.html'  %}
                                             
-                                            {% comment %} <tr>
-                                                <td>0011</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Flower Pot</td>
-                                                <td>Simple Product</td>
-                                                <td>Decor</td>
-                                                <td>ITEM-0002</td>
-                                                <td>$149.00</td>
-                                                <td>64,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0012</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Chair</td>
-                                                <td>Simple Product</td>
-                                                <td>Furniture</td>
-                                                <td>ITEM-0003</td>
-                                                <td>$49.00</td>
-                                                <td>42,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0013</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Night Lamp</td>
-                                                <td>Simple Product</td>
-                                                <td>Decor</td>
-                                                <td>ITEM-0004</td>
-                                                <td>$79.00</td>
-                                                <td>51,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0014</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Wall Clock</td>
-                                                <td>Simple Product</td>
-                                                <td>Electronics</td>
-                                                <td>ITEM-0005</td>
-                                                <td>$120.00</td>
-                                                <td>80,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0015</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Canon 1300B</td>
-                                                <td>Simple Product</td>
-                                                <td>Electronics</td>
-                                                <td>ITEM-0006</td>
-                                                <td>$149.00</td>
-                                                <td>64,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0016</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Leather Bag</td>
-                                                <td>Simple Product</td>
-                                                <td>Accessories</td>
-                                                <td>ITEM-0007</td>
-                                                <td>$49.00</td>
-                                                <td>42,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0017</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Adidas Cap</td>
-                                                <td>Simple Product</td>
-                                                <td>Accessories</td>
-                                                <td>ITEM-0008</td>
-                                                <td>$79.00</td>
-                                                <td>51,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0018</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Winter Boots</td>
-                                                <td>Simple Product</td>
-                                                <td>Footwear</td>
-                                                <td>ITEM-0009</td>
-                                                <td>$120.00</td>
-                                                <td>80,000</td>
-                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>0019</td>
-                                                <td class="text-center">
-                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
-                                                <td>Hover Board</td>
-                                                <td>Simple Product</td>
-                                                <td>Sports</td>
-                                                <td>ITEM-0010</td>
-                                                <td>$149.00</td>
-                                                <td>64,000</td>
-                                                <td class="align-center"> <i class="flaticon-cart-bag"></i> </td>
-                                                <td class="align-center">
-                                                    <ul class="table-controls">
-                                                        <li>
-                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                <i class="flaticon-edit"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                <i class="flaticon-delete-5"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr> {% endcomment %}
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -1434,76 +1200,10 @@
         <!--  END CONTENT PART  -->
     </div>
     <!-- END MAIN CONTAINER -->
-
+    {% endblock content %}
     <!--  BEGIN FOOTER  -->
-    <footer class="footer-section theme-footer">
-
-        <div class="footer-section-1  sidebar-theme">
-            
-        </div>
-
-        <div class="footer-section-2 container-fluid">
-            <div class="row">
-                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
-                    <ul class="list-inline links ml-sm-5">
-                        <li class="list-inline-item">
-                            <a target="_blank" href="https://themeforest.net/item/equation-responsive-admin-dashboard-template/23191987">Buy</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
-                    <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
-                        <li class="list-inline-item  mr-3">
-                            <p class="bottom-footer">&#xA9; 2019 <a target="_blank" href="https://designreset.com/equation">Equation Admin Theme</a></p>
-                        </li>
-                        <li class="list-inline-item align-self-center">
-                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--  END FOOTER  -->
-
-    <!--  BEGIN PROFILE SIDEBAR  -->
-    <aside class="profile-sidebar text-center">
-        <div class="profile-content profile-content-scroll">
-            <div class="usr-profile">
-                <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
-            </div>
-            <p class="user-name mt-4 mb-4">Vincent Carpenter</p>
-            <div class="">
-                <div class="accordion" id="user-stats">
-                    <div class="card">
-                        <div class="card-header pb-4 mb-4" id="status">
-                            <h6 class="mb-0" data-toggle="collapse" data-target="#user-status" aria-expanded="true" aria-controls="user-status"><i class="flaticon-view-3 mr-2"></i> Status <i class="flaticon-down-arrow ml-2"></i> </h6>
-                        </div>
-                        <div id="user-status" class="collapse show" aria-labelledby="status" data-parent="#user-stats">
-                            <div class="card-body text-left">
-                                <ul class="list-unstyled pb-4">
-                                    <li class="status-online"><a href="javascript:void(0);">Online</a></li>
-                                    <li class="status-away"><a href="javascript:void(0);">Away</a></li>
-                                    <li class="status-no-disturb"><a href="javascript:void(0);">Not Disturb</a></li>
-                                    <li class="status-invisible"><a href="javascript:void(0);">Invisible</a></li>
-                                    <li class="status-offline"><a href="javascript:void(0);">Offline</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="user-links text-left">
-                <ul class="list-unstyled">
-                    <li><a href="apps_mailbox.html"><i class="flaticon-mail-22"></i> Inbox</a></li>
-                    <li><a href="user_profile.html"><i class="flaticon-user-11"></i> My Profile</a></li>
-                    <li><a href="user_login_1.html"><i class="flaticon-power-off"></i> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </aside>
-    <!--  BEGIN PROFILE SIDEBAR  -->
-
+    
+    {% block static-js %}
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js'%}"></script>
     <script src="{% static 'assets/js/loader.js'%}"></script>
@@ -1537,6 +1237,7 @@
             drawCallback: function( settings ) { $('[data-toggle="tooltip"]').tooltip(); }
         });
     </script>
+    {% endblock static-js %}
     <!--  END CUSTOM SCRIPT FILES  -->
 </body>
 </html>

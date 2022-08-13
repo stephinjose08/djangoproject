@@ -2,11 +2,13 @@
 from itertools import count
 from multiprocessing import context
 from tokenize import Number
+from urllib.request import Request
 from xml.sax.handler import all_properties
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
-
-
+from django.contrib.auth.decorators import login_required
+from .models import wishlist
+from django.contrib import messages
 from product.models import product,price,media
 from cart.models import Cart,cartItem
 # Create your views here.
@@ -299,6 +301,26 @@ def remove_cartitem(request,product_id):
     
     return render(request,"htmx/quantity_change.html",context)
     # return redirect(cart_items)
+@login_required(login_url="login")
+def wishlist_page(request):
+    wishlist_item=wishlist.objects.all()
+    return render(request,'wishlist.html',{'wishlist_items':wishlist_item})
+
+
+@login_required(login_url="login")
+def add_to_wishlist(request,id):
+    wishlist_item=product.objects.get(id=id)
+    if wishlist.objects.filter(wishlist_items=wishlist_item).exists():
+        messages.error(request,"already added into wishlist")
+    else:
+        wishlist(user_id=request.user,wishlist_items=wishlist_item).save()
+    return redirect(wishlist_page)
+    
+def remove_from_wishlist(request,id):
+    deleting_item=wishlist.objects.get(user_id=request.user,wishlist_items=id)
+    deleting_item.delete()
+    wishlist_item=wishlist.objects.all()
+    return render(request,'htmx/remove_wishlist_item.html',{'wishlist_items':wishlist_item})
 
 
 

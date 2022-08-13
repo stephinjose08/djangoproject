@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static 'img/detail-view.jpg' %})">
+    <div class="container">
+        
+    </div>
+</div>
+<section style="background-color: #eee;">
+    <div class="container py-5" id="user-profile">
+        <div class="row">
+            <div class="col">
+              <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">User</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3">{{primary_address.fist_name}} {{primary_address.last_name}}</h5>
+                  <p class="text-muted mb-1">{{primary_address.phone}}</p>
+                  <p class="text-muted mb-4">{{primary_address.email}}</p>
+                  
+                </div>
+              </div>
+              <div class="card mb-4 mb-lg-0">
+                <h5><span><b>secondary_address</b></span></h5>
+                <div class="card-body p-0" >
+                  <ul class="list-group list-group-flush rounded-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fas fa-globe fa-lg text-warning"></i>
+                      <p class="mb-0">{{secondary_address.fist_name}} {{secondary_address.last_name}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                      <p class="mb-0">{{secondary_address.phone}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                      <p class="mb-0">{{secondary_address.email}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                      <p class="mb-0">{{secondary_address.addressline1}}</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                      <p class="mb-0">{{secondary_address.addressline2}},{{secondary_address.city}},{{secondary_address.zip_code}},{{secondary_address.state}}</p>
+                      
+                    </li>
+                  </ul>
+                </div>
+               <a hx-post="{% url 'change-address' %}"
+               hx-trigger="click"
+               hx-swap="outerhtml"
+               hx-target="#userprofile"
+               > <button type="button" class="btn btn-outline-secondary">Add this address as primary</button></a>
+              </div>
+            </div>
+            {% include 'htmx/change_address.html' %}
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="card mb-4 mb-md-0">
+                    <div class="card-body">
+                      <p class="mb-4"><span class="text-primary font-italic me-1">user log</span> of {{primary_address.fist_name}}
+                      </p>
+                      <p class="mb-1" style="font-size: .77rem;">total orders:</p>
+                      <p class="mb-1" style="font-size: .77rem;"><b>{{ordercount}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                    </div>
+                        
+                     
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">Canceled orders:</p>
+                      <p class="mb-1" style="font-size: .77rem;"><b>{{canceled_order}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">total Purchased amount</p>
+                       <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{total_sum}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">returned items</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{returned_count}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                        
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"></p>
+                      <div class="progress rounded mb-2" style="height: 5px;">
+                        <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
+                          aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card mb-4 mb-md-0">
+                    <div class="card-body">
+                      <p class="mb-4"><span class="text-primary font-italic me-1">latest order</span>
+                      </p>
+                      {% for item in latest_order_items %}
+                      <p class="mb-1" style="font-size: .77rem;">product name</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.product.product_name}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">quantity</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.quantity}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                        
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">Unit price</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.product.discount_price}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                      </div>
+                      {% endfor %}
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">total Price</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{latest_order.total_price}}</b></p>
+                      <div class="progress rounded" style="height: 5px;">
+                        
+                      </div>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;">Tracking number</p>
+                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{latest_order.tracking_number}}</b></p>
+                      <div class="progress rounded mb-2" style="height: 5px;">
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+            <form action="">
+                <div class="different-address">
+                    <div class="ship-different-title">
+                        <h3>
+                            <label>Add new address</label>
+                            <input id="ship-box" type="checkbox" name="check" value="true" />
+                        </h3>
+                    </div>
+                    <div id="ship-box-info" class="row">
+                        <div class="col-md-12">
+                            <div class="country-select">
+                                <label>Country <span class="required">*</span></label>
+                                <select name="tempcountry">
+                                  <option value="india">India</option>
+                                  <option value="saab">Algeria</option>
+                                  <option value="mercedes">Afghanistan</option>
+                                  <option value="audi">Ghana</option>
+                                  <option value="audi2">Albania</option>
+                                  <option value="audi3">Bahrain</option>
+                                  <option value="audi4">Colombia</option>
+                                  <option value="audi5">Dominican Republic</option>
+                                </select> 										
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>First Name <span class="required">*</span></label>										
+                                <input type="text" placeholder="" name="tempfname" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>Last Name <span class="required">*</span></label>										
+                                <input type="text" placeholder="" name="templname" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>Email Address <span class="required">*</span></label>										
+                                <input type="email" placeholder="" name="tempemail" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="checkout-form-list">
+                                <label>Phone  <span class="required">*</span></label>										
+                                <input type="text" name="tempphone" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>Address <span class="required">*</span></label>
+                                <input type="text" placeholder="Street address" name="tempaddress1" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">									
+                                <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="tempaddress2" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>City <span class="required">*</span></label>
+                                <input type="text" placeholder="Town / City"  name="tempc"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>State  <span class="required">*</span></label>										
+                                <input type="text" placeholder="" name="temps" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="checkout-form-list">
+                                <label>Zip <span class="required">*</span></label>										
+                                <input type="text" placeholder="Postcode / Zip" name="tempz" />
+                            </div>
+                        </div>
+                        <input type="submit" value="add">                                
+                    </div>
+                    
+                </div>
+                </form>
+          
+    </div>
+  </section>
+       
+        {% endblock  %}
+        <!-- product area end -->
+        {% block footer %}
+		<footer class="footer-area">
+            <div class="footer-top-area bg-img pt-105 pb-65" style="background-image: url(assets/img/bg/1.jpg)" data-overlay="9">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-3">
+                            <div class="footer-widget mb-40">
+                                <h3 class="footer-widget-title">Custom Service</h3>
+                                <div class="footer-widget-content">
+                                    <ul>
+                                        <li><a href="cart.html">Cart</a></li>
+                                        <li><a href="register.html">My Account</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="register.html">Register</a></li>
+                                        <li><a href="#">Support</a></li>
+                                        <li><a href="#">Track</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-3">
+                            <div class="footer-widget mb-40">
+                                <h3 class="footer-widget-title">Categories</h3>
+                                <div class="footer-widget-content">
+                                    <ul>
+                                        <li><a href="shop.html">Dress</a></li>
+                                        <li><a href="shop.html">Shoes</a></li>
+                                        <li><a href="shop.html">Shirt</a></li>
+                                        <li><a href="shop.html">Baby Product</a></li>
+                                        <li><a href="shop.html">Mans Product</a></li>
+                                        <li><a href="shop.html">Leather</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="footer-widget mb-40">
+                                <h3 class="footer-widget-title">Contact</h3>
+                                <div class="footer-newsletter">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is dummy.</p>
+                                    <div id="mc_embed_signup" class="subscribe-form pr-40">
+                                        <form action="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                                            <div id="mc_embed_signup_scroll" class="mc-form">
+                                                <input type="email" value="" name="EMAIL" class="email" placeholder="Enter Your E-mail" required>
+                                                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                                                <div class="mc-news" aria-hidden="true">
+                                                    <input type="text" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef" tabindex="-1" value="">
+                                                </div>
+                                                <div class="clear">
+                                                    <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="footer-contact">
+                                        <p><span><i class="ti-location-pin"></i></span> 77 Seventh avenue USA 12555. </p>
+                                        <p><span><i class=" ti-headphone-alt "></i></span> +88 (015) 609735 or +88 (012) 112266</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom black-bg ptb-20">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div class="copyright">
+                                <p>
+                                    Copyright ©
+                                    <a href="hastech.company/">HasTech</a> 2021 . All Right Reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {% endblock  %}
+		<!-- modal -->
+        
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		{% comment %} <!-- all js here -->
+        
+            <script>
+                function change()
+                {
+                    var txt=document.getElemetById("cartbutton");
+                    if(txt.value==" add to cart") txt.value="go to cart";
+                }
+            </script>
+
+
+        <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+        <script src="{% static 'js/popper.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+        <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+        <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+        <script src="{% static 'js/waypoints.min.js' %}"></script>
+        <script src="{% static 'js/ajax-mail.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html> {% endcomment %}

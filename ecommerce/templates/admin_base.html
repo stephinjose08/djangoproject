@@ -1,0 +1,507 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    {% block title %}
+    <title> </title>
+    {% endblock  %}
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'assets/css/loader.css' %}" rel="stylesheet" type="text/css" >
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" >
+    <link href="{% static 'assets/css/plugins.css'%}" rel="stylesheet" type="text/css" >
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> 
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+    {% comment %} <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link href="{% static 'plugins/dropzone/dropzone.min.css'%}" rel="stylesheet" type="text/css" >
+    <link href="{% static 'assets/css/accounting-dashboard/style.css'%}" rel="stylesheet" type="text/css" >
+    <link href="{% static 'plugins/charts/c3charts/c3.min.css'%}" rel="stylesheet" type="text/css">    
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES --> {% endcomment %}
+    {% block static-css %}
+
+    {% endblock  %}
+</head>
+<body>
+    <div id="eq-loader">
+      <div class="eq-loader-div">
+          <div class="eq-loading dual-loader mx-auto mb-5"></div>
+      </div>
+    </div>
+    <!--  BEGIN NAVBAR  -->
+    <header class="desktop-nav header navbar fixed-top">
+        <div class="nav-logo mr-sm-5 ml-sm-4">
+            <a href="javascript:void(0);" class="nav-link sidebarCollapse d-inline-block mr-sm-5" data-placement="bottom">
+                <i class="flaticon-menu-line-3"></i>
+            </a>
+            <a href="index.html" class=""> <img src="assets/img/1.png" class="img-fluid" alt="logo"></a>
+        </div>
+        <ul class="navbar-nav flex-row mr-auto">
+            <li class="nav-item ml-4 d-lg-none d-sm-block d-none">
+                <form class="form-inline search-full form-inline search animated-search" role="search">
+                    <i class="flaticon-search-1 d-lg-none d-block"></i>
+                    <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
+                </form>
+            </li>
+            <li class="nav-item d-lg-block d-none">
+                <form class="form-inline form-inline search animated-search" role="search">
+                    <i class="flaticon-search-1 d-lg-none d-block"></i>
+                    <input type="text" class="form-control search-form-control" placeholder="Search here...">
+                </form>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav flex-row ml-lg-auto">
+
+            <li class="nav-item dropdown language-dropdown ml-4 mr-4 pr-3 pl-3 align-self-center d-lg-inline-block d-none">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="flagDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="">EN</span>
+                </a>
+                <div class="dropdown-menu position-absolute eq-animated eq-fadeInUp" aria-labelledby="flagDropdown">
+                    <a class="dropdown-item" href="javascript:void(0);"><img src="assets/img/fr.svg" class="flag-width" alt=""> &nbsp;FR</a>
+                    <a class="dropdown-item" href="javascript:void(0);"><img src="assets/img/jp.svg" class="flag-width" alt=""> &nbsp;JP</a>
+                    <a class="dropdown-item" href="javascript:void(0);"><img src="assets/img/ru.svg" class="flag-width" alt=""> &nbsp;RU</a>
+                    <a class="dropdown-item" href="javascript:void(0);"><img src="assets/img/ca.svg" class="flag-width" alt=""> &nbsp;EN</a>
+                </div>
+            </li>
+
+           
+            <li class="nav-item dropdown message-dropdown ml-lg-4 mr-lg-4 d-sm-block d-none align-self-center">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="message-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="icon flaticon-mail-25"></span><span class="badge badge-primary">13</span>
+                </a>
+                <div class="dropdown-menu  position-absolute p-0 eq-animated eq-fadeInUp" aria-labelledby="message-dropdown">
+                    <div class="">
+                        <a class="dropdown-item">
+                            <div class="">
+                                <div class="media notification-new">
+                                    <div class="usr-img align-self-center mr-3">
+                                        <img class="usr-img rounded-circle" src="assets/img/90x90.jpg" alt="profile">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="meta-user-name mr-3 mb-0">Kara Young</p>
+                                            <p class="meta-time align-self-center mb-0">04.02.19</p>
+                                        </div>
+                                        <p class="message-text mb-0 ">Simple and clean! Nice I'd like to </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item">
+                            <div class="">
+                                <div class="media notification-new">
+                                    <div class="notification-icon align-self-center mr-3">
+                                        <i class="flaticon-mailbox"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="meta-title mr-3 mb-0">1 new email</p>
+                                            <p class="meta-time align-self-center mb-0">04.02.19</p>
+                                        </div>
+                                        <p class="message-text mb-0 ">Anderson.Daisy@mail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item">
+                            <div class="">
+                                <div class="media">
+                                    <div class="usr-img align-self-center mr-3">
+                                        <img class="usr-img rounded-circle" src="assets/img/90x90.jpg" alt="profile">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="meta-user-name mr-3 mb-0">Oscar Garner</p>
+                                            <p class="meta-time align-self-center mb-0">04.02.19</p>
+                                        </div>
+                                        <p class="message-text mb-0 ">Simple and clean! Nice I'd like to </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown notification-dropdown ml-3 mr-lg-4 align-self-center">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notification-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="icon flaticon-bell-4"></span><span class="badge badge-success">15</span>
+                </a>
+                <div class="dropdown-menu position-absolute eq-animated eq-fadeInUp" aria-labelledby="notification-dropdown">
+                    <div class="notification-scroll">
+                        <div class="dropdown-item">
+                            <a href="">
+                                <div class="media">
+                                    <div class="user-profile">
+                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Alan Green</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="">
+                                <div class="media">
+                                    <div class="user-profile">
+                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Irene Collins</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="">
+                                <div class="media">
+                                    <div class="user-profile">
+                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Sonia Shaw</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="">
+                                <div class="media">
+                                    <div class="user-profile">
+                                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Xavier</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown user-profile-dropdown pl-4 pr-lg-0 pr-2 ml-lg-2 mr-lg-4  align-self-center">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle user">
+                    <div class="user-profile d-lg-block d-none">
+                        <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+                    </div>
+                    <i class="flaticon-user-7 d-lg-none d-block"></i>
+                </a>
+            </li>
+        </ul>
+    </header>
+    <!--  END NAVBAR  -->
+
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+        <div class="overlay"></div>
+        <div class="ps-overlay"></div>
+        <div class="search-overlay"></div>
+        
+        <!--  BEGIN MODERN  -->
+        <div class="modernSidebar-nav header navbar">
+            <div class="">
+                <nav id="modernSidebar">
+                    <ul class="menu-categories pl-0 m-0" id="topAccordion">
+                        <li class="menu">
+                            <a href="#dashboard" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="flaticon-computer-6"></i>
+                                    <span>Dashboard</span>
+                                </div>
+                            </a>
+                            
+                        </li>
+
+                        <li class="menu">
+                            <a href="#uiAndComponents" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                                <div class="">
+                                    <i class="flaticon-3d-cube"></i>
+                                    <span>Products</span>
+                                </div>
+                            </a>
+                            <div class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="uiAndComponents" data-parent="#topAccordion">
+                                <div class="submenu-scroll">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#ui-features" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">PRODUCT MANAGEMENT</span> </a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="ui-features">
+                                                <li>
+                                                    <a href="{% url 'view-product' %}"> view Products </a>
+                                                </li>
+                                                <li>
+                                                    <a href=""> search product </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{% url 'add-product'  %}"> add product </a>
+                                                </li>
+                                                <li>
+                                                    <a href="ui_typography.html"> edit product </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#components" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">CATEGORY MANAGEMENT</span> </a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="components">
+                                                <li>
+                                                    <a href="{% url 'add-categories' %}">View Category List</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{% url 'add-subcategories' %}"> View Subcategory List</a>
+                                                </li>
+
+                                                
+                                </div>
+                            </div>
+                        </li> 
+
+                        <li class="menu">
+                            <a href="#tables-forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                                <div class="">
+                                    <i class="flaticon-table"></i>
+                                    <span>Users</span>
+                                </div>
+                            </a>
+                            <div class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="tables-forms" data-parent="#topAccordion">
+                                <div class="submenu-scroll">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#tables" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">USER MANAGEMENT</span> </a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="tables">
+                                                <li>
+                                                    <a href="{% url 'view-user'%}"> View Users </a>
+                                                </li>
+                                               
+                                                 
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                     
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="menu">
+                            <a href="#pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                                <div class="">
+                                    <i class="flaticon-copy"></i>
+                                    <span>Orders</span>
+                                </div>
+                            </a>
+                            <div class="submenu list-unstyled collapse eq-animated eq-fadeInUp" id="pages" data-parent="#topAccordion">
+                                <div class="submenu-scroll">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#ecommerce" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">ECOMMERCE</span> </a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="ecommerce">
+                                                <li>
+                                                    <a href="{% url 'orders' %}"> Orders </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="menu">
+                            <a href="#app" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">
+                                <div class="">
+                                    <i class="flaticon-mail-19"></i>
+                                    <span>Brands assoiciated</span>
+                                </div>
+                            </a>
+                            <div class="collapse submenu list-unstyled eq-animated eq-fadeInUp" id="app" data-parent="#topAccordion">
+                                <ul class="submenu-scroll">
+                                    <li>
+                                        <ul class="list-unstyled mt-4">
+                                            <li>
+                                                <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="apps"> 
+                                                    <li>
+                                                        <a href="{% url 'brands'%}">view all</a>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu">
+                            <a href="#more" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="flaticon-plus"></i>
+                                    <span class="">More</span>
+                                </div>
+                            </a>
+                            <div class="collapse submenu list-unstyled eq-animated eq-fadeInUp" id="more" data-parent="#topAccordion">
+                                <div class="submenu-scroll">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#modules" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">COUPONS</span></a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="modules"> 
+                                                <li>
+                                                    <a href="{%url 'coupon-add' %}">view all coupons</a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#dragndrop" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle"> <span class="">Offers</span></a>
+                                            <ul class="list-unstyled sub-submenu collapse show eq-animated eq-fadeInUp" id="dragndrop"> 
+                                                <li>
+                                                    <a href="dragndrop_gridstack.html"> Product offer</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{%url 'category-offer' %}"> category offer</a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--  END MODERN  -->
+{% block content %}
+
+
+{% endblock  %}
+        <!--  BEGIN CONTENT PART  -->
+        
+        <!--  END CONTENT PART  -->
+                
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    <!--  BEGIN FOOTER  -->
+    <footer class="footer-section theme-footer">
+
+        <div class="footer-section-1  sidebar-theme">
+            
+        </div>
+
+        <div class="footer-section-2 container-fluid">
+            <div class="row">
+                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
+                    <ul class="list-inline links ml-sm-5">
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://themeforest.net/item/equation-responsive-admin-dashboard-template/23191987">Buy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
+                    <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
+                        <li class="list-inline-item  mr-3">
+                            <p class="bottom-footer">&#xA9; 2019 <a target="_blank" href="https://designreset.com/equation">Equation Admin Theme</a></p>
+                        </li>
+                        <li class="list-inline-item align-self-center">
+                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    <aside class="profile-sidebar text-center">
+        <div class="profile-content profile-content-scroll">
+            <div class="usr-profile">
+                <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+            </div>
+            <p class="user-name mt-4 mb-4">Vincent Carpenter</p>
+            <div class="">
+                <div class="accordion" id="user-stats">
+                    <div class="card">
+                        <div class="card-header pb-4 mb-4" id="status">
+                            <h6 class="mb-0" data-toggle="collapse" data-target="#user-status" aria-expanded="true" aria-controls="user-status"><i class="flaticon-view-3 mr-2"></i> Status <i class="flaticon-down-arrow ml-2"></i> </h6>
+                        </div>
+                        <div id="user-status" class="collapse show" aria-labelledby="status" data-parent="#user-stats">
+                            <div class="card-body text-left">
+                                <ul class="list-unstyled pb-4">
+                                    <li class="status-online"><a href="javascript:void(0);">Online</a></li>
+                                    <li class="status-away"><a href="javascript:void(0);">Away</a></li>
+                                    <li class="status-no-disturb"><a href="javascript:void(0);">Not Disturb</a></li>
+                                    <li class="status-invisible"><a href="javascript:void(0);">Invisible</a></li>
+                                    <li class="status-offline"><a href="javascript:void(0);">Offline</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-links text-left">
+                <ul class="list-unstyled">
+                    <li><a href="apps_mailbox.html"><i class="flaticon-mail-22"></i> Inbox</a></li>
+                    <li><a href="user_profile.html"><i class="flaticon-user-11"></i> My Profile</a></li>
+                    <li><a href="user_login_1.html"><i class="flaticon-power-off"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js'%}"></script>
+    <script src="{% static 'assets/js/loader.js'%}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js'%}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'assets/js/app.js'%}"></script>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js'%}"></script>
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+
+    {% block static-js %}
+    
+    {% endblock  %}
+
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
+ 
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{% static 'plugins/charts/sparklines/jquery.sparkline.min.js'%}"></script>
+    <script src="{% static 'plugins/charts/d3charts/d3.v3.min.js'%}"></script>
+    <script src="{% static 'plugins/charts/c3charts/c3.min.js'%}"></script>
+    <script src="{% static 'plugins/calendar/pignose/moment.latest.min.js'%}"></script>
+    <script src="{% static 'plugins/calendar/pignose/pignose.calendar.js'%}"></script>
+    <script src="{% static 'plugins/dropzone/dropzone.min.js'%}"></script>
+    <script src="{% static 'plugins/progressbar/progressbar.min.js'%}"></script>
+    <script src="{% static 'assets/js/accounting-dashboard/accounting-custom.js'%}"></script>    
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+   
+</body>
+</html>

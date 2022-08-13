@@ -63,3 +63,15 @@ class code(models.Model):
     #     self.Otp=codestring
     #     return super().save(*args,**kwargs)
 
+class user_address2(models.Model):
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE) 
+    fist_name=models.CharField(max_length=100,default="null")
+    last_name=models.CharField(max_length=100,default="null")
+    email=models.CharField(max_length=100,default="null")
+    phone=models.CharField(max_length=15,default="null")
+    addressline1=models.CharField(max_length=200,default="null")
+    addressline2=models.CharField(max_length=200,default="null")
+    city=models.CharField(max_length=100,default="null")
+    state= models.CharField(max_length=100,default="null")
+    country=models.CharField(max_length=100,default="null")
+    zip_code=models.CharField(max_length=8,default="null")

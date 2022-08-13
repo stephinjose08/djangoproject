@@ -1,0 +1,37 @@
+{% if wishlist_items %}
+<table>
+    <thead>
+        <tr>
+            
+            <th>images</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>remove</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for wishlist_item in wishlist_items %}
+        <tr>
+            
+            <td class="product-thumbnail">
+                <a href="#"><img src="{{wishlist_item.wishlist_items.cover_image.url}}" width="50px" alt=""></a>
+            </td>
+            <td class="product-name"><a href="#">{{wishlist_item.wishlist_items.product_name}}</a></td>
+            <td class="product-price-cart"><span class="amount">{{wishlist_item.wishlist_items.discount_price}}</span></td>
+            <td class="product-remove"><a hx-delete="{% url 'wishlist-remove' wishlist_item.wishlist_items.id %}" 
+            hx-trigger="click"
+            hx-target="#wishlist-table"
+            hx-swap="outerhtml"><i class="pe-7s-close"></i></a></td>
+            
+        </tr>
+        {% endfor %}
+        
+        
+    </tbody>
+    
+</table>
+{% else %}
+ <h5>your wishlist has no items</h5>
+{% endif %}

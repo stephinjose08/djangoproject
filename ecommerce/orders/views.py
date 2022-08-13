@@ -1,4 +1,5 @@
 
+from operator import is_, is_not
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from itertools import count
@@ -10,7 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
-from .models import  order,orderproduct, payment,canceled_orders
+from .models import  order,orderproduct, payment,canceled_orders, returned_orders
 from cart.views import _cart_ID
 from product.models import product,price,media,user_address,coupons
 from cart.models import Cart, cartItem
@@ -26,22 +27,29 @@ def check_out(request,total=0,quantity=0,cart_items=None,number=0,tax=0,grand_to
         else:
             cart=Cart.objects.get(cart_ID=_cart_ID(request))
             cart_items=cartItem.objects.filter(cart=cart)
-    
-        for cart_item in cart_items:
+        if cart_items:
+            for cart_item in cart_items:
 
-            Price=product.objects.get(id=cart_item.Product.id)
+                Price=product.objects.get(id=cart_item.Product.id)
+                
+                total+=Price.discount_price * cart_item.quantity
+                number+=1
+                quantity=cart_item.quantity
             
-            total+=Price.discount_price * cart_item.quantity
-            number+=1
-            quantity=cart_item.quantity
-        
-        tax=(2*total)/100
-        grand_total=total+tax  
-        
+            tax=(2*total)/100
+            grand_total=total+tax  
+        else:
+            
+            messages.error(request,"cart is empty!")
+            return redirect('/')
+            
     except ObjectDoesNotExist :
         pass
-    if user_address.objects.get(user=request.user):
-        existing_user=user_address.objects.get(user=request.user)
+    try:
+        if user_address.objects.get(user=request.user):
+            existing_user=user_address.objects.get(user=request.user)
+    except ObjectDoesNotExist :
+        pass
     context={
             'cart_items':cart_items,
             'totalprice':total,
@@ -53,7 +61,7 @@ def check_out(request,total=0,quantity=0,cart_items=None,number=0,tax=0,grand_to
      }
     
   
-    
+    request.session['coupon']=0
     return render(request,'checkout.html',context)
 
 def placeorder(request):
@@ -69,19 +77,24 @@ def placeorder(request):
         grand_total=0 
         offerrate=0
         amount_discounted=0 
-        tax=0   
-        if request.session['coupon']:
-           
+        tax=0 
+        f=False 
+       
+        offerrate=request.session['coupon']
+
+        if offerrate==0:
+            tax=(2*total)/100
+            grand_total=total+tax 
+               
+        else:     
             offerrate=request.session['coupon']
             amount_discounted=total*(offerrate/100)
             total=total-amount_discounted
             tax=(2*total)/100
             grand_total=total+tax
-            request.session.delete('coupon')   
-        else:     
-            
-            tax=(2*total)/100
-            grand_total=total+tax  
+            f=True
+            del request.session['coupon']
+             
         new_payment=payment.objects.create(
                 user=request.user,
                 payment_mode="COD",
@@ -130,6 +143,7 @@ def placeorder(request):
             
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
+            messages.success(request,"order placed!")
             
             
 
@@ -154,6 +168,21 @@ def placeorder(request):
             new_order.total_price=grand_total
             new_order.notes
             new_order.notes=request.POST.get('notes')
+            useraddress=user_address(
+                        user=request.user,
+                        fist_name=request.POST.get('tempfname'),
+                        last_name=request.POST.get('templname'),
+                        email=request.POST.get('tempemail'),
+                        phone=request.POST.get('tempphone'),
+                        addressline1=request.POST.get('tempaddress1'),
+                        addressline2=request.POST.get('tempaddress2'),
+                        city=request.POST.get('tempc'),
+                        state=request.POST.get('temps'),
+                        country=request.POST.get('tempcountry'),
+                        zip_code=request.POST.get('tempz'),  
+                        notes=request.POST.get('notes')
+                    )
+            useraddress.save()
             tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
             while(order.objects.filter(tracking_number=tracknumber)) is None:
                 tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
@@ -172,10 +201,21 @@ def placeorder(request):
                     payment=new_payment
                  )
             
-            cartItem.objects.filter(useID=request.user).delete()
+             
             print("deleted and order placed")
  
-            messages.success(request,"order placed!")
+            
+        # context= {'orderitems':orderitems,
+        #     'new_order':new_order,
+        #     'total':total,
+        #     'tax':tax,
+        #     'grand_total':grand_total,
+        #     'f':f,
+        #     'amount_discounted':amount_discounted
+        #     }
+        cartItem.objects.filter(useID=request.user).delete()
+        # return render(request,'invoice.html',context)
+        messages.success(request,"order placed!")
         return redirect(my_orders)
 
 def proced_to_pay(request):
@@ -192,9 +232,18 @@ def proced_to_pay(request):
     grand_total=0
     offerrate=0
     amount_discounted=0
-    if request.session['coupon']:
+    print("ivide")
+    
+    print(request.session['coupon'])
+    print("thanne")
+    offerrate=request.session['coupon']
+    if offerrate==0:
+        tax=(2*total)/100   
+        grand_total=total+tax 
+        
+    else:
         print("coupon kandu")
-        print(request.session['coupon'])
+        
         offerrate=request.session['coupon']
         amount_discounted=total*(offerrate/100)
         print(amount_discounted)
@@ -202,11 +251,8 @@ def proced_to_pay(request):
         tax=(2*total)/100
         grand_total=total+tax
         print(grand_total)
-        
-    else:
-        tax=(2*total)/100   
-        grand_total=total+tax
-    
+        # request.session.delete('coupon')
+        del request.session['coupon']
     return JsonResponse({
         'total_price':grand_total
     })
@@ -226,22 +272,23 @@ def online(request):
         grand_total=0
         offerrate=0
         amount_discounted=0
+        f=False
         # tax=(2*total)/100
         # grand_total=total+tax 
-        if request.session['coupon']:
+        offerrate=request.session['coupon']
+        if offerrate==0:
+            tax=(2*total)/100   
+            grand_total=total+tax
             
-            
+        else:
             offerrate=request.session['coupon']
             amount_discounted=total*(offerrate/100)
-            
+            f=True
             total=total-amount_discounted
             tax=(2*total)/100
             grand_total=total+tax
            
-            request.session.delete('coupon')
-        else:
-            tax=(2*total)/100   
-            grand_total=total+tax
+            del request.session['coupon']
 
 
         new_payment=payment.objects.create(
@@ -253,7 +300,7 @@ def online(request):
                     
                 )
         new_payment.save()
-        print(request.POST.get('zip'))
+        
 
         if not request.POST.get('check'):
                 new_order=order()
@@ -335,25 +382,30 @@ def online(request):
             
             cartItem.objects.filter(useID=request.user).delete()
             print("deleted and order placed")
-           
-
-    
-
-
-
-       
+         
     paymode=request.POST.get("paymentmode")
     print(paymode)
     if (paymode=="razorpay" or paymode=="paypal"):
-           return JsonResponse({"status":'payment done'})
+           return JsonResponse({"status":'payment done' })
     else:
             print("havoooooo")
+    # context= {'orderitems':orderitems,
+    #         'new_order':new_order,
+    #         'total':total,
+    #         'tax':tax,
+    #         'grand_total':grand_total,
+    #         'f':f,
+    #         'amount_discounted':amount_discounted
+    #         }
+    cartItem.objects.filter(useID=request.user).delete()
+    # print("ethiiii")
+    # return render(request,'invoice.html',context)
     return redirect(my_orders) 
 
             
 
 def my_orders(request):
-    orders=order.objects.filter(user=request.user.id).order_by('created_at')
+    orders=order.objects.filter(user=request.user.id).order_by('-created_at')
     orderedItems=orderproduct.objects.filter(order_id__in=orders)
     products=product.objects.filter(id__in=orderedItems)
     ziped_data=zip(orders,orderedItems,products)
@@ -380,6 +432,22 @@ def cancel_order(request,rack):
                                                  order=canceled_order,
                                                  reason_for_cancel=reason)
     canceledorder.save()
+    messages.success(request,"your order has canceled")
+    return redirect(my_orders)
+
+def return_order(request,rack):
+    
+    returned_order=order.objects.get(tracking_number=rack)
+    print(rack)
+    returned_order.status="returned"
+    returned_order.save()
+    reason=request.POST.get("reason")
+    print(reason)
+    returnorder=returned_orders.objects.create(user=request.user,
+                                                 order=returned_order,
+                                                 reason_for_return=reason)
+    returnorder.save()
+    messages.success(request,"your order has returned")
     return redirect(my_orders)
 
 def coupenoffer(request):
@@ -423,7 +491,10 @@ def coupenoffer(request):
             'grand_total':grand_total,
             'existing_user':existing_user,       
             }
-
+            print("used")
+            request.session['coupon']=0
+            return render(request,'htmx/offer.html',context)
+            # request.session['coupon']=False     
         else:
             coupon.user_is_used.add(user)
             f=True
@@ -448,7 +519,8 @@ def coupenoffer(request):
             print(offerprice)
             tax=round((2*offerprice)/100,2)
             grand_total=round(offerprice+tax,2)
-            print(amount_discounted)  
+            print(amount_discounted) 
+            print("ivide thanne") 
             new_payment=payment.objects.create(
                     user=request.user,
                     
@@ -459,9 +531,12 @@ def coupenoffer(request):
                 )
             new_payment.save()
             request.session['coupon']=offer
-        context={
+            print("coupon thazhe")
+            print(request.session['coupon'])
+            print("coupon mukalil")
+            context={
             'cart_items':cart_items,
-            'totalprice':total,
+            'totalprice':offerprice,
             'f':f,
             'tax':tax,
             'grand_total':grand_total,
@@ -469,7 +544,7 @@ def coupenoffer(request):
             
                 
             }
-        return render(request,'htmx/offer.html',context)
+            return render(request,'htmx/offer.html',context)
     else:
         
         for cart_item in cart_items:
@@ -496,13 +571,54 @@ def coupenoffer(request):
             'existing_user':existing_user,
                 
             }
-    
-        
+        # request.session['coupon']=False
+        request.session['coupon']=0
         messages.error(request,"invalid coupon")
         return render(request,'htmx/offer.html',context)
         
+def invoice(request,id):
+    orders=order.objects.get(id=id)
+    ordered_products=orderproduct.objects.filter(order_id=orders.id)
+    total=0   
+    for ordered_product in ordered_products:
 
+                Price=product.objects.get(id=ordered_product.product_id)
+
+            
+                total+=Price.discount_price * ordered_product.quantity
+             
+                
+    grand_total=0
+    offerrate=0
+    amount_discounted=0
+    f=False
+    offerrate=request.session['coupon']
+    if offerrate==0:
+        tax=(2*total)/100   
+        grand_total=total+tax 
+    else:
+        offerrate=request.session['coupon']
+        f=True
+        amount_discounted=total*(offerrate/100)
+        print(amount_discounted)
+        total=total-amount_discounted
+        tax=(2*total)/100
+        grand_total=total+tax
+        print(grand_total)
+    # products=cartItem.objects.filter(useID=request.user)
     
+    # request.session.delete('coupon')
+    # cartItem.objects.filter(useID=request.user).delete()
+    context= {'ordered_products':ordered_products,
+            'orders':orders,
+            'total':total,
+            'tax':tax,
+            'grand_total':grand_total,
+            'f':f,
+            'amount_discounted':amount_discounted
+            }
+    
+    return render(request,'invoice.html',context)
    
 
 

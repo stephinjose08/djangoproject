@@ -7,9 +7,13 @@ from unicodedata import name
 from unittest import result
 from cart.models import cartItem,Cart
 from cart.views import _cart_ID
-from product.models import product
+from django.db.models import Sum
+
+from orders.models import order,canceled_orders,orderproduct
+from product.models import product,user_address
 from django.contrib import messages
 from twilio.rest import Client
+from .models import user_address2
 import re
 import os
 from telnetlib import AUTHENTICATION
@@ -17,7 +21,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect,render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
-
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -63,20 +67,19 @@ def auth_view(request):
      
         phone=request.POST.get("phone")
         password=request.POST.get("password")
-        if phone=="":
-            return HttpResponse("<p id='username-error' class='error'>phone number field is empty</p>")
-        elif password=="":
-            return HttpResponse("<p id='password-error' class='error'>password field is empty</p>")
+        
         user=authenticate(phone=phone,password=password)
         
         if user is not None:
             request.session['pk']=user.pk
             print("success")
-            
-            return redirect(sms_varification)
+            send_sms(user.phone)
+            return render(request,'htmx/otp.html')
+            # return redirect(sms_varification)
         else:
             print("incorrect")
-    return render(request,"login.html")
+    else:        
+        return render(request,"login.html")
       
 def sms_varification(request):
     pk=request.session.get("pk")
@@ -85,7 +88,7 @@ def sms_varification(request):
         print("entered")
     
     
-        number=request.POST.get("varificationcode")
+        number=request.POST.get("otp")
         
         if check_sms(user,number)=='approved':
 
@@ -123,9 +126,10 @@ def sms_varification(request):
             return redirect(userlogin)
         else:
             messages.error(request,"otp not correct")
-    send_sms(user.phone)
-    return render(request,'loginvarification.html')   
-
+            return redirect('/')
+    # send_sms(user.phone)
+    # return render(request,'loginvarification.html')   
+    # return render(request,'htmx/otp.html')
 
 
 def register(request):
@@ -144,9 +148,12 @@ def register(request):
             
             request.session['phone']=request.POST.get("phone")
             print( request.session['email'])
-            #send_sms(request.session['phone'])
-            return redirect(varify)   
-        return render (request,'register.html')
+            send_sms(request.session['phone'])
+            return render(request,'htmx/signinotp.html')
+            #return redirect(varify)  
+        else:
+
+            return render (request,'register.html')
     # 
             # user={
             #     'first_name':first_name,
@@ -187,7 +194,7 @@ def register(request):
 def varify(request):
     if request.method=="POST":
 
-        number=request.POST.get("varificationcode")
+        number=request.POST.get("otp")
         if check_sms(request.session['phone'],number)=='approved':
            print(" data varified")
            first_name=request.session['firstname']
@@ -311,5 +318,68 @@ def main_search(request):
         results=""
 
     return render(request,'htmx/searchresult.html',{'results':results})
-def profile(request):
-    return render(request,"wishlist.html")
+
+
+
+@login_required(login_url="login")
+def userprofile(request):
+
+    primary_address=user_address.objects.get(id=request.user.id)
+    secondary_address=user_address2.objects.filter(user=request.user).first()
+    ordercount=order.objects.filter(user=request.user).count()
+    total_sum=order.objects.filter(user=request.user).aggregate(Sum('total_price'))['total_price__sum']
+    total_sum=round(total_sum,2)
+    latest_order=order.objects.filter(user=request.user).order_by('-created_at').exclude(status="canceled").first()
+    latest_order_items=orderproduct.objects.filter(order_id=latest_order.id)
+    canceled_order=canceled_orders.objects.filter(user=request.user).count()
+    returned_count=order.objects.filter(user=request.user,status='returned').count()
+    context={
+            'primary_address':primary_address,
+            'secondary_address':secondary_address,
+            'ordercount':ordercount,'canceled_order':canceled_order,
+            'total_sum':total_sum,
+            'latest_order_items':latest_order_items,
+            'latest_order':latest_order,
+            'returned_count':returned_count,
+    }
+    return render(request,'userprofile.html',context)
+
+def add_to_primary(request):
+    primary_address=user_address.objects.get(id=request.user.id)
+    secondary_address=user_address2.objects.filter(user=request.user).first()
+    fistname=primary_address.fist_name
+    lastname=primary_address.last_name
+    phone=primary_address.phone
+    email=primary_address.email
+    addressline1=primary_address.addressline1
+    addressline2=primary_address.addressline2
+    city=primary_address.city
+    state=primary_address.state
+    zip_code=primary_address.zip_code
+    primary_address.fist_name=secondary_address.fist_name
+    primary_address.last_name=secondary_address.last_name
+    primary_address.phone=secondary_address.phone
+    primary_address.email=secondary_address.email
+    primary_address.addressline1=secondary_address.addressline1
+    primary_address.addressline2=secondary_address.addressline2
+    primary_address.city=secondary_address.city
+    primary_address.state=secondary_address.state
+    primary_address.zip_code=secondary_address.zip_code
+    primary_address.save()
+    secondary_address.fist_name=fistname    
+    secondary_address.last_name=lastname
+    secondary_address.phone=phone
+    secondary_address.email=email
+    secondary_address.addressline1=addressline1
+    secondary_address.addressline2=addressline2
+    secondary_address.city=city
+    secondary_address.state=state
+    secondary_address.zip_code=zip_code
+    secondary_address.save()
+    # context={
+    #         'primary_address':primary_address,
+    #         'secondary_address':secondary_address,
+            
+    # }
+    return render(request,'htmx/change_address.html',{'primary_address':primary_address,'secondary_address':secondary_address})
+

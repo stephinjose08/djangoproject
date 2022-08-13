@@ -35,6 +35,8 @@ class user_address(models.Model):
 class Category(models.Model):
     name=models.CharField(max_length=100)
     categoryIcon=models.ImageField(upload_to='img/catIcons',blank=True)
+    offer=models.IntegerField(blank=True,null=True)
+    offer_name=models.CharField(max_length=50,null=True,blank=True)
     def __str__(self):
         return self.name
 

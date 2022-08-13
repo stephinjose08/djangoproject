@@ -1,10 +1,14 @@
+{% extends 'base.html' %}
 {% load static %}
 <!doctype html>
 <html class="no-js" lang="zxx">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Ezone - eCommerce HTML5 Template</title>
+        {% block title %}
+        <title>detail-order</title>
+        {% endblock title %}
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Favicon -->
@@ -291,6 +295,7 @@
             </div>
         </div> {% endcomment %}
         <!-- shopping-cart-area start -->
+        {% block content %}
         <div class="cart-main-area pt-95 pb-100 wishlist">
             <div class="container">
                 <div class="row">
@@ -325,6 +330,9 @@
                                             <td class="product-quantity">
                                                 {{orderitem.quantity}}
                                             </td>
+                                            <td class="product-quantity">
+                                                
+                                            </td>
                                            
                                         </tr>
                                         {% endfor %}
@@ -332,7 +340,7 @@
                                 </table>
                             </div>
                       </form>
-                    
+                      <a href="{% url 'invoice' userdetails.id %}" ><button type="button" class="btn btn-outline-dark">invoice</button></a>
                       <address >
                         <label for=""><span><b>SHIPPING ADDRESS</b></span></label><br>
                        
@@ -353,12 +361,49 @@
                     {% include 'htmx/track.html' %}
                     <div id="track-order">
                     </div>
-              
+                  
                     </div>
                 </div>
                 <div class="coupon-accordion">
                     <!-- ACCORDION START -->
-                    {% if userdetails.status != "canceled" %}
+                    {% if userdetails.status != "canceled" and userdetails.status != "returned" %}
+
+                    {% if userdetails.status == "completed" %}
+
+                    <h3>return order? <span id="showlogin">Click here </span></h3>
+                    <div id="checkout-login" class="coupon-content">
+                        <div class="coupon-info">
+                               
+                            <form action="{% url 'returned-order' userdetails.tracking_number %}" method="POST">
+                                {% csrf_token %}
+                                <p class="form-row-first">
+                                    <label>Reason for return<span class="required">*</span></label>
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="reason">
+                                        <option selected></option>
+                                        <option value="i want to cance  due to the prodduct quality issues">i want to return  due to the product quality issues</option>
+                                        <option value="order  placed by mistake">order  placed by mistake</option>
+                                        <option value="price for the product has decreased">price for the product has decreased</option>
+                                        <option value="i have purchased the product elsewhere">i have purchased the product elsewhere</option>
+                                      </select>
+                                </p>
+                                {% comment %} <p class="form-row-last">
+                                    <label>Password  <span class="required">*</span></label>
+                                    <input type="text" />
+                                </p> {% endcomment %}
+                                <p class="form-row mt-3">					
+                                    <input type="submit" value="Return Order" />
+                                    <label>
+                                       
+                                         
+                                    </label>
+                                </p>
+                                <p class="lost-password">
+                                   
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
                     <h3>Cancel order? <span id="showlogin">Click here </span></h3>
                     <div id="checkout-login" class="coupon-content">
                         <div class="coupon-info">
@@ -393,15 +438,21 @@
                         </div>
                     </div>
                     {% endif %}
+                    {% endif %}
                     <!-- ACCORDION END -->	
                     <!-- ACCORDION START -->
-                    
-                    <!-- ACCORDION END -->						
+
+                    <!-- ACCORDION END -->	
+                    					
                 </div>
+                
             </div>
+            
         </div>
         
+        {% endblock content %}
         <!-- shopping-cart-area end -->
+        {% block footer %}
 		<footer class="footer-area">
             <div class="footer-top-area bg-img pt-105 pb-65" style="background-image: url(assets/img/bg/1.jpg)" data-overlay="9">
                 <div class="container">
@@ -480,92 +531,9 @@
                 </div>
             </div>
         </footer>
+        {% endblock footer %}
 		<!-- modal -->
-        <div class="modal fade" id="exampleCompare" tabindex="-1" role="dialog" aria-hidden="true">
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span class="pe-7s-close" aria-hidden="true"></span>
-            </button>
-            <div class="modal-dialog modal-compare-width" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form action="#">
-                            <div class="table-content compare-style table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                <a href="#">Remove <span>x</span></a>
-                                                <img src="assets/img/cart/4.jpg" alt="">
-                                                <p>Blush Sequin Top </p>
-                                                <span>$75.99</span>
-                                                <a class="compare-btn" href="#">Add to cart</a>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="compare-title"><h4>Description </h4></td>
-                                            <td class="compare-dec compare-common">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has beenin the stand ard dummy text ever since the 1500s, when an unknown printer took a galley</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Sku </h4></td>
-                                            <td class="product-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Availability  </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>In stock</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Weight   </h4></td>
-                                            <td class="compare-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Dimensions   </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>N/A</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>brand   </h4></td>
-                                            <td class="compare-brand compare-common">
-                                                <p>HasTech</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>color   </h4></td>
-                                            <td class="compare-color compare-common">
-                                                <p>Grey, Light Yellow, Green, Blue, Purple, Black </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>size    </h4></td>
-                                            <td class="compare-size compare-common">
-                                                <p>XS, S, M, L, XL, XXL </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"></td>
-                                            <td class="compare-price compare-common">
-                                                <p>$75.99 </p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 		
 		
         <script>

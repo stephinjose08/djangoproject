@@ -30,6 +30,7 @@ urlpatterns = [
   path("admin_home/brands/<int:id>/",views.brands,name="edit-brand"),
   path("admin_home/delete_brand/<int:id>/",views.delete_brand,name="delete-brand"),
    path("admin_home/coupons_edit/<int:id>",views.couponadd,name="coupon-edit"),
-  
+     path("admin_home/category_offer/",views.category_offer,name="category-offer"),
+     path("admin_home/category_offer/<int:id>",views.category_offer,name="category-offer-edit"),
 
 ]

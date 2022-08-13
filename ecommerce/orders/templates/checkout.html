@@ -1,5 +1,9 @@
+
 {% load static %}
 <!doctype html>
+
+<title>uniq-fasion-check-out</title>
+
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
@@ -39,147 +43,61 @@
             <div class="header-top-furniture wrapper-padding-2 res-header-sm">
                 <div class="container-fluid">
                     <div class="header-bottom-wrapper">
-                        <div class="logo-2 furniture-logo ptb-30">
+                        <div class="logo-2 furniture-logo">
                             <a href="index.html">
-                                <img src="assets/img/logo/2.png" alt="">
+                                <img src="{% static "img/logo.png" %}" class=""  alt="logo" style="width:130px;">
                             </a>
                         </div>
                         <div class="menu-style-2 furniture-menu menu-hover">
                             <nav>
                                 <ul>
                                     <li><a href="#">home</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="index.html">Fashion</a></li>
-                                            <li><a href="index-fashion-2.html">Fashion style 2</a></li>
-                                            <li><a href="index-fruits.html">fruits</a></li>
-                                            <li><a href="index-book.html">book</a></li>
-                                            <li><a href="index-electronics.html">electronics</a></li>
-                                            <li><a href="index-electronics-2.html">electronics style 2</a></li>
-                                            <li><a href="index-food.html">food & drink</a></li>
-                                            <li><a href="index-furniture.html">furniture</a></li>
-                                            <li><a href="index-handicraft.html">handicraft</a></li>
-                                            <li><a target="_blank" href="index-smart-watch.html">smart watch</a></li>
-                                            <li><a href="index-sports.html">sports</a></li>
-                                        </ul>
+                                        
                                     </li>
-                                    <li><a href="#">pages</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="about-us.html">about us</a></li>
-                                            <li><a href="menu-list.html">menu list</a></li>
-                                            <li><a href="login.html">login</a></li>
-                                            <li><a href="register.html">register</a></li>
-                                            <li><a href="cart.html">cart page</a></li>
-                                            <li><a href="checkout.html">checkout</a></li>
-                                            <li><a href="wishlist.html">wishlist</a></li>
-                                            <li><a href="contact.html">contact</a></li>
-                                        </ul>
+                                    <li><a href="#">WOMEN</a>
+                                        
                                     </li>
-                                    <li><a href="shop.html">shop</a>
-                                        <div class="category-menu-dropdown shop-menu">
-                                            <div class="category-dropdown-style category-common2 mb-30">
-                                                <h4 class="categories-subtitle"> shop layout</h4>
-                                                <ul>
-                                                    <li><a href="shop-grid-2-col.html"> grid 2 column</a></li>
-                                                    <li><a href="shop-grid-3-col.html"> grid 3 column</a></li>
-                                                    <li><a href="shop.html">grid 4 column</a></li>
-                                                    <li><a href="shop-grid-box.html">grid box style</a></li>
-                                                    <li><a href="shop-list-1-col.html"> list 1 column</a></li>
-                                                    <li><a href="shop-list-2-col.html">list 2 column</a></li>
-                                                    <li><a href="shop-list-box.html">list box style</a></li>
-                                                    <li><a href="cart.html">shopping cart</a></li>
-                                                    <li><a href="wishlist.html">wishlist</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="category-dropdown-style category-common2 mb-30">
-                                                <h4 class="categories-subtitle"> product details</h4>
-                                                <ul>
-                                                    <li><a href="product-details.html">tab style 1</a></li>
-                                                    <li><a href="product-details-2.html">tab style 2</a></li>
-                                                    <li><a href="product-details-3.html"> tab style 3</a></li>
-                                                    <li><a href="product-details-4.html">sticky style</a></li>
-                                                    <li><a href="product-details-5.html">sticky style 2</a></li>
-                                                    <li><a href="product-details-6.html">gallery style</a></li>
-                                                    <li><a href="product-details-7.html">gallery style 2</a></li>
-                                                    <li><a href="product-details-8.html">fixed image style</a></li>
-                                                    <li><a href="product-details-9.html">fixed image style 2</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="mega-banner-img">
-                                                <a href="single-product.html">
-                                                    <img src="assets/img/banner/18.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
+                                    <li><a href="shop.html">MEN</a>
+                                        
                                     </li>
-                                    <li><a href="blog.html">blog</a>
-                                        <ul class="single-dropdown">
-                                            <li><a href="blog.html">blog 3 colunm</a></li>
-                                            <li><a href="blog-2-col.html">blog 2 colunm</a></li>
-                                            <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                            <li><a href="blog-details.html">blog details</a></li>
-                                            <li><a href="blog-details-sidebar.html">blog details 2</a></li>
-                                        </ul>
+                                    <li><a href="">KIDS</a>
+                                        
                                     </li>
-                                    <li><a href="contact.html">contact</a></li>
+                                    {% if 'phone' in request.session %}
+                                    <li><a href="{% url 'log-out' %}">LOG OUT</a></li>
+                                    {% endif %}
                                 </ul>
                             </nav>
                         </div>
                         <div class="header-cart">
-                            <a class="icon-cart-furniture" href="#">
+                            <a class="icon-cart-furniture" href="">
                                 <i class="ti-shopping-cart"></i>
-                                <span class="shop-count-furniture green">02</span>
+                                <span class="shop-count-furniture green">{{name}}</span>
                             </a>
                             <ul class="cart-dropdown">
+                                {% for cartitem in cartitems %}
                                 <li class="single-product-cart">
                                     <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/1.jpg" alt=""></a>
+                                        <a href="#"><img src="{{cartitem.Product.cover_image.url}}" width="30px" class="rounded" alt=""></a>
                                     </div>
                                     <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
+                                        <h5><a href="#">{{cartitem.Product.product_name}}</a></h5>
+                                        <h6><a href="#">{{cartitem.Product.color}}</a></h6>
+                                        <span>{{cartitem.Product.discount_price}} x {{cartitem.quantity}}</span>
                                     </div>
                                     <div class="cart-delete">
                                         <a href="#"><i class="ti-trash"></i></a>
                                     </div>
                                 </li>
-                                <li class="single-product-cart">
-                                    <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
-                                    </div>
-                                    <div class="cart-delete">
-                                        <a href="#"><i class="ti-trash"></i></a>
-                                    </div>
-                                </li>
-                                <li class="single-product-cart">
-                                    <div class="cart-img">
-                                        <a href="#"><img src="assets/img/cart/3.jpg" alt=""></a>
-                                    </div>
-                                    <div class="cart-title">
-                                        <h5><a href="#"> Bits Headphone</a></h5>
-                                        <h6><a href="#">Black</a></h6>
-                                        <span>$80.00 x 1</span>
-                                    </div>
-                                    <div class="cart-delete">
-                                        <a href="#"><i class="ti-trash"></i></a>
-                                    </div>
-                                </li>
-                                <li class="cart-space">
-                                    <div class="cart-sub">
-                                        <h4>Subtotal</h4>
-                                    </div>
-                                    <div class="cart-price">
-                                        <h4>$240.00</h4>
-                                    </div>
+                                {% endfor %}
+                                
+                                <li class="cart-btn-wrapper">
+                                    <a class="cart-btn btn-hover" href="{% url 'cart-items' %}">view cart</a>
+                                    <a class="cart-btn btn-hover" href="{% url 'check-out' %}">checkout</a>
                                 </li>
                                 <li class="cart-btn-wrapper">
-                                    <a class="cart-btn btn-hover" href="#">view cart</a>
-                                    <a class="cart-btn btn-hover" href="#">checkout</a>
+                                    <a class="cart-btn btn-hover my-2" href="{% url 'profile' %}">profile</a>
+                                    <a class="cart-btn btn-hover my-2" href="{% url 'my-order' %}" >My orders</a>
                                 </li>
                             </ul>
                         </div>
@@ -189,63 +107,22 @@
                             <div class="mobile-menu">
                                 <nav id="mobile-menu-active">
                                     <ul class="menu-overflow">
-                                        <li><a href="#">HOME</a>
-                                            <ul>
-                                                <li><a href="index.html">Fashion</a></li>
-                                                <li><a href="index-fashion-2.html">Fashion style 2</a></li>
-                                                <li><a href="index-fruits.html">Fruits</a></li>
-                                                <li><a href="index-book.html">book</a></li>
-                                                <li><a href="index-electronics.html">electronics</a></li>
-                                                <li><a href="index-electronics-2.html">electronics style 2</a></li>
-                                                <li><a href="index-food.html">food & drink</a></li>
-                                                <li><a href="index-furniture.html">furniture</a></li>
-                                                <li><a href="index-handicraft.html">handicraft</a></li>
-                                                <li><a href="index-smart-watch.html">smart watch</a></li>
-                                                <li><a href="index-sports.html">sports</a></li>
-                                            </ul>
+                                        <li><a href="/">HOME</a>
+                                            
                                         </li>
-                                        <li><a href="#">pages</a>
-                                            <ul>
-                                                <li><a href="about-us.html">about us</a></li>
-                                                <li><a href="menu-list.html">menu list</a></li>
-                                                <li><a href="login.html">login</a></li>
-                                                <li><a href="register.html">register</a></li>
-                                                <li><a href="cart.html">cart page</a></li>
-                                                <li><a href="checkout.html">checkout</a></li>
-                                                <li><a href="wishlist.html">wishlist</a></li>
-                                                <li><a href="contact.html">contact</a></li>
-                                            </ul>
+                                     <li><a href="#">WOMEN</a>
+                                            
                                         </li>
-                                        <li><a href="#">shop</a>
-                                            <ul>
-                                                <li><a href="shop-grid-2-col.html"> grid 2 column</a></li>
-                                                <li><a href="shop-grid-3-col.html"> grid 3 column</a></li>
-                                                <li><a href="shop.html">grid 4 column</a></li>
-                                                <li><a href="shop-grid-box.html">grid box style</a></li>
-                                                <li><a href="shop-list-1-col.html"> list 1 column</a></li>
-                                                <li><a href="shop-list-2-col.html">list 2 column</a></li>
-                                                <li><a href="shop-list-box.html">list box style</a></li>
-                                                <li><a href="product-details.html">tab style 1</a></li>
-                                                <li><a href="product-details-2.html">tab style 2</a></li>
-                                                <li><a href="product-details-3.html"> tab style 3</a></li>
-                                                <li><a href="product-details-4.html">sticky style</a></li>
-                                                <li><a href="product-details-5.html">sticky style 2</a></li>
-                                                <li><a href="product-details-6.html">gallery style</a></li>
-                                                <li><a href="product-details-7.html">gallery style 2</a></li>
-                                                <li><a href="product-details-8.html">fixed image style</a></li>
-                                                <li><a href="product-details-9.html">fixed image style 2</a></li>
-                                            </ul>
+                                        <li><a href="#">MEN</a>
+                                            
+                                        </li> 
+                                        <li>
+                                            <a href="{% url 'log-out' %}">KIDS</a>
                                         </li>
-                                        <li><a href="#">BLOG</a>
-                                            <ul>
-                                                <li><a href="blog.html">blog 3 colunm</a></li>
-                                                <li><a href="blog-2-col.html">blog 2 colunm</a></li>
-                                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                                                <li><a href="blog-details.html">blog details</a></li>
-                                                <li><a href="blog-details-sidebar.html">blog details 2</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="contact.html"> Contact  </a></li>
+                                        {% if 'phone' in request.session %}
+                                    <li><a href="{% url 'log-out' %}">LOG OUT</a></li>
+                                    {% endif %}
+                                       
                                     </ul>
                                 </nav>							
                             </div>
@@ -258,22 +135,27 @@
                     <div class="furniture-bottom-wrapper">
                         <div class="furniture-login">
                             <ul>
-                                <li>Get Access: <a href="login.html">Login </a></li>
-                                <li><a href="register.html">Reg </a></li>
+                                {% if not 'phone' in request.session %}
+                                <li>Get Access: <a href="{% url 'login' %}">Login </a></li>
+                                <li><a href="{% url 'registration' %}">Reg </a></li>
+                                {% endif %}
                             </ul>
                         </div>
-                        <div class="furniture-search">
+                        <div class="furniture-search" style="position: relative;top: 0;">
                             <form action="#">
-                                <input placeholder="I am Searching for . . ." type="text">
+                                <input name="search" placeholder="I am Searching for . . ." type="text" hx-post="{% url 'search-product'  %}"  hx-swap="outerhtml" hx-trigger="keyup delay:500ms" hx-target="#serch-result">
                                 <button>
                                     <i class="ti-search"></i>
                                 </button>
                             </form>
+                            <div id="serch-result" style="position: absolute;top: 50px;left: 0;z-index: 99;background: white;width: 100%; max-height: 250px;overflow-y: scroll;">
+                                {% include 'htmx/searchresult.html' %}
+                            </div>
                         </div>
                         <div class="furniture-wishlist">
                             <ul>
                                 <li><a data-bs-toggle="modal" data-target="#exampleCompare" href="#"><i class="ti-reload"></i> Compare</a></li>
-                                <li><a href="wishlist.html"><i class="ti-heart"></i> Wishlist</a></li>
+                                <li><a href="{% url 'wishlist'%}"><i class="ti-heart"></i> Wishlist</a></li>
                             </ul>
                         </div>
                     </div>
@@ -293,6 +175,7 @@
             </div> {% endcomment %}
         </div>
         <!-- checkout-area start -->
+
             <div class="checkout-area ptb-100">
                 <div class="container">
                     <div class="row">
@@ -484,7 +367,8 @@
                 </div>
             </div>
             
-        
+           
+       
             <!-- checkout-area end -->	
             <footer class="footer-area">
             <div class="footer-top-area bg-img pt-105 pb-65" style="background-image: url(assets/img/bg/1.jpg)" data-overlay="9">
@@ -564,117 +448,33 @@
                 </div>
             </div>
         </footer>
+   
 		<!-- modal -->
-        <div class="modal fade" id="exampleCompare" tabindex="-1" role="dialog" aria-hidden="true">
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span class="pe-7s-close" aria-hidden="true"></span>
-            </button>
-            <div class="modal-dialog modal-compare-width" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form action="#">
-                            <div class="table-content compare-style table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>
-                                                <a href="#">Remove <span>x</span></a>
-                                                <img src="assets/img/cart/4.jpg" alt="">
-                                                <p>Blush Sequin Top </p>
-                                                <span>$75.99</span>
-                                                <a class="compare-btn" href="#">Add to cart</a>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="compare-title"><h4>Description </h4></td>
-                                            <td class="compare-dec compare-common">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has beenin the stand ard dummy text ever since the 1500s, when an unknown printer took a galley</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Sku </h4></td>
-                                            <td class="product-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Availability  </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>In stock</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Weight   </h4></td>
-                                            <td class="compare-none compare-common">
-                                                <p>-</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>Dimensions   </h4></td>
-                                            <td class="compare-stock compare-common">
-                                                <p>N/A</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>brand   </h4></td>
-                                            <td class="compare-brand compare-common">
-                                                <p>HasTech</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>color   </h4></td>
-                                            <td class="compare-color compare-common">
-                                                <p>Grey, Light Yellow, Green, Blue, Purple, Black </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"><h4>size    </h4></td>
-                                            <td class="compare-size compare-common">
-                                                <p>XS, S, M, L, XL, XXL </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="compare-title"></td>
-                                            <td class="compare-price compare-common">
-                                                <p>$75.99 </p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 		
 		
-		
-		
+        {% for msg in messages %}
+     
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+       
+        <script>
+        
+            swal(, "{{msg}}");
+      
+        </script>
+        {% endfor %} 
+
 		
 		<!-- all js here -->
-         {% for msg in messages %}
-     
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
-           
-            <script>
-            
-                swal(, "{{msg}}");
-          
-            </script>
-            {% endfor %} 
        
+   
        
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
        
         
 
        <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
-
-        <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+ <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
         <script src="{% static 'js/popper.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
@@ -686,8 +486,8 @@
         <script src="{% static 'js/owl.carousel.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script src="{% static 'js/checkout.js' %}"></script>
-
+        <script src="{% static 'js/checkout.js' %}"></script> 
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
         <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
         <script>
             paypal.Buttons({
@@ -806,30 +606,17 @@
                             url: "/orders/check_out/online/",
                             data: data,
                         
-                            success: function(responsec){
-                            swal("success",responsea.status, "success").then((value) => {
-                                        window.location.href='check_out/my_orders/'
-                                    });
+                            success: function (responsea){
+                                swal("success",responsea.status, "success").then((value) => {
+                                    window.location.href='my_orders/'
+                                });
 
-                                    
                             }
                         }); 
                 });
             }
         }).render('#paypal-button-container');
-              {% comment %} }, {% endcomment %}
-
-              {% comment %} // handle unrecoverable errors
-              onError: (err) => {
-                  console.error('An error prevented the buyer from checking out with PayPal');
-              }
-          });
-
-          paypalButtonsComponent
-              .render("#paypal-button-container")
-              .catch((err) => {
-                  console.error('PayPal Buttons failed to render');
-              }); {% endcomment %}
+             
         </script>
 
 
@@ -839,6 +626,7 @@
                  evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
             });
         </script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+      
+ 
     </body>
 </html>

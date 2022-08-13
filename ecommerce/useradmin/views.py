@@ -7,7 +7,7 @@ from urllib.request import Request
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from accounts.models import CustomUser
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 
 from product.models import price,coupons
@@ -97,7 +97,16 @@ def admin_login(request):
             request.session['phone']=phone
             login(request,admin)
             return redirect(load_adminhome)
+       else:
+            messages.error(request,"invalid username and password")
     return render(request,'adminlogin.html')
+
+
+def log_out(request):
+    if 'phone' in request.session:
+        request.session.flush()
+        logout(request) 
+    return redirect(admin_login)
 
 def displayUsers(request):
     users=CustomUser.objects.all()
@@ -159,55 +168,55 @@ def add_OR_edit_Product(request,id=0):
             print(offerprice)
             Brand=request.POST.get("brand")
             
-            if product_name=="":
-                return HttpResponse("product name is empty")
-            elif len(product_name)<4:
-                return HttpResponse("product name is too short")
-            elif not product_name.isalpha():
-                return HttpResponse("product name only contains alphabets")
+            # if product_name=="":
+            #     return HttpResponse("product name is empty")
+            # elif len(product_name)<4:
+            #     return HttpResponse("product name is too short")
+            # elif not product_name.isalpha():
+            #     return HttpResponse("product name only contains alphabets")
 
-            elif product_title=="":
-                 return HttpResponse("product title is not added")
-            elif len(product_title)<4:
-                return HttpResponse("product title is too short")
-            elif not product_title.isalpha():
-                return HttpResponse("product title only contains alphabets")
+            # elif product_title=="":
+            #      return HttpResponse("product title is not added")
+            # elif len(product_title)<4:
+            #     return HttpResponse("product title is too short")
+            # elif not product_title.isalpha():
+            #     return HttpResponse("product title only contains alphabets")
             
-            elif product_description=="":
-                 return HttpResponse("product discription is not added")
-            elif len(product_description)<10:
-                return HttpResponse("product discription is too short")
+            # elif product_description=="":
+            #      return HttpResponse("product discription is not added")
+            # elif len(product_description)<10:
+            #     return HttpResponse("product discription is too short")
 
 
-            elif  category=="":
-                return HttpResponse("category not selected")
+            # elif  category=="":
+            #     return HttpResponse("category not selected")
 
-            elif  subCategory=="":
-                return HttpResponse("subcategory not selected")
+            # elif  subCategory=="":
+            #     return HttpResponse("subcategory not selected")
 
-            elif  Brand=="":
-                return HttpResponse("brand not selected")
+            # elif  Brand=="":
+            #     return HttpResponse("brand not selected")
             
-            elif  Color=="":
-                return HttpResponse("color not selected")
+            # elif  Color=="":
+            #     return HttpResponse("color not selected")
 
-            elif  Size=="":
-                return HttpResponse("size not selected")
+            # elif  Size=="":
+            #     return HttpResponse("size not selected")
 
-            elif  Size=="":
-                return HttpResponse("size not selected")
+            # elif  Size=="":
+            #     return HttpResponse("size not selected")
 
-            elif  actualprice=="":
-                return HttpResponse("orginal price  not added ")
-            elif not actualprice.isdigit():
-                return HttpResponse("orginal price  only digits ")
-            elif  discountrate=="":
-                return HttpResponse("discount rate  not selected")
+            # elif  actualprice=="":
+            #     return HttpResponse("orginal price  not added ")
+            # elif not actualprice.isdigit():
+            #     return HttpResponse("orginal price  only digits ")
+            # elif  discountrate=="":
+            #     return HttpResponse("discount rate  not selected")
 
-            elif  offerprice=="":
-                return HttpResponse("offer price  not added ")
-            elif not offerprice.isdigit():
-                return HttpResponse("offer price  only digits ")
+            # elif  offerprice=="":
+            #     return HttpResponse("offer price  not added ")
+            # elif not offerprice.isdigit():
+            #     return HttpResponse("offer price  only digits ")
           
            
             # if request.FILES['image1'] is None:
@@ -332,8 +341,8 @@ def baner_manage(request):
     return render (request,'banners.html',{"banner":banner})
 
 def orders(request):
-    orders=order.objects.all()
-    cancel_orders=canceled_orders.objects.all()
+    orders=order.objects.all().order_by('-created_at')
+    cancel_orders=canceled_orders.objects.all().order_by('-cancel_date')
     return render(request,"orders.html" ,{'orders':orders,'cancel_orders':cancel_orders})
 
 def subcategory_get(request):
@@ -449,3 +458,31 @@ def couponadd(request,id=0):
             editing_coupon=coupons.objects.get(id=id)
             coupon=coupons.objects.all()
             return render(request,'coupon.html',{'editing_coupon':editing_coupon,'coupon':coupon})
+
+def category_offer(request):
+
+    
+        if request.method=="POST":
+            category=request.POST.get("categoryname")
+            discount_rate=request.POST.get("discountrate")
+            offer_name=request.POST.get("offername")
+            category_obj=Category.objects.get(name=category)
+            category_obj.offer=discount_rate
+            category_obj.offer_name=offer_name
+            category_obj.save()
+            return redirect(category_offer)
+        else:
+            categories=Category.objects.all()
+            return render(request,'category_offer.html',{'category_obj':category_obj,'categories':categories})
+  
+        # if request.method=="POST":
+        #     category=request.POST.get("categoryname")
+        #     discount_rate=request.POST.get("discountrate")
+        #     category_obj=Category.objects.get(name=category)
+        #     category_obj.offer=discount_rate
+        #     category_obj.offername
+        #     category_obj.save()
+        #     return redirect(category_offer)
+        # else:
+        #     categories=Category.objects.all()
+        #     return render(request,'category_offer.html',{'categories':categories})

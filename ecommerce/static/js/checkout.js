@@ -96,9 +96,8 @@ $(document).ready(function () {
                                 data: data,
                                 
                                 success: function (responsea){
-                                    
                                     swal("success",responsea.status, "success").then((value) => {
-                                        window.location.href='check_out/my_orders/'
+                                        window.location.href='my_orders/'
                                     });
 
                                 }

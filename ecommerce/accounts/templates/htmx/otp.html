@@ -1,0 +1,26 @@
+{% comment %} <div class="login-form"> {% endcomment %}
+    <form action="{% url 'varification' %}" method='post'  onClick="codeformvalidation()">
+         {% csrf_token %}
+         <label for=""><b>enter Your 5 digit varification code has sent to your phone</b></label>
+         <input  type="tel" name="otp" placeholder="varification code...." onkeyup="codevalidation()">
+         <p id="code-error"></p>
+
+         <a href="{% url 'varification' %}">did'nt get an otp</a>
+         <p id="login_code_error"></p>
+        <div class="button-box">  
+            <button type="submit" class="default-btn floatright">varify</button>
+           
+           
+        </div>
+    </form>
+    {% for msg in messages %}
+     
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+       
+        <script>
+        
+            swal("{{msg}}");
+      
+        </script>
+        {% endfor %} 
+{% comment %} </div> {% endcomment %}

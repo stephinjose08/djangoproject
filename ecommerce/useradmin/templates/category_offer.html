@@ -1,0 +1,318 @@
+
+{% extends 'admin_base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    {% block title %}
+    <title>Add/Edit Categories </title>
+    {% endblock title %}
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    {% block static-css %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'assets/css/ecommerce/addedit_categories.css' %}" rel="stylesheet" type="text/css">
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'assets/css/loader.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'plugins/drag-and-drop/jquery-ui/scrollable/style.css' %}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+    {% endblock static-css %}
+</head>
+<!--  END MODERN  -->
+{% block content %}
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>CATEGORY OFFERS</h3>
+                    </div>
+                </div>
+                
+                
+       
+                <div class="col-lg-6 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>CATEGORy OFFERS</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form class="form-horizontal" action="" method='post'  >
+                        <div class="widget-content widget-content-area">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="sortable2" class="content">
+                                        <h5>Categories</h5>
+                                        <hr />
+                                        <ul  style="overflow-y:scroll; height:300px">
+                                          {% for category in categories %}
+                                          {% if category.offer %}
+                                            <li> <div class="media">
+                                                <table>
+                                                <tr>
+                                                <td>
+                                                <h6 class="mt-2 txt-b">{{category.name}}</h6><br>
+                                                </td>
+                                                <td>
+                                                <h6 class="mt-2">{{category.offer}}</h6>
+                                                </td>
+                                                <td><h6 class="mt-2">{{category.offer_name}}</h6></td>
+                                                <td>
+                                                    
+                                                <div class="media-body">
+                                                    
+                                                    <a href=""><button type="button" class="btn btn-secondary">Edit</button></a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+                                            </td>
+                                            </tr>
+                                            </table>
+                                            </div>
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            
+                                        </ul>
+                                        <hr />
+                                        <p>End of content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">                                
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Add Categories </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-content widget-content-area add-sub-category">
+                                <div class="row">
+                                    <div class="mx-xl-auto col-xl-10 col-md-12">
+                                        <div class="card card-default">
+                                            <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
+                                            <div class="card-body">
+                                                <div class="card-body">
+                                                    
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4"> Category Name :</label>
+                                                                <div class="col-md-8">
+                                                                    <select required class="form-control form-custom" name="categoryname">
+                                                                        <option value="">Please Select</option>
+                                                                        {% for category in categories %}
+                                                                        <option value="{{category.name}}">{{category.name}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                        
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4">offer rate</label>
+                                                                <div class="col-md-8">
+                                                                   
+                                                                    <div class="custom-file">
+                                                                        <select required class="form-control form-custom" name="discountrate">
+                                                                            <option value="">Please Select</option>
+                                                                            <option value="10">10%</option>
+                                                                            <option value="20">20%</option>
+                                                                            <option value="30">30%</option>
+                                                                            <option value="40">40%</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <label class="col-md-4">Offer name</label>
+                                                                    <div class="col-md-8">
+                                                                        <input required class="form-control" name="offername" type="text" value="">
+                                                                    </div>  
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="align-center"> 
+                                                            <input value="Submit" class="btn mt-5 mb-4" type="submit">
+                                                        </div>
+                                                
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    </div>
+    <!-- END MAIN CONTAINER -->
+    {% endblock content %}
+    <!--  BEGIN FOOTER  -->
+    <footer class="footer-section theme-footer">
+
+        <div class="footer-section-1  sidebar-theme">
+            
+        </div>
+
+        <div class="footer-section-2 container-fluid">
+            <div class="row">
+                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
+                    <ul class="list-inline links ml-sm-5">
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://themeforest.net/item/equation-responsive-admin-dashboard-template/23191987">Buy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
+                    <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
+                        <li class="list-inline-item  mr-3">
+                            <p class="bottom-footer">&#xA9; 2019 <a target="_blank" href="https://designreset.com/equation">Equation Admin Theme</a></p>
+                        </li>
+                        <li class="list-inline-item align-self-center">
+                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    <aside class="profile-sidebar text-center">
+        <div class="profile-content profile-content-scroll">
+            <div class="usr-profile">
+                <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+            </div>
+            <p class="user-name mt-4 mb-4">Vincent Carpenter</p>
+            <div class="">
+                <div class="accordion" id="user-stats">
+                    <div class="card">
+                        <div class="card-header pb-4 mb-4" id="status">
+                            <h6 class="mb-0" data-toggle="collapse" data-target="#user-status" aria-expanded="true" aria-controls="user-status"><i class="flaticon-view-3 mr-2"></i> Status <i class="flaticon-down-arrow ml-2"></i> </h6>
+                        </div>
+                        <div id="user-status" class="collapse show" aria-labelledby="status" data-parent="#user-stats">
+                            <div class="card-body text-left">
+                                <ul class="list-unstyled pb-4">
+                                    <li class="status-online"><a href="javascript:void(0);">Online</a></li>
+                                    <li class="status-away"><a href="javascript:void(0);">Away</a></li>
+                                    <li class="status-no-disturb"><a href="javascript:void(0);">Not Disturb</a></li>
+                                    <li class="status-invisible"><a href="javascript:void(0);">Invisible</a></li>
+                                    <li class="status-offline"><a href="javascript:void(0);">Offline</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-links text-left">
+                <ul class="list-unstyled">
+                    <li><a href="apps_mailbox.html"><i class="flaticon-mail-22"></i> Inbox</a></li>
+                    <li><a href="user_profile.html"><i class="flaticon-user-11"></i> My Profile</a></li>
+                    <li><a href="user_login_1.html"><i class="flaticon-power-off"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    {% block static-js %}
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+   
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    
+   
+       
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    {% endblock static-js %}>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <script>
+        /* 
+            call mCustomScrollbar function before jquery ui sortable()
+        */
+        $("#sortable, #sortable2").mCustomScrollbar({
+            scrollbarPosition:"outside",
+            scrollInertia:450,
+        });
+
+        $("#sortable ul, #sortable2 ul").sortable({
+            axis:"y",
+            cursor:"move",
+            tolerance:"intersect",
+            change:function(e,ui){
+                var h=ui.helper.outerHeight(true),
+                    elem=$("#sortable .mCustomScrollBox"),
+                    elemHeight=elem.height(),
+                    moveBy=$("#sortable li").outerHeight(true)*3,
+                    mouseCoordsY=e.pageY-elem.offset().top;
+                if(mouseCoordsY<h){
+                    $("#sortable").mCustomScrollbar("scrollTo","+="+moveBy);
+                }else if(mouseCoordsY>elemHeight-h){
+                    $("#sortable").mCustomScrollbar("scrollTo","-="+moveBy);
+                }
+            }
+        });
+    </script>
+   
+</body>
+</html>

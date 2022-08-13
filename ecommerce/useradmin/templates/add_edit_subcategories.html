@@ -1,3 +1,4 @@
+{% extends 'admin_base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,8 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Add/Edit Categories | Equation - Multipurpose Bootstrap Dashboard Template </title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
+    {% block title %}
+    <title>add-edit-subcategory </title>
+    {% endblock title %}
+    {% block static-css %}
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
@@ -27,6 +30,7 @@
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link href="{% static 'plugins/drag-and-drop/jquery-ui/scrollable/style.css' %}" rel="stylesheet" type="text/css" />
     <!--  END CUSTOM STYLE FILE  -->
+    {% endblock static-css %}
 </head>
 <body>
     <div id="eq-loader">
@@ -1149,7 +1153,7 @@
             </div>
         </div>
         <!--  END MODERN  -->
-
+{% block content %}
         <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
             <div class="container">
@@ -1564,7 +1568,7 @@
 
     </div>
     <!-- END MAIN CONTAINER -->
-
+    {% endblock content %}
     <!--  BEGIN FOOTER  -->
     <footer class="footer-section theme-footer">
 
@@ -1635,6 +1639,7 @@
     <!--  BEGIN PROFILE SIDEBAR  -->
     
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
+{% block static-js %}
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'assets/js/loader.js' %}"></script>
     <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
@@ -1642,7 +1647,7 @@
     <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
     <script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
-    
+   
     <script>
         $(document).ready(function() {
             App.init();
@@ -1655,9 +1660,9 @@
     <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>  
     <script src="{% static 'assets/js/app.js' %}"></script>
-    
+    {% endblock static-js %}
     <script>
         $(document).ready(function() {
             App.init();
@@ -1667,7 +1672,7 @@
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!--  BEGIN CUSTOM STYLE FILE  -->
-    <script>
+    {% comment %} <script>
         /* 
             call mCustomScrollbar function before jquery ui sortable()
         */
@@ -1693,6 +1698,7 @@
                 }
             }
         });
-    </script>
+    </script> {% endcomment %}
+    
 </body>
 </html>

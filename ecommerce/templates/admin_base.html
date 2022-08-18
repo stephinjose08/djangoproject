@@ -37,7 +37,7 @@
             <a href="javascript:void(0);" class="nav-link sidebarCollapse d-inline-block mr-sm-5" data-placement="bottom">
                 <i class="flaticon-menu-line-3"></i>
             </a>
-            <a href="index.html" class=""> <img src="assets/img/1.png" class="img-fluid" alt="logo"></a>
+            <a href="index.html" class=""> <img src="{% static '/img/logo.png'%}" width="100px" class="img-fluid" alt="logo"></a>
         </div>
         <ul class="navbar-nav flex-row mr-auto">
             <li class="nav-item ml-4 d-lg-none d-sm-block d-none">
@@ -368,7 +368,10 @@
                                                     <a href="dragndrop_gridstack.html"> Product offer</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{%url 'category-offer' %}"> category offer</a>
+                                                    <a href="{% url 'category-offer' %}"> category offer</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{% url 'banner-manage' %}">Banner management</a>
                                                 </li>
                                                 
                                             </ul>
@@ -482,8 +485,8 @@
 
     {% block static-js %}
     
-    {% endblock  %}
-
+   
+    {% endblock static-js  %}
     <script>
         $(document).ready(function() {
             App.init();

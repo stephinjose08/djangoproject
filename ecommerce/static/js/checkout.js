@@ -96,10 +96,16 @@ $(document).ready(function () {
                                 data: data,
                                 
                                 success: function (responsea){
+                                    if(responsea.buynow==true){
+                                        swal("success",responsea.status, "success").then((value) => {
+                                            window.location.href='my_orders/' +responsea.id;
+                                        });   
+                                    }
+                                    else{
                                     swal("success",responsea.status, "success").then((value) => {
                                         window.location.href='my_orders/'
                                     });
-
+                                    }
                                 }
                             });
                             

@@ -1,9 +1,9 @@
 
-from unicodedata import category
+from unicodedata import category, name
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .models import product,Category,media,banners,price,brand
+from .models import product,Category,media,banners,price,brand, size
 
 # Create your views here.
 def grid_view(request,bid=0):
@@ -53,3 +53,6 @@ def searchgrid(request,bid):
      items=product.objects.filter(product_title__icontains=name)
      # print(items.product_title)
      return render(request,'htmx/search_gird.html',{"products":items})
+# def size_sort(request,size):
+#      products=product.objects.all()
+#      return render(request,'htmx/search_gird.html',{"products":products})

@@ -23,7 +23,8 @@
             <td class="product-remove"><a hx-delete="{% url 'wishlist-remove' wishlist_item.wishlist_items.id %}" 
             hx-trigger="click"
             hx-target="#wishlist-table"
-            hx-swap="outerhtml"><i class="pe-7s-close"></i></a></td>
+            hx-swap="outerhtml"
+            hx-confirm=" are you sure?"><i class="pe-7s-close"></i></a></td>
             
         </tr>
         {% endfor %}

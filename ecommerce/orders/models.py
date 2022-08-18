@@ -37,20 +37,17 @@ class order(models.Model):
     payment_mode=models.ForeignKey(payment, on_delete=models.CASCADE)
     order_status=(
        ( "pending","pending"),
-       ("out  for  shipping","out or shipping"),
-       ("completed","completed"),
+       ("confirmed","confirmed"),
+       ("shipped","shipped"),
+       ("delivered","delivered"),
        ("canceled","canceled"),
-
        ("returned","returned"),
-
-       
-
-
     )
     status=models.CharField(max_length=50,  choices=order_status,default='pending')
     notes=models.TextField(default='avoid plastic cover',null=True)
     tracking_number=models.CharField(max_length=150,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
+    couponaplied=models.IntegerField(blank=True,null=True)
     
 class orderproduct(models.Model):
     order=models.ForeignKey(order, on_delete=models.CASCADE)

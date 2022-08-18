@@ -155,7 +155,7 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Short Description :</label>
                                                                 <div class="col-md-8">
-                                                                    <textarea required rows="4" cols="5" name="description" class="form-control" value="{{product.product_description}}"></textarea>
+                                                                    <textarea required rows="4" cols="5" name="description" class="form-control" value="{{product.discription}}"></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -240,7 +240,7 @@
                                                         <div class="row">
                                                             <label class="col-md-4">Orginal Price :</label>
                                                             <div class="col-md-8">
-                                                                <input required class="form-control" name="orginalprice" type="text" value={{updated_price.actual_price}}>
+                                                                <input required class="form-control" name="orginalprice" type="text" value={{product.actual_price}}>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,7 +262,7 @@
                                                         <div class="row">
                                                             <label class="col-md-4">Offer Price:</label>
                                                             <div class="col-md-8">
-                                                                <input required class="form-control" name="offerprice" type="text" value={{updated_price.discount_price}}>
+                                                                <input required class="form-control" name="offerprice" type="text" value={{product.discount_price}}>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -36,6 +36,7 @@
                 <span class="text-secondary"><del>Rs:{{product.actual_price}}</del></span>
                 <span><b>Rs:{{product.discount_price}}</b></span>
                 <span><h5 class="text-danger">{{product.discount_rate}}%off</h5></span>
+                <a href="{% url 'buy-now' product.id %}"><input type="button" value="buy now" /></a>
             </div>
         </div>  
    </div>

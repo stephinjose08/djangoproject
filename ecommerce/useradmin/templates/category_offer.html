@@ -82,11 +82,11 @@
                                                     
                                                 <div class="media-body">
                                                     
-                                                    <a href=""><button type="button" class="btn btn-secondary">Edit</button></a>
+                                                    <a href="{%url 'category-offer-edit' category.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+                                                <a href="{%url 'category-offer-delete' category.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
                                             </td>
                                             </tr>
                                             </table>
@@ -128,6 +128,7 @@
                                                             <div class="row">
                                                                 <label class="col-md-4"> Category Name :</label>
                                                                 <div class="col-md-8">
+                                                                    {% csrf_token %}
                                                                     <select required class="form-control form-custom" name="categoryname">
                                                                         <option value="">Please Select</option>
                                                                         {% for category in categories %}
@@ -145,7 +146,7 @@
                                                                 <div class="col-md-8">
                                                                    
                                                                     <div class="custom-file">
-                                                                        <select required class="form-control form-custom" name="discountrate">
+                                                                        <select required class="form-control form-custom" name="discountrate" value={{category_obj.offer}}>
                                                                             <option value="">Please Select</option>
                                                                             <option value="10">10%</option>
                                                                             <option value="20">20%</option>
@@ -155,7 +156,7 @@
                                                                     </div>
                                                                     <label class="col-md-4">Offer name</label>
                                                                     <div class="col-md-8">
-                                                                        <input required class="form-control" name="offername" type="text" value="">
+                                                                        <input required class="form-control" name="offername" type="text" value="{{category_obj.offer_name}}">
                                                                     </div>  
                                                                 </div>
                                                             </div>

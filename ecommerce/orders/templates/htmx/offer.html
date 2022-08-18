@@ -6,6 +6,50 @@
                         <th class="product-total">Total</th>
                     </tr>							
                 </thead>
+                {% if buynow %}
+                <tbody>
+                    <tr class="cart_item">
+                        <td class="product-name">{{buynow_product.product_name}}
+                            <strong class="product-quantity"> {{buynow_product.discount_price}}×1 </strong>
+                        </td>
+                        <td class="product-total">
+                            <span class="amount">{{buynow_product.discount_price}}</span>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    <tr class="cart-subtotal">
+                        <th>Subtotal</th>
+                        <td><span class="amount">{{totalprice}}</span></td>
+                    </tr>
+                    <tr class="cart-subtotal">
+                        <th>tax applied</th>
+                        <td><span class="amount">{{tax}}</span></td>
+                    </tr>
+                    {% if f %}
+                    <tr class="order-total">
+                        <th>Order Total</th>
+                        <td><strong><span class="amount">Rs:{{grand_total}}</span></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <label for="couponmsg" id="msg" class="text-success">offer applied,Rs:{{amount_discounted}} discounted</label>
+                    </tr>
+                    {% else %}
+                    <tr class="order-total">
+                        <th>Order Total</th>
+                        <td name="grand_total"><strong><span class="amount" >Rs:{{grand_total}}</span></strong>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                       
+                     
+                    </tr>								
+                </tfoot>
+                {% else %}
+               
                 {% for cart_item in cart_items %}
                 <tbody>
                     <tr class="cart_item">
@@ -49,6 +93,7 @@
                      
                     </tr>								
                 </tfoot>
+                {% endif %}
             </table>
             {% for msg in messages %}
      

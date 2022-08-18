@@ -303,11 +303,11 @@
                         <div class="login">
                             <div class="login-form-container" id="login_varify">
                                 <div class="login-form" id="login-varify">
-                                    <form hx-post="{% url 'login' %}" hx-trigger="click" hx-swap="outerhtml"  hx-target="#login-varify"  onClick="formvalidation()">
+                                    <form hx-post="{% url 'login' %}"   hx-swap="outerhtml"  hx-target="#login-varify"  onClick="formvalidation()">
                                          {% csrf_token %}
                                          <input type="tel" id="phone-number" name="phone" placeholder="login with phone number" onkeyup="numbervalidation()">
                                          <p class=" text-danger" id="username-error"></p>
-                                         <input id="pass-word" type="Password" name="password" placeholder="Password" onkeyup="passwordvalidation()" required> 
+                                         <input id="pass-word" type="Password" name="password" placeholder="Password" onkeyup="passwordvalidation()" > 
                                          <p class=" text-danger" id="password-error"></p>
                                         <div class="button-box">  
                                            
@@ -399,8 +399,8 @@
 
     function passwordvalidation(){
 
-        var city = document.getElementById('pass-word').value
-        if(city==''){
+        var password = document.getElementById('pass-word').value
+        if(password==''){
             passwordError.innerHTML = 'Field should not be empty';
             return false;
         }
@@ -410,7 +410,7 @@
 
      function codevalidation(){
 
-        var otp = document.getElementById('otp').value
+        var otp = document.getElementById('otpcode').value
         if(otp==''){
             codeError.innerHTML = 'Field should not be empty';
             return false;
@@ -442,10 +442,12 @@
     } {% endcomment %}
 
     function formvalidation(){
-        if(! numbervalidation() || passwordvalidation()  ){
+        if(!numbervalidation() || passwordvalidation()  ){
             formError.innerHTML = 'Fill all the fields';
             return false;
         }
+        formError.innerHTML = ''
+        return true;
 
     }
     
@@ -454,6 +456,8 @@
             codeformError.innerHTML = 'code field is empty';
             return false;
         }
+        codeformError.innerHTML = ''
+        return true;
 
     }
 </script>

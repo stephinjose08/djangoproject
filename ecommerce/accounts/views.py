@@ -73,11 +73,12 @@ def auth_view(request):
         if user is not None:
             request.session['pk']=user.pk
             print("success")
-            send_sms(user.phone)
-            return render(request,'htmx/otp.html')
-            # return redirect(sms_varification)
+            # send_sms(user.phone)
+            # return render(request,'htmx/otp.html')
+            return redirect(sms_varification)
         else:
             print("incorrect")
+            return render(request,"login.html")
     else:        
         return render(request,"login.html")
       
@@ -127,9 +128,9 @@ def sms_varification(request):
         else:
             messages.error(request,"otp not correct")
             return redirect('/')
-    # send_sms(user.phone)
+    send_sms(user.phone)
     # return render(request,'loginvarification.html')   
-    # return render(request,'htmx/otp.html')
+    return render(request,'htmx/otp.html')
 
 
 def register(request):
@@ -148,8 +149,9 @@ def register(request):
             
             request.session['phone']=request.POST.get("phone")
             print( request.session['email'])
-            send_sms(request.session['phone'])
-            return render(request,'htmx/signinotp.html')
+            phone=request.session['phone']
+            send_sms(phone)
+            return redirect(varify)
             #return redirect(varify)  
         else:
 
@@ -241,8 +243,8 @@ def varify(request):
         else:
              messages.error(request,"otp not correct")
     else:
-        send_sms(request.session['phone'])
-        return render(request,'sign_invarification.html')      
+        # send_sms(request.session['phone'])
+        return render(request,'htmx/signinotp.html')      
 
 def category_display(request,id):
     if id==1:

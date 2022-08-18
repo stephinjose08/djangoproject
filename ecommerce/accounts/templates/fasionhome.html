@@ -70,7 +70,7 @@
                                 <span><del>Rs:{{new_products.actual_price}}</del></span>
                                 <span><b>Rs:{{new_products.discount_price}}</b></span>
                                 <span><h5 class="text-danger">{{new_products.discount_rate}}%off</h5></span>
-                          
+                                <a href="{% url 'buy-now' new_products.id %}"><input type="button" value="buy now" /></a>
                             </div>
                         </div>
                      

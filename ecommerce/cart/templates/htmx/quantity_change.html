@@ -56,7 +56,8 @@
         hx-delete="{% url 'remove-cart-item' cart_item.Product.id %}"
         hx-target="#cart_q"
         hx-trigger="click"
-        hx-swap="outerhtml"><i class="pe-7s-close"></i></a></td>
+        hx-swap="outerhtml"
+        hx-confirm=" are you sure?"><i class="pe-7s-close"></i></a></td>
    </tr>
    {% endfor %}
   {% endif %} 

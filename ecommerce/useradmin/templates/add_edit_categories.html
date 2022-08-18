@@ -249,7 +249,18 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
     <script src="{% static 'assets/js/app.js' %}"></script>
-    {% endblock static-js %}>
+    {% endblock static-js %}
+
+    {% for msg in messages %}
+     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+   
+    <script>
+    
+        swal("{{msg}}");
+  
+    </script>
+    {% endfor %}
     <script>
         $(document).ready(function() {
             App.init();

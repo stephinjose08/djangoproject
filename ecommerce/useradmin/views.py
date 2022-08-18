@@ -1,5 +1,7 @@
 from ast import Return
+from asyncio.windows_events import NULL
 from email.mime import image
+from multiprocessing import context
 from django.contrib import messages
 from turtle import color
 from unicodedata import category, name
@@ -9,9 +11,10 @@ from django.shortcuts import redirect, render
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate,login,logout
 
+from django.db.models import Sum
 
 from product.models import price,coupons
-from orders.models import order,orderproduct,canceled_orders
+from orders.models import order,orderproduct,canceled_orders,payment
 from django.contrib import messages
 
 from product.models import brand, product,subcategory,media,Category,color,size,price,banners
@@ -19,13 +22,51 @@ from product.models import brand, product,subcategory,media,Category,color,size,
 
 # Create your views here.
 def load_adminhome(request):
-   return render(request,'accounting_dashboard.html')
+   COD=payment.objects.filter(payment_mode='COD').count()
+   paypal=payment.objects.filter(payment_mode='paypal').count()
+   razorpay=payment.objects.filter(payment_mode='razorpay').count()
+   total_sum=order.objects.all().aggregate(Sum('total_price'))['total_price__sum']
+   total_sum=round(total_sum,2)
+   razorpay_total=payment.objects.filter(payment_mode='razorpay').aggregate(Sum('amount_paid'))['amount_paid__sum']
+   razorpay_total=round(razorpay_total,2)
+   paypal_total=payment.objects.filter(payment_mode='paypal').aggregate(Sum('amount_paid'))['amount_paid__sum']
+   paypal_total=round(paypal_total,2)
+   cod_total=payment.objects.filter(payment_mode='COD').aggregate(Sum('amount_paid'))['amount_paid__sum']
+   cod_total=round(cod_total,2)
+   menproducts=product.objects.filter(Category=Category.objects.get(name="MEN"))
+   mensproducts=orderproduct.objects.filter(product__in=menproducts.all()).count()
+   womenproducts=product.objects.filter(Category=Category.objects.get(name="WOMEN"))
+   womensproducts=orderproduct.objects.filter(product__in=womenproducts.all()).count()
+   kidproducts=product.objects.filter(Category=Category.objects.get(name="KIDS"))
+   kidsproducts=orderproduct.objects.filter(product__in=kidproducts.all()).count()
+   menproduct_count=product.objects.filter(Category=Category.objects.get(name="MEN")).count()
+   womenproduct_count=product.objects.filter(Category=Category.objects.get(name="WOMEN")).count()
+   kidproduct_count=product.objects.filter(Category=Category.objects.get(name="KIDS")).count()
+   context={
+    'COD':COD,
+    'paypal':paypal,
+    'razorpay':razorpay,
+    'total_sum':total_sum,
+    'razorpay_total':razorpay_total,
+    'paypal_total':paypal_total,
+    'cod_total':cod_total,
+    'mensproducts':mensproducts,
+    'womensproducts':womensproducts,
+    'kidsproducts':kidsproducts,    
+    'menproduct_count':menproduct_count,
+    'kidproduct_count':kidproduct_count,
+    'womenproduct_count':womenproduct_count,
+
+   }
+  
+   return render(request,'accounting_dashboard.html',context)
 
 def add_edit_categories(request,id=0):
     if id==0:
         if request.method=='POST':
             categoryname=request.POST.get('category')
-            
+            if Category.objects.filter(name=categoryname).exists():
+                messages.error(request,"allready this category is here")
             new_category=Category(name=categoryname,categoryIcon=request.FILES['image'])
             new_category.save()
             return redirect(add_edit_categories)
@@ -89,17 +130,19 @@ def delete_subcategory(request,id):
     deleted_subcategory.delete()
     return redirect(add_edit_subcategories)
 def admin_login(request):
-    if request.method=='POST':
-       phone=request.POST.get('phone')
-       password=request.POST.get('password')
-       admin=authenticate(phone=phone,password=password)
-       if admin is not None and admin.is_superuser:
-            request.session['phone']=phone
-            login(request,admin)
-            return redirect(load_adminhome)
-       else:
-            messages.error(request,"invalid username and password")
-    return render(request,'adminlogin.html')
+    
+        if request.method=='POST':
+            phone=request.POST.get('phone')
+            password=request.POST.get('password')
+            admin=authenticate(phone=phone,password=password)
+            if admin is not None and admin.is_superuser:
+                    request.session['phone']=phone
+                    login(request,admin)
+                    return redirect(load_adminhome)
+            else:
+                messages.error(request,"invalid username and password")
+        return render(request,'adminlogin.html')
+   
 
 
 def log_out(request):
@@ -309,13 +352,13 @@ def add_OR_edit_Product(request,id=0):
             # products. image5=                        
 
            
-            updated_price=price.objects.get(productItem=id) 
-            updated_price.productItem=products
-            updated_price.actual_price=actualprice                               
-            updated_price.discount_rate=discountrate                              
-            updated_price.discount_price=offerprice  
+            # updated_price=price.objects.get(productItem=id) 
+            # updated_price.productItem=products
+            # updated_price.actual_price=actualprice                               
+            # updated_price.discount_rate=discountrate                              
+            # updated_price.discount_price=offerprice  
 
-            updated_price.save()
+            # updated_price.save()
             
             
             return redirect(productlist)
@@ -326,8 +369,8 @@ def add_OR_edit_Product(request,id=0):
             sizes=size.objects.all()
             categorys=Category.objects.all()
             subcategorys=subcategory.objects.all() 
-            updated_price=price.objects.get(productItem=id)  
-            return render (request,'addORedit.html',{'product':products,'categorys':categorys,'subcategorys':subcategorys,'brands':Brands,'colors':colors,'sizes':sizes,'updated_price':updated_price})
+            # updated_price=price.objects.get(productItem=id)  
+            return render (request,'addORedit.html',{'product':products,'categorys':categorys,'subcategorys':subcategorys,'brands':Brands,'colors':colors,'sizes':sizes})
 
 def deletproduct(request,id):
     deletproduct=product.objects.get(id=id)
@@ -459,12 +502,42 @@ def couponadd(request,id=0):
             coupon=coupons.objects.all()
             return render(request,'coupon.html',{'editing_coupon':editing_coupon,'coupon':coupon})
 
-def category_offer(request):
+def category_offer(request,id=0):
 
-    
+    if id==0:
         if request.method=="POST":
             category=request.POST.get("categoryname")
             discount_rate=request.POST.get("discountrate")
+            products=product.objects.filter(Category=Category.objects.get(name=category))
+
+            for products in products:
+                product_discount_rate=products.discount_rate
+                if product_discount_rate<int(discount_rate):
+                    products.discount_rate=int(discount_rate)
+                    products.save()
+
+            offer_name=request.POST.get("offername")
+            category_obj=Category.objects.get(name=category)
+            category_obj.offer=discount_rate
+            category_obj.offer_name=offer_name
+            category_obj.save()
+            return redirect(category_offer)
+        else:
+            
+            categories=Category.objects.all()
+        return render(request,'category_offer.html',{'categories':categories})
+    else:
+        if request.method=="POST":
+            category=request.POST.get("categoryname")
+            discount_rate=request.POST.get("discountrate")
+            category_obj=Category.objects.get(id=id)
+            products=product.objects.filter(Category=Category.objects.get(name=category))
+            for products in products:
+                product_discount_rate=products.discount_rate
+                if product_discount_rate<int(discount_rate):
+                    products.discount_rate=int(discount_rate)
+                    products.save()
+
             offer_name=request.POST.get("offername")
             category_obj=Category.objects.get(name=category)
             category_obj.offer=discount_rate
@@ -473,16 +546,42 @@ def category_offer(request):
             return redirect(category_offer)
         else:
             categories=Category.objects.all()
-            return render(request,'category_offer.html',{'category_obj':category_obj,'categories':categories})
-  
-        # if request.method=="POST":
-        #     category=request.POST.get("categoryname")
-        #     discount_rate=request.POST.get("discountrate")
-        #     category_obj=Category.objects.get(name=category)
-        #     category_obj.offer=discount_rate
-        #     category_obj.offername
-        #     category_obj.save()
-        #     return redirect(category_offer)
-        # else:
-        #     categories=Category.objects.all()
-        #     return render(request,'category_offer.html',{'categories':categories})
+            category_obj=Category.objects.get(id=id)
+            return render(request,'category_offer.html',{'categories':categories,'category_obj':category_obj})
+
+def delete_category_offer(request,id):
+    messages.warning(request," are you sure?")
+    category_obj=Category.objects.get(id=id)
+    category_obj.offer=NULL
+    category_obj.offer_name=NULL
+    category_obj.save()
+    return redirect(category_offer)
+
+def username_check(request):
+    
+    phone=request.POST.get("phone")
+    if len(phone)<10:
+        return HttpResponse("<p id='username-error' class='error'>phone number must contain 10 digits</p>")
+    elif len(phone)>10:
+        return HttpResponse("<p id='username-error' class='error'>phone number only contain 10 digits</p>")
+    elif not phone.isdigit():
+        return HttpResponse("<p id='username-error' class='error'>phone number may  only  numbers</p>")
+    else:
+        global usernamecheck
+        usernamecheck=True
+        return HttpResponse("<p id='username-error' class='text-success'>phone number is valid</p>")
+    
+def password_check(request):
+    password=request.POST.get("password")
+
+
+    if password=="":
+        
+        return HttpResponse("<p id='password-error' class='error'>password is not valid</p>")
+
+    elif len(password)<4:
+        return HttpResponse("<p id='password-error' class='error'>password is too short</p>")
+    else:
+       global passwordcheck
+       passwordcheck=True
+       return HttpResponse("<p id='password-error' class='success'>password is valid</p>") 

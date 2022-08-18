@@ -312,7 +312,10 @@
                                             <td class="product-quantity">
                                                 {{orders.created_at}}
                                             </td>
-                                            <td class="product-subtotal">{{orders.status}}</td>
+                                          
+                                            <td class="product-subtotal ">{{orders.status}}</td>
+                                            
+                                            
                                             <td><a href="{% url 'detail-order' orders.id  %}"><button type="button" class="btn btn-outline-dark">view details</button></a></td>
                                             
                                         </tr>

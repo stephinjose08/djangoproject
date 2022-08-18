@@ -2,7 +2,7 @@
     <form action="{% url 'varification' %}" method='post'  onClick="codeformvalidation()">
          {% csrf_token %}
          <label for=""><b>enter Your 5 digit varification code has sent to your phone</b></label>
-         <input  type="tel" name="otp" placeholder="varification code...." onkeyup="codevalidation()">
+         <input  type="tel" name="otp" id="otpcode" placeholder="varification code...." onkeyup="codevalidation()">
          <p id="code-error"></p>
 
          <a href="{% url 'varification' %}">did'nt get an otp</a>

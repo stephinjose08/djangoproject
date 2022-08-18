@@ -18,30 +18,16 @@
 
     <form action="" class="form-login" method="post">
         
-        {% comment %} <div class="row">
-            <div class="col-md-12 text-center mb-4">
-                <img alt="logo" src="assets/img/logo-5.png" class="theme-logo">
-            </div>
-            <div class="col-md-12">
-
-                <div class="social text-center">
-                    <h5 class="mb-4">Sign in with</h5>
-                   
-                    <button type="button" class="btn btn-outline-primary rounded-circle mb-3 mr-2"><i class="flaticon-facebook-logo flaticon-circle-p"></i></button>
-                    <button type="button" class="btn btn-outline-info rounded-circle mb-3 mr-2"><i class="flaticon-twitter-logo flaticon-circle-p"></i></button>
-                    <button type="button" class="btn btn-outline-danger rounded-circle mb-3 mr-2"><i class="flaticon-google-plus-bold flaticon-circle-p"></i></button>
-                </div>
-
-                <div class="division mt-4 mb-5">
-                    <div class="line line-left"></div>
-                        <span>or</span>
-                    <div class="line line-right"></div>
-                </div> {% endcomment %}
+        
                 {% csrf_token %}
                 <label for="inputEmail" class="">Login</label>                
-                <input type="tel" id="inputEmail" class="form-control mb-4" name="phone" placeholder="phone" required >                    
+                <input type="tel" id="inputEmail" class="form-control mb-4" name="phone" placeholder="phone"
+                hx-post="{%url 'username-check' %}" hx-swap="outerhtml" hx-trigger="keyup" hx-target="#username-error">  
+                <p class="text-danger" id="username-error"></p>                  
                 <label for="inputPassword" class="">Password</label>                    
-                <input type="password" id="inputPassword" class="form-control mb-5" name="password" placeholder="Password" required>
+                <input type="password" id="inputPassword" class="form-control mb-5" name="password" placeholder="Password" 
+                hx-post="{%url 'password-check' %}" hx-swap="outerhtml" hx-trigger="keyup" hx-target="#password-error">  
+                <p class="text-danger" id="password-error"></p> >
                 <div class="checkbox d-flex justify-content-center mb-3">
                     <div class="custom-control custom-checkbox mr-3">
                         <input type="checkbox" class="custom-control-input" id="customCheck1" value="remember-me">
@@ -68,7 +54,14 @@
     <script src="{% static 'assets/js/loader.js'%}"></script>
     <script src="{% static 'bootstrap/js/popper.min.js'%}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
-    
+    <script>
+        document.body.addEventListener('htmx:configRequest', (evt)=> {
+           // evt.detail.parameters['auth_token'] = getAuthToken();  add a new parameter into the request
+             evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
+        });
+    </script>
+    <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 </body>
 </html>

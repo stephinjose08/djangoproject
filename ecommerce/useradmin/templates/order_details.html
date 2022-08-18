@@ -79,20 +79,22 @@
 
                                             <a href="{% url 'delete-order' order.id %}"><button type="button" class="btn btn-danger ">Delete Order</button></a>
                                                         <br><br>
-                                                        
+                                                        {% if order.status != 'canceled' %}
+                                                       
                                                         <form action="{% url 'order-status' order.id %}" method="post">
                                                             {% csrf_token %}
                                                           <select name="status" id="">
                                                             <option value="pending">pending</option>
-                                                            <option value="out  for  shipping">out  for  shipping</option>
-                                                            <option value="completed">completed</option>
+                                                            <option value="confirmed">confirmed</option>
+                                                            <option value="shipped">shipped</option>
+                                                            <option value="delivered">delivered</option>
                                                             <option value="canceled">canceled</option>
                                                             <option value="returned">returned</option>
 
                                                           </select>
                                                           <button type="submit" class="btn btn-danger ">save</button>
                                                         </form>   
-                                            
+                                                        {% endif %}
                                          
                                         </div>
                                     </div>

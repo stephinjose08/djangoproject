@@ -42,13 +42,13 @@
                                 <div class="row mt-5">
                                     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 mb-5">
                                         <div class="o-cards">
-                                            <h5 class="txt-o-placed">Order Placed</h5>
+                                            <h5 class="txt-o-placed">Order confirmed</h5>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6 col-6 mt-4">
                                                     <div id="o-progress-order-placed" class=""></div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 col-6 mt-4 text-right">
-                                                    <h4>2215</h4>
+                                                    <h4>9</h4>
                                                     <h6>Today's Order</h6>
                                                 </div>
                                             </div>
@@ -140,17 +140,19 @@
                                                 <td>{{order.total_price}}</td>
                                                 
                                                 <td>{{order.payment_mode.payment_mode}}</td>
-                                                {% if order.status == 'completed' %}
+                                                {% if order.status == 'delivered' %}
  
                                                 <td class="align-center"><span class="badge badge-success">{{order.status}}</span></td>
                                                 {% elif order.status == 'canceled' %}
                                                 <td class="align-center"><span class="badge badge-danger">{{order.status}}</span></td>
-                                                {% elif order.status == 'pending' %}
+                                                {% elif order.status == 'confirmed' %}
                                                 <td class="align-center"><span class="badge badge-primary">{{order.status}}</span></td>
+                                                {% elif order.status == 'pending' %}
+                                                <td class="align-center"><span class="badge badge-warning">{{order.status}}</span></td>
                                                 {% else %}
                                                 <td class="align-center"><span class="badge badge-secondary">{{order.status}}</span></td>
                                                 {% endif %}
-                                                <td class="align-center"><a href="{% url 'order-details' order.id %}"><button type="button" class="btn btn-default btn-sm"><i class="icon-search"></i> View</button></a></td>
+                                                <td class="align-center"> </td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -180,7 +182,7 @@
                                                 <th>User </th>
                                                 <th>Reason for cancelation</th>
                                                 <th>TOTAL PRICE</th>
-                                                <th class="align-center">Actions</th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,8 +196,7 @@
                                                 <td>{{cancel_orders.reason_for_cancel}}</td> 
                                                
                                                 <td>{{cancel_orders.order.total_price}}</td>
-                                            
-                                                <td class="align-center"><a href=""><button type="button" class="btn btn-default btn-sm"><i class="icon-search"></i>confirm</button></a></td>
+                     
 
                                                
  

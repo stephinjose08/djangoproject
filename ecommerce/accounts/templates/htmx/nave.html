@@ -29,13 +29,14 @@
                     <span><del>Rs:{{products.actual_price}}</del></span>
                     <span><b>Rs:{{products.discount_price}}</b></span>
                     <span><h5 class="text-danger">{{products.discount_rate}}%off</h5></span>
-                    <div class="product-rating-5">
+                    <a href="{% url 'buy-now' products.id %}"><input type="button" value="buy now" /></a>
+                    {% comment %} <div class="product-rating-5">
                         <i class="pe-7s-star black"></i>
                         <i class="pe-7s-star black"></i>
                         <i class="pe-7s-star"></i>
                         <i class="pe-7s-star"></i>
                         <i class="pe-7s-star"></i>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
         </div>

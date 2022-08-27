@@ -37,6 +37,7 @@ class Category(models.Model):
     categoryIcon=models.ImageField(upload_to='img/catIcons',blank=True)
     offer=models.IntegerField(blank=True,null=True)
     offer_name=models.CharField(max_length=50,null=True,blank=True)
+    is_offer=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 
@@ -88,6 +89,7 @@ class product(models.Model):
     discount_price=models.IntegerField(null=True)
     discount_rate=models.IntegerField(null=True)
     cover_image=models.ImageField(upload_to='productimages',blank=True)
+    is_offer=models.BooleanField(default=True)
     
     # slug=models.SlugField(unique=True,null=True)
 
@@ -99,7 +101,24 @@ class product(models.Model):
     def __str__(self):
         return self.product_name
   
-    
+    def offercheck(self):
+        if self.is_offer==True and self.Category.is_offer==True:
+            if self.discount_rate>self.Category.offer:
+                self.discount_price=self.discount_price *(self.discount_rate/100)
+                self.save()
+                return self.discount_rate
+            else:
+                self.discount_price=self.discount_price*(self.Category.offer/100)
+                self.save()
+                return self.Category.offer
+        elif self.is_offer==False and self.Category.is_offer==True:
+            return self.Category.offer
+        elif self.is_offer==True and self.Category.is_offer==False:
+            return self.discount_rate
+        else:
+            return self.discount_rate
+
+            
 class price(models.Model):
     productItem=models.ForeignKey(product, on_delete=models.CASCADE,null=True, related_name = "prices")
     actual_price=models.IntegerField(null=True)
@@ -120,6 +139,7 @@ class banners(models.Model):
    product=models.ManyToManyField(product,blank=True)
    discription=models.CharField(max_length=100)
    image=models.ImageField(upload_to='banners')
+   banner_text=models.TextField(null=True)
    def __str__(self):
         return self.discription
 

@@ -42,58 +42,47 @@
                 
                 
        
-                <div class="col-lg-6 layout-spacing">
+                <div class="col-lg-12 layout-spacing">
                     <div class="statbox widget box box-shadow">
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                     <h4>LIST OF COUPONS</h4>
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">discount persentage</th>
+                                            <th scope="col">Discription</th>
+                                            <th scope="col">actions</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for coupon in coupon %}
+                                          <tr>
+                                            <th scope="row">{{coupon.id}}</th>
+                                            <td>{{coupon.couponcode}}</td>
+                                            <td>{{coupon.discount_percentage}}</td>
+                                            <td>{{coupon.discription}}</td>
+                                            <td>
+                                                 <a href="{% url 'coupon-edit' coupon.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'coupon-delete' coupon.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                                            </td>
+                                          </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
                                 </div>
+                                
                             </div>
                         </div>
 
-                        <form class="form-horizontal" action="" method='post' enctype="multipart/form-data" >
-                        <div class="widget-content widget-content-area">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div id="sortable2" class="content">
-                                        <h5>COUPONS</h5>
-                                        <hr />
-                                        <ul  style="overflow-y:scroll; height:300px">
-                                          {% for coupon in coupon %}
-                                            <li>
-                                                
-                                                <div class="media">
-                                                    <table>
-                                                    <tr>
-                                                    <td>
-                                                    <h6 class="mt-2 txt-b">{{coupon.couponcode}}</h6><br>
-                                                    </td>
-                                                    <td>
-                                                    <h6 class="mt-2">:{{coupon.discription}}</h6>
-                                                    </td>
-                                                    <td>
-                                                    <div class="media-body">
-                                                        
-                                                        <a href="{% url 'coupon-edit' coupon.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
-                                                </td>
-                                                </tr>
-                                                </table>
-                                                </div>
-                                            </li>
-                                            {% endfor %}
-                                            
-                                        </ul>
-                                        <hr />
-                                        <p>End of content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                       
+                        
                     </div>
                 </div>
                 
@@ -107,7 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                                {% csrf_token %}
+                              
                             <div class="widget-content widget-content-area add-sub-category">
                                 <div class="row">
                                     <div class="mx-xl-auto col-xl-10 col-md-12">
@@ -115,22 +104,23 @@
                                             <div class="card-heading"><h2 class="card-title"><span></span></h2></div>
                                             <div class="card-body">
                                                 <div class="card-body">
-                                                    
+                                                    <form class="form-horizontal" action="" method='post' enctype="multipart/form-data" >
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <label class="col-md-4">Coupon  Code:</label>
                                                                 <div class="col-md-3">
-                                                                    <input required class="form-control" name="code" type="text" value="{{editing_coupon.couponcode}}">
+                                                                    <input  class="form-control" name="code" id="couponcode" type="text" onkeyup="couponcode_checking()" value="{{editing_coupon.couponcode}}">
+                                                                    <p class="text-danger" id="coupon_code_error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                        
-                                                        
+                                                        {% csrf_token %}
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <label class="col-md-4"> Coupon Discription:</label>
                                                                 <div class="col-md-3">
-                                                                    <input required class="form-control" name="discription" type="text" value="{{editing_coupon.discription}}">
+                                                                    <input  class="form-control" name="discription" type="text" value="{{editing_coupon.discription}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -138,7 +128,7 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Discound Persentage:</label>
                                                                 <div class="col-md-3">
-                                                                    <input required class="form-control" name="rate" type="text" value="{{editing_coupon.discount_percentage}}">
+                                                                    <input  class="form-control" name="rate" type="text" value="{{editing_coupon.discount_percentage}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -233,6 +223,30 @@
     </aside>
     <!--  BEGIN PROFILE SIDEBAR  -->
     {% block static-js %}
+    <script>
+        var couponcode_error=document.getElementById("coupon_code_error")  
+                
+        function couponcode_checking(){
+                            var coupon_code = document.getElementById('couponcode').value
+                            var regex =\[A-z0-9]\;
+                            if(coupon_code==''){
+                                couponcode_error.innerHTML = '<p class="text-danger">offer   field is empty</p>'
+                                return false;
+                            }
+                            else if(!regex.test(coupon_code)){
+                                couponcode_error.innerHTML = '<p class="text-danger">offer field only contains digits</p>'
+                                return false; 
+                            }
+                            else if(coupon_code ==0){
+                                couponcode_error.innerHTML = '<p class="text-danger">zero is not considered as offer</p>'
+                                return false; 
+                            }       
+                            couponcode_error.innerHTML = '<p class="text-success">coupon valid</p>'
+                            return true; 
+        }
+    </script>  
+
+
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'assets/js/loader.js' %}"></script>
@@ -256,6 +270,19 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
     <script src="{% static 'assets/js/app.js' %}"></script>
+    
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    {% for msg in messages %}
+    <script>
+    
+        swal('{{msg}}');
+  
+    </script>
+    {% endfor %} 
+
+
+    
     {% endblock static-js %}
     <script>
         $(document).ready(function() {

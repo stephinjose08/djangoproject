@@ -16,7 +16,8 @@ path('track/<str:track>/',views.trackorder,name="track"),
 path('cancel_order/<str:rack>/',views.cancel_order,name="cancel-order"),
 path('check_out/coupen_offer/',views.coupenoffer,name='coupon-offer'),
 path('check_out/invoice/<int:id>/',views.invoice,name="invoice"),
-# path('check_out/invoice/<int:id>/dounload',views.pdf_view,name="dounload-pdf"),
+#path('check_out/invoice/dounload/',views.export_invoice_pdf,name="dounload-pdf"),
 path('return/<str:rack>/',views.return_order,name="returned-order"),
+
 
 ] 

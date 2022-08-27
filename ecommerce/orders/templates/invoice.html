@@ -11,15 +11,15 @@
             <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: #123-123</strong></p>
           </div>
           <div class="col-xl-3 float-end">
-            <a href="{% url 'dounload-pdf' %}" class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i
-                class="fas fa-print text-primary"></i> Print</a>
+            {% comment %} {% url 'dounload-pdf' %} {% endcomment %}
+          <a href="" onclick="print_current_page()" class="btn btn-light text-capitalize border-0" data -mdb-ripple-color="dark"><i class="fas fa-print text-primary"></i>print</fa-print></a>
             <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i
                 class="far fa-file-pdf text-danger"></i> Export</a>
           </div>
           <hr>
         </div>
-  
-        <div class="container">
+        
+        <div class="container" id="printPage">
           <div class="col-md-12">
             <div class="text-center">
               <i class="fab fa-mdb fa-4x ms-0" style="color:#5d9fc5 ;"></i>
@@ -107,8 +107,8 @@
               <p>Thank you for your purchase</p>
             </div>
             <div class="col-xl-2">
-              <button type="button" class="btn btn-primary text-capitalize"
-                style="background-color:#60bdf3 ;">continue shoping</button>
+              <a href="{% url 'home' %}"><button type="button" class="btn btn-primary text-capitalize"
+                style="background-color:#60bdf3 ;">continue shoping</button></a>
             </div>
           </div>
   
@@ -117,3 +117,34 @@
     </div>
   </div>
   {% endblock  %}
+
+
+{% comment %} <script>
+​function​ ​print_current_page​(​){
+  ​      ​var​ ​divContents​​=​​document​.​getElementById​(​"printPage"​)​.​innerHTML​;​ 
+  ​      ​var​ ​printWindow​ ​=​ ​window​.​open​(​''​,​ ​''​,​ ​'height=200,width=400'​)​;​
+  ​      ​printWindow​.​document​.​write​(​'<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">'​)​; 
+  ​      ​printWindow​.​document​.​write​(​'<html><head><title>Invoice</title>'​)​;​
+  ​      ​printWindow​.​document​.​write​(​'</head><body>"​)​;​
+  ​      ​printWindow​.​document​.​write​(​divContents​)​;​
+  ​      ​printWindow​.​document​.​write​(​'</body></html>'​)​;​
+  ​      ​printWindow​.​document​.​close​(​)​; 
+  ​      ​printWindow​.​print​(​)​;​
+  ​} 
+  ​</​script​> {% endcomment %}
+
+{% block static-js %}
+<script>
+function print_current_page(){
+   var divContents=document.getElementById("printPage").innerHTML;
+   var printWindow=window.open('','','height=200,width=400');
+   printWindow.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">');
+   printWindow.document.write('<html><head><title>INVOICE</title>');
+   printWindow.document.write('</head><body>');
+  printWindow.document.write(divContents);
+    printWindow.document.write("</body></html>");
+    printWindow.document.close();
+    printWindow.print();
+   }
+</script>
+{% endblock static-js %}

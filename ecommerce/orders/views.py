@@ -1,13 +1,23 @@
-# from cgitb import html
+
 # import string
 # from unittest import result
 # from django.template.loader import render_to_string
 # from weasyprint import HTML
 # import tempfile
-# import os
-# os.add_dll_directory("C:\Program Files\GTK3-RuntimeWin64\lib\girepository-1.0")
+
+from asyncio.windows_events import NULL
+from genericpath import exists
+import os
+from django.views.decorators.csrf import csrf_exempt 
+from django.conf import settings
+# from django.template.loader import render_to_string
+# from weasyprint import HTML
+# import tempfile
+# from django.conf import settings
+# os.add_dll_directory(r"C:\Program Files\GTK3-RuntimeWin64\lib")
 # os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\lib\girepository-1.0")
 from datetime import datetime 
+import datetime
 from http.client import responses
 from operator import is_, is_not
 from django.http import HttpResponse,JsonResponse
@@ -56,8 +66,10 @@ def check_out(request,total=0,id=0,quantity=0,cart_items=None,number=0,tax=0,gra
         except ObjectDoesNotExist :
             pass
         try:
-            if user_address.objects.get(user=request.user):
-                existing_user=user_address.objects.get(user=request.user)
+            if user_address.objects.filter(user=request.user).exists():
+                existing_user=user_address.objects.filter(user=request.user).last()
+            else:
+                existing_user=NULL
         except ObjectDoesNotExist :
             pass
         context={
@@ -83,10 +95,13 @@ def check_out(request,total=0,id=0,quantity=0,cart_items=None,number=0,tax=0,gra
         tax=(total*2)/100
         grand_total=total+tax
         try:
-            if user_address.objects.get(user=request.user):
-                existing_user=user_address.objects.get(user=request.user)
-        except ObjectDoesNotExist :
+            if user_address.objects.filter(user=request.user).exists():
+                existing_user=user_address.objects.filter(user=request.user).first()
+            else:
+                existing_user=NULL
+        except ObjectDoesNotExist:
             pass
+        
         context={
                 'buynow':True,
                 'buynow_product':buynow_product,
@@ -96,10 +111,12 @@ def check_out(request,total=0,id=0,quantity=0,cart_items=None,number=0,tax=0,gra
                 'grand_total':grand_total,
                 'existing_user':existing_user,           
         }
+        request.session['coupon']=0
         request.session['buynow']=buynow_product.id
         return render(request,'checkout.html',context) 
-
+@login_required(login_url="login")
 def placeorder(request):
+    
     id=request.session.get('buynow_id')
     request.session.delete('buynow_id')
     if id !=0:
@@ -145,9 +162,11 @@ def placeorder(request):
                     )
                 new_payment.save()
                 if not request.POST.get('check'):
-                
+                    if not user_address.objects.filter(user=request.user).exists():
+                        messages.error(request,"no address added!")
+                        return redirect('/')
                     
-                    address=user_address.objects.get(user=request.user)
+                    address=user_address.objects.filter(user=request.user).first()
                     new_order.user=address.user
                     new_order.fist_name=address.fist_name
                     new_order.last_name=address.last_name
@@ -162,7 +181,7 @@ def placeorder(request):
                     new_order.payment_mode=new_payment
                 
                     new_order.total_price=grand_total
-                    new_order.notes
+                 
                     new_order.notes=request.POST.get('notes')
                     tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
                     while(order.objects.filter(tracking_number=tracknumber)) is None:
@@ -207,8 +226,9 @@ def placeorder(request):
                     new_order.payment_mode=new_payment
                     new_order.order_for_others=True
                     new_order.total_price=grand_total
-                    new_order.notes
+                
                     new_order.notes=request.POST.get('notes')
+                    
                     useraddress=user_address(
                                 user=request.user,
                                 fist_name=request.POST.get('tempfname'),
@@ -221,7 +241,7 @@ def placeorder(request):
                                 state=request.POST.get('temps'),
                                 country=request.POST.get('tempcountry'),
                                 zip_code=request.POST.get('tempz'),  
-                                notes=request.POST.get('notes')
+                               
                             )
                     useraddress.save()
                     tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
@@ -301,9 +321,12 @@ def placeorder(request):
                 )
             new_payment.save()
             if not request.POST.get('check'):
-            
-               
-                address=user_address.objects.get(user=request.user)
+                if not user_address.objects.filter(user=request.user).exists():
+                        messages.error(request,"no address added!")
+                        return redirect('/')
+                
+                      
+                address=user_address.objects.filter(user=request.user).first()
                 new_order.user=address.user
                 new_order.fist_name=address.fist_name
                 new_order.last_name=address.last_name
@@ -318,7 +341,7 @@ def placeorder(request):
                 new_order.payment_mode=new_payment
             
                 new_order.total_price=grand_total
-                new_order.notes
+         
                 new_order.notes=request.POST.get('notes')
                 tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
                 while(order.objects.filter(tracking_number=tracknumber)) is None:
@@ -363,23 +386,26 @@ def placeorder(request):
                 new_order.payment_mode=new_payment
                 new_order.order_for_others=True
                 new_order.total_price=grand_total
-                new_order.notes
+         
                 new_order.notes=request.POST.get('notes')
-                useraddress=user_address(
-                            user=request.user,
-                            fist_name=request.POST.get('tempfname'),
-                            last_name=request.POST.get('templname'),
-                            email=request.POST.get('tempemail'),
-                            phone=request.POST.get('tempphone'),
-                            addressline1=request.POST.get('tempaddress1'),
-                            addressline2=request.POST.get('tempaddress2'),
-                            city=request.POST.get('tempc'),
-                            state=request.POST.get('temps'),
-                            country=request.POST.get('tempcountry'),
-                            zip_code=request.POST.get('tempz'),  
-                            notes=request.POST.get('notes')
-                        )
-                useraddress.save()
+                if  request.POST.get('checkbox'):
+                    print("haiiiiiiii")
+                    
+                    useraddress=user_address(
+                                user=request.user,
+                                fist_name=request.POST.get('tempfname'),
+                                last_name=request.POST.get('templname'),
+                                email=request.POST.get('tempemail'),
+                                phone=request.POST.get('tempphone'),
+                                addressline1=request.POST.get('tempaddress1'),
+                                addressline2=request.POST.get('tempaddress2'),
+                                city=request.POST.get('tempc'),
+                                state=request.POST.get('temps'),
+                                country=request.POST.get('tempcountry'),
+                                zip_code=request.POST.get('tempz'),  
+                                
+                            )
+                    useraddress.save()
                 tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
                 while(order.objects.filter(tracking_number=tracknumber)) is None:
                     tracknumber=str(random.randint(1111111,9999999))+str(new_order.zip_code)
@@ -407,10 +433,11 @@ def placeorder(request):
             # return render(request,'invoice.html',context)
             messages.success(request,"order placed!")
             return redirect(my_orders)
-
+@login_required(login_url="login")
 def proced_to_pay(request):
     id=request.session.get('buynow_id')
     request.session.delete('buynow_id')
+    
     if id !=0:
         buynow_product=product.objects.get(id=id) 
          
@@ -432,7 +459,7 @@ def proced_to_pay(request):
         amount_discounted=0
         print("ivide")
         
-        print(request.session['coupon'])
+        print(request.session.get('coupon'))
         print("thanne")
         offerrate=request.session['coupon']
         if offerrate==0:
@@ -496,7 +523,7 @@ def proced_to_pay(request):
         return JsonResponse({
             'total_price':grand_total
         })
-
+@login_required(login_url="login")
 def online(request):
     id=request.session.get('buynow_id')
     request.session.delete('buynow_id')
@@ -552,7 +579,7 @@ def online(request):
 
             if not request.POST.get('check'):
                     
-                    address=user_address.objects.get(user=request.user)
+                    address=user_address.objects.filter(user=request.user).first()
                     new_order.user=address.user
                     new_order.fist_name=address.fist_name
                     new_order.last_name=address.last_name
@@ -624,7 +651,7 @@ def online(request):
                         user=request.user,
                         product=buynow_product,
                         price=buynow_product.discount_price,
-                        quantity=orderitem.quantity,
+                        quantity=1,
                         payment=new_payment
                     )
                 
@@ -695,7 +722,7 @@ def online(request):
 
             if not request.POST.get('check'):
                 
-                address=user_address.objects.get(user=request.user)
+                address=user_address.objects.filter(user=request.user).first()
                 new_order.user=address.user
                 new_order.fist_name=address.fist_name
                 new_order.last_name=address.last_name
@@ -786,23 +813,31 @@ def online(request):
             return redirect(my_orders) 
 
             
-
+@login_required(login_url="login")
 def my_orders(request,id=0):
-    orders=order.objects.filter(user=request.user.id).order_by('-created_at')
-    orderedItems=orderproduct.objects.filter(order_id__in=orders)
-    products=product.objects.filter(id__in=orderedItems)
-    ziped_data=zip(orders,orderedItems,products)
-    return render(request,'myorders.html',{"ziped_data":ziped_data})
-
+   
+        if order.objects.filter(user=request.user.id).exists():
+            orders=order.objects.filter(user=request.user.id).order_by('-created_at')
+            print(orders)
+            print(request.user.id)
+            orderedItems=orderproduct.objects.filter(order_id__in=orders)
+            
+            products=product.objects.filter(id__in=orderedItems)
+            print(products)
+            ziped_data=zip(orders,orderedItems,products)
+            return render(request,'myorders.html',{"ziped_data":ziped_data,"orders":orders,"is_order":True})
+        else:
+            return render(request,'myorders.html',{"is_order":False})
+@login_required(login_url="login")
 def order_details(request,id):
     orderitems=orderproduct.objects.filter(order_id=id)
     userdetails=order.objects.get(id=id)
     return render(request,'detailorder.html',{"orderitems":orderitems,"userdetails":userdetails})
-    
+@login_required(login_url="login")   
 def trackorder(request,track):
     result=order.objects.get(tracking_number=track)
     return render(request,'htmx/track.html',{"result":result})
-
+@login_required(login_url="login")
 def cancel_order(request,rack):
     
     canceled_order=order.objects.get(tracking_number=rack)
@@ -817,7 +852,7 @@ def cancel_order(request,rack):
     canceledorder.save()
     messages.success(request,"your order has canceled")
     return redirect(my_orders)
-
+@login_required(login_url="login")
 def return_order(request,rack):
     
     returned_order=order.objects.get(tracking_number=rack)
@@ -832,7 +867,7 @@ def return_order(request,rack):
     returnorder.save()
     messages.success(request,"your order has returned")
     return redirect(my_orders)
-
+@login_required(login_url="login")
 def coupenoffer(request):
     user=request.user
     f=False
@@ -841,7 +876,7 @@ def coupenoffer(request):
     print("helooo")
     id=request.session.get('buynow')
     print(id)
-    del request.session['buynow']
+    # del request.session['buynow']
 
     #request.session.delete('buynow')
     # request.session['buynow_id']=id
@@ -871,8 +906,10 @@ def coupenoffer(request):
                 print(tax)
                 print(total)
         
-                if user_address.objects.get(user=request.user):
-                    existing_user=user_address.objects.get(user=request.user)
+                if user_address.objects.filter(user=request.user).exists():
+                    existing_user=user_address.objects.filter(user=request.user).first()
+                else:
+                    existing_user=NULL
                 context={
                 'buynow':True,
                 'buynow_product':buynow_product,
@@ -936,6 +973,7 @@ def coupenoffer(request):
                 
                     
                 }
+                messages.error(request," coupon applied")
                 return render(request,'htmx/offer.html',context)
         else:
             
@@ -952,8 +990,10 @@ def coupenoffer(request):
             print(tax)
             print(total)
         
-            if user_address.objects.get(user=request.user):
-                existing_user=user_address.objects.get(user=request.user)
+            if user_address.objects.filter(user=request.user).exists():
+                existing_user=user_address.objects.filter(user=request.user).first()
+            else:
+                existing_user=NULL
             context={
                 'buynow':True,
                 'buynow_product':buynow_product,
@@ -1000,8 +1040,10 @@ def coupenoffer(request):
                 print(tax)
                 print(total)
         
-                if user_address.objects.get(user=request.user):
-                    existing_user=user_address.objects.get(user=request.user)
+                if user_address.objects.filter(user=request.user).exists():
+                    existing_user=user_address.objects.filter(user=request.user).first()
+                else:
+                    existing_user=NULL
                 context={
                 'cart_items':cart_items,
                 'totalprice':total,
@@ -1079,8 +1121,10 @@ def coupenoffer(request):
             print(tax)
             print(total)
         
-            if user_address.objects.get(user=request.user):
-                existing_user=user_address.objects.get(user=request.user)
+            if user_address.objects.filter(user=request.user).exists():
+                    existing_user=user_address.objects.filter(user=request.user).first()
+            else:
+                    existing_user=NULL
             context={
                 'cart_items':cart_items,
                 'totalprice':total,
@@ -1094,7 +1138,7 @@ def coupenoffer(request):
             request.session['coupon']=0
             messages.error(request,"invalid coupon")
             return render(request,'htmx/offer.html',context)
-        
+@login_required(login_url="login")        
 def invoice(request,id):
     orders=order.objects.get(id=id)
     ordered_products=orderproduct.objects.filter(order_id=orders.id)
@@ -1120,7 +1164,7 @@ def invoice(request,id):
     else:
         # offerrate=request.session['coupon']
         f=True
-        amount_discounted=total*(offerrate/100)
+        amount_discounted=round(total*(offerrate/100),2)
         print(amount_discounted)
         total=total-amount_discounted
         tax=(2*total)/100
@@ -1141,14 +1185,14 @@ def invoice(request,id):
     
     return render(request,'invoice.html',context)
 
-# def pdf_view(request,oid):
-#     response=HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition']= 'inline; attachment; filename=invoice'+\
-#        str(datetime.datetime.now())+'.pdf'
-#     response['Content-Transfer-Encoding']='binary'
+# def pdf_view(request):
 
-#     #order products query
-#     orders=order.objects.get(id=oid)
+# def export_invoice_pdf(request):
+#     response = HttpResponse(content_type = 'application/pdf')
+#     response['Content-Disposition'] = 'inline; attachement; filename=Invoice' +'.pdf'
+
+#     response['Content-Transfer-Encoding'] = 'binary'
+#     orders=order.objects.get(id=1)
 #     ordered_products=orderproduct.objects.filter(order_id=orders.id)
 #     total=0   
 #     for ordered_product in ordered_products:
@@ -1187,21 +1231,89 @@ def invoice(request,id):
 #             'f':f,
 #             'amount_discounted':amount_discounted
 #             }
-#     html_string=render_to_string(
-#         'pdf.html',{'ordered_products':ordered_products,
+    
+
+#     html_string = render_to_string('pdf.html',context)
+
+#     html=HTML(string=html_string)
+
+#     result = html.write_pdf()
+
+#     with tempfile.NamedTemporaryFile(delete=True) as output : 
+#         output.write(result)
+#         output.flush()
+
+
+#         output=open(output.name,'rb')
+
+#         response.write(output.read())
+
+#     return response
+
+
+
+
+
+
+
+
+
+
+
+
+#     response=HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']= 'inline; attachment; filename=invoice' +'.pdf'
+#     #    str(datetime.datetime.now())
+#     response['Content-Transfer-Encoding']='binary'
+
+#     #order products query
+#     orders=order.objects.get(id=1)
+#     ordered_products=orderproduct.objects.filter(order_id=orders.id)
+#     total=0   
+#     for ordered_product in ordered_products:
+
+#                 Price=product.objects.get(id=ordered_product.product_id)
+
+            
+#                 total+=Price.discount_price * ordered_product.quantity
+             
+                
+#     grand_total=0
+#     offerrate=0
+#     amount_discounted=0
+#     f=False
+
+#     offerrate=orders.couponaplied
+
+#     if offerrate is None:
+#         tax=(2*total)/100   
+#         grand_total=round(total+tax,2)
+#     else:
+       
+#         f=True
+#         amount_discounted=total*(offerrate/100)
+#         print(amount_discounted)
+#         total=total-amount_discounted
+#         tax=(2*total)/100
+#         grand_total=round(total+tax,2)
+#         print(grand_total)
+    
+#     context= {'ordered_products':ordered_products,
 #             'orders':orders,
 #             'total':total,
 #             'tax':tax,
 #             'grand_total':grand_total,
 #             'f':f,
 #             'amount_discounted':amount_discounted
-#            }
-#     )
-#     html=HTML(string=html_string)
-#     result=html.write_pdf()
+#             }
+#     html_string=render_to_string('pdf.html',context)
+#     page=HTML(string=html_string)
+#     result=page.write_pdf()
 #     with tempfile.NamedTemporaryFile(delete=True) as output:
 #         output.write(result)
 #         output.flush()
-#         output.open(output.name,'rb')
+#         # output=output.seek(0)
+#         output=open(output.name,'rb')
 #         response.write(output.read())
 #     return response
+

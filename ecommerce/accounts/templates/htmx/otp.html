@@ -1,26 +1,94 @@
-{% comment %} <div class="login-form"> {% endcomment %}
-    <form action="{% url 'varification' %}" method='post'  onClick="codeformvalidation()">
-         {% csrf_token %}
-         <label for=""><b>enter Your 5 digit varification code has sent to your phone</b></label>
-         <input  type="tel" name="otp" id="otpcode" placeholder="varification code...." onkeyup="codevalidation()">
-         <p id="code-error"></p>
 
-         <a href="{% url 'varification' %}">did'nt get an otp</a>
-         <p id="login_code_error"></p>
-        <div class="button-box">  
-            <button type="submit" class="default-btn floatright">varify</button>
-           
-           
-        </div>
-    </form>
-    {% for msg in messages %}
-     
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
-       
-        <script>
-        
-            swal("{{msg}}");
+{% extends "base.html" %}
+ {% load static %} 
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge"> 
+        {% block title %}
+        <title> user login</title>
+        {% endblock  %}
       
-        </script>
-        {% endfor %} 
-{% comment %} </div> {% endcomment %}
+        
+		{% block static-css %}
+		<!-- all css here -->
+        <link rel="stylesheet" href="{% static '/css/htmxstyle.css' %}">
+        
+        {% endblock  %}
+    
+    {% block content %}
+		{% comment %} <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static '/img/cover.jpeg'%})">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <h2>login</h2>
+                    <ul>
+                        <li><a href="#">home</a></li>
+                        <li> login </li>
+                    </ul>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        <!-- login-area start -->
+        <div class="register-area ptb-100">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 col-12 col-lg-6 col-xl-6 ms-auto me-auto">
+                        <div class="login">
+                            <div class="login-form-container" id="login_varify">
+                                <div class="login-form" id="login-varify">
+                                    <form action="{% url 'varification' %}" method='post'  onclick="return codeformvalidation()">
+                                        {% csrf_token %}
+                                        <label for=""><b>enter Your 5 digit verification code has sent to your phone</b></label>
+                                        <input  type="tel" name="otp" id="otpcode" placeholder="verification code...." onkeyup="codevalidation()">
+                                        <p id="login_code_error"></p>
+                               
+                                        <a href="{% url 'varification' %}">did'nt get an otp</a>
+                                       
+                                       <div class="button-box">  
+                                           <button type="submit" class="default-btn floatright">verify</button>
+                                           {% for msg in messages %}
+                                           {{msg}}
+                                           {% endfor %}
+                                       </div>
+                                   </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+        {% endblock  %}
+        
+{% block static-js %}
+<script>
+    var codeError = document.getElementById('code-error')
+    var codeformError=document.getElementById('login_code_error')
+
+     function codevalidation(){
+
+        var otp = document.getElementById('otpcode').value
+        if(otp==''){
+            codeError.innerHTML = 'Field should not be empty';
+            return false;
+        }
+        codeError.innerHTML = ''
+        return true;
+    }
+
+    
+    function codeformvalidation(){
+        if(!codevalidation()){
+            codeformError.innerHTML = 'code field is empty';
+            return false;
+        }
+        codeformError.innerHTML = ''
+        return true;
+
+    }
+</script>
+{% endblock static-js %}

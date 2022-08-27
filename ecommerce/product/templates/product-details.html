@@ -10,7 +10,7 @@
         {% endblock  %}
        
         
-		
+	
 		<!-- all css here -->
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
         <link rel="stylesheet" href="{% static '/css/magnific-popup.css'%}">
@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="{% static '/css/style.css'%}">
         <link rel="stylesheet" href="{% static '/css/responsive.css'%}">
         <script src="{% static '/js/vendor/modernizr-3.11.7.min.js'%}"></script>
+       
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -215,12 +216,14 @@
                     <h2>Related products</h2>
                 </div>
                 <div class="product-style">
-                    <div class="related-product-active owl-carousel">
-                        {% for relate in related %}
-                        <div class="product-wrapper">
+                    
+                    <div class="related-product-active owl-carousel ">
+                        {% if related %}
+                       {% for relate in related %}
+                       <div class="product-wrapper">
                             <div class="product-img">
-                                <a href="{% url 'detail-view-product' relate.id %}">
-                                    <img src="{{relate.cover_image.url}}" alt="">
+                                <a href="">
+                                    <img src="{{related.cover_image.url}}" alt="">
                                 </a>
                                 <span>hot</span>
                                 <div class="product-action">
@@ -243,11 +246,38 @@
 
                             </div>
                         </div>
+                        <div class="product-wrapper">
+                            <div class="product-img">
+                                <a href="">
+                                    <img src="{{related.cover_image.url}}" alt="">
+                                </a>
+                                <span>hot</span>
+                                <div class="product-action">
+                                    <a class="animate-left" title="Wishlist" href="#">
+                                        <i class="pe-7s-like"></i>
+                                    </a>
+                                    <a class="animate-top" title="Add To Cart" href="#">
+                                        <i class="pe-7s-cart"></i>
+                                    </a>
+                                    <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+                                        <i class="pe-7s-look"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h4><a href="#">{{relate.product_name}}</a></h4>
+                                <span class="text-secondary">Rs:{{relate.actual_price}}</span>
+                                <span>Rs:{{relate.discount_price}}</span>
+                                <span><h5 class="text-danger">{{relate.discount_rate}}%off</h5></span>
 
-                        {% endfor %}
-                        
-
+                            </div>            
+                       {% endfor %}
+                    
+                       {% else %}
+                       <h1>naheeeeee</h1>  
+                       {% endif %}
                     </div>
+                   
                 </div>
             </div>
         </div>

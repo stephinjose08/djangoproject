@@ -18,207 +18,83 @@
                 </ol>
               </nav>
             </div>
-          </div>
+        </div>
           <div class="row">
             <div class="col-lg-4">
               <div class="card mb-4">
                 <div class="card-body text-center">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;">
-                  <h5 class="my-3">{{primary_address.fist_name}} {{primary_address.last_name}}</h5>
-                  <p class="text-muted mb-1">{{primary_address.phone}}</p>
-                  <p class="text-muted mb-4">{{primary_address.email}}</p>
+                  <h5 class="my-3">{{username.first_name}} {{username.last_name}}</h5>
+                  <p class="text-muted mb-1">{{username.phone}}</p>
+                  <p class="text-muted mb-4">{{username.email}}</p>
                   
                 </div>
               </div>
-              <div class="card mb-4 mb-lg-0">
-                <h5><span><b>secondary_address</b></span></h5>
-                <div class="card-body p-0" >
-                  <ul class="list-group list-group-flush rounded-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                      <i class="fas fa-globe fa-lg text-warning"></i>
-                      <p class="mb-0">{{secondary_address.fist_name}} {{secondary_address.last_name}}</p>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                      <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                      <p class="mb-0">{{secondary_address.phone}}</p>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                      <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                      <p class="mb-0">{{secondary_address.email}}</p>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                      <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                      <p class="mb-0">{{secondary_address.addressline1}}</p>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                      <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                      <p class="mb-0">{{secondary_address.addressline2}},{{secondary_address.city}},{{secondary_address.zip_code}},{{secondary_address.state}}</p>
-                      
-                    </li>
-                  </ul>
-                </div>
-               <a hx-post="{% url 'change-address' %}"
-               hx-trigger="click"
-               hx-swap="outerhtml"
-               hx-target="#userprofile"
-               > <button type="button" class="btn btn-outline-secondary">Add this address as primary</button></a>
-              </div>
+              
             </div>
             {% include 'htmx/change_address.html' %}
-            <div class="row">
-                <div class="col-md-6">
-                  <div class="card mb-4 mb-md-0">
-                    <div class="card-body">
-                      <p class="mb-4"><span class="text-primary font-italic me-1">user log</span> of {{primary_address.fist_name}}
-                      </p>
-                      <p class="mb-1" style="font-size: .77rem;">total orders:</p>
-                      <p class="mb-1" style="font-size: .77rem;"><b>{{ordercount}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                    </div>
+            {% comment %} <div class="row"> {% endcomment %}
+                <div class="col-md-4">
+                    
+                <div class="card mb-4 mb-md-0">
+
+                    {% comment %} <canvas id="myChart" width="400" height="200" align="center"></canvas>   {% endcomment %}
+
+                  <div class="card-body">
+                      <p class="mb-4"><span class="text-primary font-italic me-1">user log</span> of {{primary_address.fist_name}}</p>
+                      <p class="mb-1" style="font-size: .77rem;">total orders: <b>{{ordercount}}</b></p>
+                     
                         
                      
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">Canceled orders:</p>
-                      <p class="mb-1" style="font-size: .77rem;"><b>{{canceled_order}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">total Purchased amount</p>
-                       <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{total_sum}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">returned items</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{returned_count}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                        
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"></p>
-                      <div class="progress rounded mb-2" style="height: 5px;">
-                        <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">Canceled orders: <b>{{canceled_order}}</b></p>
+                      
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">total Purchased amount: <b>{{total_sum}}</b></p>
+                      
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">returned items: <b>{{returned_count}}</b></p>
+                      <p class="mt-2 mb-1" style="font-size: .77rem;"></p>
+                      
                     </div>
                   </div>
+                  
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8 m-0">
+                    
                   <div class="card mb-4 mb-md-0">
                     <div class="card-body">
-                      <p class="mb-4"><span class="text-primary font-italic me-1">latest order</span>
+                      <p class=""><span class="text-primary font-italic me-1">latest order</span>
                       </p>
-                      {% for item in latest_order_items %}
-                      <p class="mb-1" style="font-size: .77rem;">product name</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.product.product_name}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">quantity</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.quantity}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                        
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">Unit price</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{item.product.discount_price}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                      </div>
-                      {% endfor %}
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">total Price</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{latest_order.total_price}}</b></p>
-                      <div class="progress rounded" style="height: 5px;">
-                        
-                      </div>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;">Tracking number</p>
-                      <p class="mt-4 mb-1" style="font-size: .77rem;"><b>{{latest_order.tracking_number}}</b></p>
-                      <div class="progress rounded mb-2" style="height: 5px;">
-                        
-                      </div>
+                      
+                      <p class="mb-1" style="font-size: .77rem;">product name: <b>{{item.product.product_name}}</b></p>
+                     
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">quantity: <b>{{item.quantity}}</b></p>
+                    
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">Unit price: <b>{{item.product.discount_price}}</b></p>
+                     
+                  
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">total Price: <b>{{latest_order.total_price}}</b></p>
+                    
+                      <p class="mt-2 mb-1" style="font-size: .77rem;">Tracking number: <b>{{latest_order.tracking_number}}</b></p>
+                    
                     </div>
                   </div>
                 </div>
               </div>
           
-            <form action="">
-                <div class="different-address">
-                    <div class="ship-different-title">
-                        <h3>
-                            <label>Add new address</label>
-                            <input id="ship-box" type="checkbox" name="check" value="true" />
-                        </h3>
-                    </div>
-                    <div id="ship-box-info" class="row">
-                        <div class="col-md-12">
-                            <div class="country-select">
-                                <label>Country <span class="required">*</span></label>
-                                <select name="tempcountry">
-                                  <option value="india">India</option>
-                                  <option value="saab">Algeria</option>
-                                  <option value="mercedes">Afghanistan</option>
-                                  <option value="audi">Ghana</option>
-                                  <option value="audi2">Albania</option>
-                                  <option value="audi3">Bahrain</option>
-                                  <option value="audi4">Colombia</option>
-                                  <option value="audi5">Dominican Republic</option>
-                                </select> 										
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>First Name <span class="required">*</span></label>										
-                                <input type="text" placeholder="" name="tempfname" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>Last Name <span class="required">*</span></label>										
-                                <input type="text" placeholder="" name="templname" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>Email Address <span class="required">*</span></label>										
-                                <input type="email" placeholder="" name="tempemail" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="checkout-form-list">
-                                <label>Phone  <span class="required">*</span></label>										
-                                <input type="text" name="tempphone" />
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>Address <span class="required">*</span></label>
-                                <input type="text" placeholder="Street address" name="tempaddress1" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">									
-                                <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="tempaddress2" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>City <span class="required">*</span></label>
-                                <input type="text" placeholder="Town / City"  name="tempc"/>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>State  <span class="required">*</span></label>										
-                                <input type="text" placeholder="" name="temps" />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkout-form-list">
-                                <label>Zip <span class="required">*</span></label>										
-                                <input type="text" placeholder="Postcode / Zip" name="tempz" />
-                            </div>
-                        </div>
-                        <input type="submit" value="add">                                
-                    </div>
+            
+                
+                <div class="different-address" id="add-address">
+                   
+                    {% include 'htmx/add_addrss_button.html' %}
+                     {% comment %}  {% endcomment %}
+                   
                     
+              
                 </div>
-                </form>
+              
           
-    </div>
+    {% comment %} </div> {% endcomment %}
+</div> 
   </section>
        
         {% endblock  %}
@@ -309,14 +185,134 @@
 		
 		
 		
+{% block static-js %}
+
+<script>
+    {% comment %} var countryError = document.getElementById('country-error') {% endcomment %}
+    var firstnameError = document.getElementById("firstname-error")
+    {% comment %} var lastnameError = document.getElementById('lastname-error')
+    var emailError = document.getElementById('email-error')
+    var phoneError = document.getElementById('phone-error')
+    var addressline1Error = document.getElementById('addressline1-error')
+    var addressline2Error = document.getElementById('addressline2-error')
+    var cityError = document.getElementById('city-error')
+    var stateError = document.getElementById('state-error')
+    var zipError = document.getElementById('zip-error')
+    var formError = document.getElementById('form-error')
+    var codeformError=document.getElementById('login_code_error') {% endcomment %}
+
+    function firstnamevalidation(){
+    
+        var name = document.getElementById("firstname").value
+        if(!name.match(/^[A-Za-z\s]{3,}$/)){
+            firstnameError.innerHTML='<p class="text-danger">first name must be characters only</p>'
+            return false;
+    
+        }
+        firstnameError.innerHTML="<p class="text-success">valid</p>"
+        return true;
+    }
+  
+    {% comment %} function lastnamevalidation(){
+    
+        var name = document.getElementById('lastname').value
+        if(!name.match(/^[A-Za-z\s]{3,}$/)){
+            lastnameError.innerHTML = '<p class="text-danger">last name must be characters only</p>'
+        return false;
+    
+        }
+        lastnameError.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function emailvalidation(){
+            
+        var email = document.getElementById('email').value
+        if(!email.match(/^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$/)){
+            emailError.innerHTML = '<p class="text-danger">Invalid Email</p>';
+            return false;
+        }
+        emailError.innerHTML ='<p class="text-success">valid</p>'
+        return true;
+    
+    }
+    function numbervalidation(){
+                    
+        var phone = document.getElementById('phone').value
+        if(!phone.match(/^\d{10}$/)){
+            phoneError.innerHTML = '<p class="text-danger">Phone number must be 10 digits only</p>';
+            return false;
+        }
+        phoneError.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    
+    }
+    function addressvalidation1(){
+            
+        var address = document.getElementById('address1').value
+        if(address==''){
+            addressline1Error.innerHTML = '<p class="text-danger">Field should not be empty</p>';
+            return false;
+        }
+        addressline1Error.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function addressvalidation2(){
+            
+        var address = document.getElementById('address2').value
+        if(address==''){
+            addressline2Error.innerHTML = '<p class="text-danger">Field should not be empty</p>';
+            return false;
+        }
+        addressline2Error.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function cityvalidation(){
+            
+        var city = document.getElementById('city').value
+        if(city==''){
+            cityError.innerHTML = '<p class="text-danger">Field should not be empty</p>';
+            return false;
+        }
+        cityError.innerHTML ='<p class="text-success">valid</p>'
+        return true;
+    }
+    function statevalidation(){
+            
+        var city = document.getElementById('state').value
+        if(city==''){
+            cityError.innerHTML = '<p class="text-danger">Field should not be empty</p>';
+            return false;
+        }
+        cityError.innerHTML ='<p class="text-success">valid</p>'
+        return true;
+    }
+    function zipvalidation(){
+            
+        var zip = document.getElementById('zip').value
+        if(!zip.match(/^\d{6}$/)){
+            zipError.innerHTML = '<p class="text-danger">Enter six number pincode</p>';
+            return false;
+        }
+        zipError.innerHTML ='<p class="text-success">valid</p>'
+        return true;
+    }
+    function formvalidation(){
+        if(document.querySelector('input[name="check"]:checked')){
+            if(! firstnamevalidation() || ! lastnamevalidation() || ! emailvalidation() || ! numbervalidation()|| ! addressvalidation1() || !addressvalidation2() || ! cityvalidation() || ! statevalidation() || ! zipvalidation() ){
+                formError.innerHTML = '<p class="text-danger">fill all fields</p>';
+                return false;
+            }
+            formError.innerHTML = ''
+            return true;  
+        }
+    } {% endcomment %}
+</script>
+
+{% endblock static-js %} 
 		
-		
-		
-		
-		
-		{% comment %} <!-- all js here -->
+		 <!-- all js here -->
         
-            <script>
+            {% comment %} <script>
                 function change()
                 {
                     var txt=document.getElemetById("cartbutton");
@@ -324,7 +320,7 @@
                 }
             </script>
 
-
+           
         <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
         <script src="{% static 'js/popper.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -337,5 +333,6 @@
         <script src="{% static 'js/owl.carousel.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+      {% endcomment %}
     </body>
-</html> {% endcomment %}
+</html>

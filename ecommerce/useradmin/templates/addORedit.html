@@ -35,81 +35,7 @@
                     </div>
                 </div>
                 
-                {% comment %} <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                        <div class="statbox widget box box-shadow">
-                            <div class="widget-header">                                
-                                <div class="row">
-                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                        <h4>ssss / Manage Product </h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget-content widget-content-area add-manage-product-1">
-                                <div class="row">
-                                    <div class="col-xl-4 col-lg-4 col-md-12 text-center">
-                                        <div class="product-img">
-                                            <img src="assets/img/320x320.jpg" alt="img">
-                                        </div>
-                                        <div class="d-flex thumbs-img mt-4 justify-content-center">
-                                            <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
-                                            </div>
-                                            <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
-                                            </div>
-                                            <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
-                                            </div>
-                                            <div class="file-input position-relative">
-                                                <i class="flaticon-circle-plus"></i>
-                                                <input type="file">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-8 col-lg-8 col-md-12">
-                                        <form class="form-horizontal" action="#">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-md-5">category:</label>
-                                                    <div class="col-md-7">
-                                                        <select class="form-control form-custom" name="attribute_set">
-                                                            <option value="opt1">Default</option>
-                                                            <option value="opt2">Furniture</option>
-                                                            <option value="opt3">Shoes</option>
-                                                            <option value="opt4">Cell Phones</option>
-                                                            <option value="opt5">Monitors</option>
-                                                            <option value="opt6">Clothing</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div><br>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-md-5">subcategory</label>
-                                                    <div class="col-md-7">
-                                                        <select class="form-control form-custom" name="product">
-                                                            <option value="opt1">Simple Product</option>
-                                                            <option value="opt2">Configurable Product</option>
-                                                            <option value="opt3">Bundle Product</option>
-                                                            <option value="opt4">Grouped Product</option>
-                                                            <option value="opt5">Virtual Product</option>
-                                                            <option value="opt6">Downloadable Product</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div><br>
-                                            <div class="align-center"> 
-                                                <input value="Continue" class="btn" type="submit">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
-           {% comment %} </form>  {% endcomment %}
+               
                
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -134,12 +60,13 @@
                                             <div class="card-heading"><h2 class="card-title"><span>GENERAL</span></h2></div>
                                             <div class="card-body">
                                                 <div class="card-body">
-                                                   
+                                                    <p class="text-danger" id="product_add_error"></p>
                                                         <div class="form-group mb-4">
                                                             <div class="row">
                                                                 <label class="col-md-4">Name :</label>
                                                                 <div class="col-md-8">
-                                                                    <input required class="form-control" name="name" type="text" value="{{product.product_name}}">
+                                                                    <input required class="form-control" name="name" id="productname" type="text" onkeyup="productnamevalidation()" value="{{product.product_name}}">
+                                                                    <p class="text-danger" id="productname-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -147,7 +74,8 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Title:</label>
                                                                 <div class="col-md-8">
-                                                                    <input required class="form-control" name="title" type="text" value="{{product.product_title}}">
+                                                                    <input required class="form-control" name="title" type="text" id="producttitle" onkeyup="producttitlevalidation()" value="{{product.product_title}}">
+                                                                    <p class="text-danger" id="producttitle-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -155,7 +83,8 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Short Description :</label>
                                                                 <div class="col-md-8">
-                                                                    <textarea required rows="4" cols="5" name="description" class="form-control" value="{{product.discription}}"></textarea>
+                                                                    <textarea required rows="4" cols="5" name="description" id="discription" class="form-control" onkeyup="productdiscriptionvalidation()">{{product.discription}}</textarea>
+                                                                    <p class="text-danger" id="productdiscription-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -163,12 +92,14 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Category :</label>
                                                                 <div class="col-md-8">
-                                                                    <select required class="form-control form-custom mb-4" name="category">
+                                                                    <select required class="form-control form-custom mb-4" name="category" id="category" onkeyup="categoryvalidation()">
                                                                         <option value="">Select Category</option>
                                                                         {% for category in categorys %}
                                                                         <option value="{{category.name}}">{{category.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="text-danger" id="category-error"></p>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -176,12 +107,13 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Sub Category :</label>
                                                                 <div class="col-md-8">
-                                                                    <select required class="form-control form-custom mb-4" name="subcategory">
+                                                                    <select required class="form-control form-custom mb-4" name="subcategory" id="subcategory" onkeyup="categoryvalidation()">
                                                                         <option value="">Select Sub Category</option>
                                                                         {% for sub_category in subcategorys %}
                                                                         <option value="{{sub_category.name}}">{{sub_category.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="text-danger" id="subcategory-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -189,12 +121,13 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Brand :</label>
                                                                 <div class="col-md-8">
-                                                                    <select required class="form-control form-custom" name="brand">
+                                                                    <select required class="form-control form-custom" name="brand" id="brand" onkeyup="brandvalidation()">
                                                                         <option value="">Select a Brand</option>
                                                                         {% for brand in brands %}
                                                                         <option value="{{brand.name}}">{{brand.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="text-danger" id="brand-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -202,12 +135,13 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Color :</label>
                                                                 <div class="col-md-8">
-                                                                    <select required class="form-control form-custom" name="color">
+                                                                    <select required class="form-control form-custom" name="color" id="color" onkeyup="colorvalidation()">
                                                                         <option value="">Select a Color</option>
                                                                         {% for color in colors%}
                                                                         <option value="{{color.name}}">{{color.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="text-danger" id="color-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -215,12 +149,13 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Size :</label>
                                                                 <div class="col-md-8">
-                                                                    <select required class="form-control form-custom" name="size">
+                                                                    <select required class="form-control form-custom" name="size"id="size" onkeyup="sizevalidation()">
                                                                         <option value="">Select Size</option>
                                                                         {% for size in sizes%}
                                                                         <option value="{{size.name}}">{{size.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="text-danger" id="size-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -240,7 +175,8 @@
                                                         <div class="row">
                                                             <label class="col-md-4">Orginal Price :</label>
                                                             <div class="col-md-8">
-                                                                <input required class="form-control" name="orginalprice" type="text" value={{product.actual_price}}>
+                                                                <input  class="form-control" name="orginalprice" type="text" id="actualprice" onkeyup="actual_pricevalidation()" value={{product.actual_price}}>
+                                                                <p class="text-danger" id="actualprice_error"></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -248,13 +184,8 @@
                                                         <div class="row">
                                                             <label class="col-md-4">Discount rate:</label>
                                                             <div class="col-md-8">
-                                                                <select required class="form-control form-custom" name="discountrate">
-                                                                    <option value="">Please Select</option>
-                                                                    <option value="10">10%</option>
-                                                                    <option value="20">20%</option>
-                                                                    <option value="30">30%</option>
-                                                                    <option value="40">40%</option>
-                                                                </select>
+                                                                <input required class="form-control" name="discountrate" type="text" id="discountrate" onkeyup="discount_ratevalidation()" value={{product.discount_rate}}>
+                                                                <p class="text-danger" id="discountrate_error"></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,7 +193,8 @@
                                                         <div class="row">
                                                             <label class="col-md-4">Offer Price:</label>
                                                             <div class="col-md-8">
-                                                                <input required class="form-control" name="offerprice" type="text" value={{product.discount_price}}>
+                                                                <input required class="form-control" name="offerprice" type="text" id="discountprice" onkeyup="discount_pricevalidation()" value={{product.discount_price}}>
+                                                                <p class="text-danger" id="discountprice_error"></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -281,42 +213,47 @@
                                                                 <div class="mb-3">
                                                                     <div id="image-box"></div>
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image1' id="image-id">
+                                                                        <input  type="file"  class="form-control-file" name='image1' id="image1" onchange="return image1validation()">
+                                                                        <p class="text-danger" id="image1_error"></p>
                                                                     </div>
                                                                     
                                                                 </div>
                                                                  <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image2' id="file-input">
+                                                                        <input required type="file"  class="form-control-file" name='image2' id="image2">
+                                                                        <p class="text-danger" id="image2_error"></p>
                                                                     </div>
                                                                     
                                                                 </div> 
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image3' id="file-input">
+                                                                        <input required type="file"  class="form-control-file" name='image3' id="image3">
+                                                                        <p class="text-danger" id="image3_error"></p>
                                                                     </div>
                                                                     
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image4' id="file-input">
+                                                                        <input required type="file"  class="form-control-file" name='image4' id="image4">
+                                                                        <p class="text-danger" id="image4_error"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image5' id="file-input">
+                                                                        <input required type="file"  class="form-control-file" name='image5' id="image5">
+                                                                        <p class="text-danger" id="image5_error"></p>
                                                                     </div> 
                                                                        
                                                             </div>
                                                             
                                                         </div>
                                                     </div>
-                                                    
+                                                   
                                                
                                             </div>
                                         </div>
                                         <div class="align-center"> 
-                                            <input value="Insert Product" class="btn" type="submit">
+                                            <input value="Insert Product" class="btn" onclick="return form_validatiion()" type="submit">
                                         </div>
                             
                                 
@@ -417,7 +354,243 @@
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cropper/1.0.1/jquery-cropper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+<script>
+    var productnameerror=document.getElementById('productname-error')
+    var producttitleerror = document.getElementById('producttitle-error')
+    var productdiscriptionerror = document.getElementById('productdiscription-error')
+    var categoryerror = document.getElementById('category-error')
+    var subcategoryerror = document.getElementById('subcategory-error')
+    var branderror = document.getElementById('brand-error')
+    var colorerror = document.getElementById('color-error')
+    var sizeerror = document.getElementById('size-error')
+    var actualprice_error = document.getElementById('actualprice_error')
+    var disscountrate_error = document.getElementById('discountrate_error')
+    var discountprice_error = document.getElementById('discountprice_error')
+    var image1_error = document.getElementById('image1_error')
+    var image2_error = document.getElementById('image2_error')
+    var image3_error = document.getElementById('image3_error')
+    var image4_error = document.getElementById('image4_error')
+    var image5_error = document.getElementById('image5_error')
+    var product_add_error = document.getElementById('product_add_error')
+    function productnamevalidation(){
 
+        var name = document.getElementById('productname').value
+        if (name==''){
+            productnameerror.innerHTML = '<p class="text-danger">productname field is empty</p>'
+            return false;
+        }
+        else if(!name.match(/^[A-Za-z\s]{3,}$/)){
+            productnameerror.innerHTML = '<p class="text-danger">productname name must be characters only</p>'
+        return false;
+    
+        }
+        productnameerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function producttitlevalidation(){
+
+        var title = document.getElementById('producttitle').value
+        if (title==''){
+            producttitleerror.innerHTML = '<p class="text-danger">product title field is empty</p>'
+            return false;
+        }
+        else if(!title.match(/^[A-Za-z\s]{3,}$/)){
+            producttitleerror.innerHTML = '<p class="text-danger">product title  must be characters only</p>'
+        return false;
+    
+        }
+        producttitleerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function productdiscriptionvalidation(){
+
+        var discription = document.getElementById('discription').value
+        if (discription==''){
+            productdiscriptionerror.innerHTML = '<p class="text-danger">product title field is empty</p>'
+            return false;
+        }
+        else if(!discription.match(/^[A-Za-z\s]{3,}$/)){
+            productdiscriptionerror.innerHTML = '<p class="text-danger">product discription  must be characters only</p>'
+        return false;
+        }
+        productdiscriptionerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function categoryvalidation(){
+
+        var category = document.getElementById('category').value
+        if (category==''){
+            categoryerror.innerHTML = '<p class="text-danger">category  field is empty</p>'
+            return false;
+        }
+        categoryerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function subcategoryvalidation(){
+
+        var subcategory = document.getElementById('subcategory').value
+        if (subcategory==''){
+            subcategoryerror.innerHTML = '<p class="text-danger">subcategory  field is empty</p>'
+            return false;
+        }
+        subcategoryerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function brandvalidation(){
+
+        var brand = document.getElementById('brand').value
+        if (brand==''){
+            branderror.innerHTML = '<p class="text-danger">brand  field is empty</p>'
+            return false;
+        }
+        branderror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function colorvalidation(){
+
+        var color = document.getElementById('color').value
+        if (color==''){
+            colorerror.innerHTML = '<p class="text-danger">color  field is empty</p>'
+            return false;
+        }
+        colorerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function sizevalidation(){
+
+        var size = document.getElementById('size').value
+        if (size==''){
+            sizeerror.innerHTML = '<p class="text-danger">subcategory  field is empty</p>'
+            return false;
+        }
+        sizeerror.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function actual_pricevalidation(){
+
+        var actual_price = document.getElementById('actualprice').value
+        var regex = /^\d*(\.\d{2})?$/;
+        if (actual_price==''){
+            actualprice_error.innerHTML = '<p class="text-danger"price   field is empty</p>'
+            return false;
+        }
+        else if(!regex.test(actual_price)){
+            actualprice_error.innerHTML = '<p class="text-danger">price field only contains digits</p>'
+            return false; 
+        }
+        else if(actual_price==0){
+            actualprice_error.innerHTML = '<p class="text-danger">zero is not considered as price</p>'
+            return false; 
+        }
+        actualprice_error.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function discount_pricevalidation(){
+
+        var discount_price = document.getElementById('discountprice').value
+        var regex = /^\d*(\.\d{2})?$/;
+        if (discount_price==''){
+            discountprice_error.innerHTML = '<p class="text-danger">price   field is empty</p>'
+            return false;
+        }
+        else if(!regex.test(discount_price)){
+            discountprice_error.innerHTML = '<p class="text-danger">price field only contains digits</p>'
+            return false; 
+        }
+        else if(discount_price ==0){
+            discountprice_error.innerHTML = '<p class="text-danger">zero is not considered as price</p>'
+            return false; 
+        }
+        discountprice_error.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+    function discount_ratevalidation(){
+
+        var discount_rate = document.getElementById('discountrate').value
+        var regex = /^\d*(\.\d{2})?$/;
+        if (discount_rate==''){
+            disscountrate_error.innerHTML = '<p class="text-danger">discount rate field is empty</p>'
+            return false;
+        }
+        else if(!regex.test(discount_rate)){
+            disscountrate_error.innerHTML = '<p class="text-danger">discount rate field only contains digits</p>'
+            return false; 
+        }
+        else if(discount_rate==0){
+            disscountrate_error.innerHTML = '<p class="text-danger">zero is not considered as discount rate</p>'
+            return false; 
+        }
+        else if(discount_rate>70){
+            disscountrate_error.innerHTML = '<p class="text-danger">maximum discount rate is 70 %</p>'
+            return false; 
+        }
+        disscountrate_error.innerHTML = '<p class="text-success">valid</p>'
+        return true;
+    }
+ function image1validation(){
+    var image1=document.getElementById('image1').value
+    if(image1==''){
+        image1_error.innerHTML='<p class="text-danger">image field is empty</p>'
+        return false; 
+    }
+    image1_error.innerHTML='<p class="text-success">valid</p>'
+    return true;
+ }
+ function image2validation(){
+    var image2=document.getElementById('image2').value
+    if(image2==''){
+        image2_error.innerHTML='<p class="text-danger">image field is empty</p>'
+        return false; 
+    }
+    image2_error.innerHTML='<p class="text-success">valid</p>'
+    return true;
+
+ }
+ function image3validation(){
+    var image3=document.getElementById('image3').value
+    if(image3==''){
+        image3_error.innerHTML='<p class="text-danger">image field is empty</p>'
+        return false; 
+    }
+    image3_error.innerHTML='<p class="text-success">valid</p>'
+    return true;
+
+ }
+ function image4validation(){
+    var image4=document.getElementById('image4').value
+    if(image4==''){
+        image4_error.innerHTML='<p class="text-danger">image field is empty</p>'
+        return false; 
+    }
+    image4_error.innerHTML='<p class="text-success">valid</p>'
+    return true;
+
+ }
+ function image5validation(){
+    var image5=document.getElementById('image5').value
+    if(image5==''){
+        image5_error.innerHTML='<p class="text-danger">image field is empty</p>'
+        return false; 
+    }
+    image5_error.innerHTML='<p class="text-success">valid</p>'
+    return true;
+ }
+ function form_validatiion(){
+    if(!productnamevalidation()||!producttitlevalidation()||!productdiscriptionvalidation()||!categoryvalidation()||!subcategoryvalidation()||
+    !brandvalidation()||!colorvalidation()||!sizevalidation()||!actual_pricevalidation()||!discount_pricevalidation()||!discount_ratevalidation()
+    ||!image1validation()||!image2validation()||!image3validation()||!image3validation()||!image4validation()||!image5validation()){
+
+        product_add_error.innerHTML='<p class="text-danger">fill all fields</p>';
+        return false;
+    }
+    product_add_error.innerHTML='<p class="text-success">valid</p>';
+    return true;
+ }   
+
+    
+    
+    
+</script>
 
 
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>

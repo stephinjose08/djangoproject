@@ -30,7 +30,7 @@
     </head>
     
         {% block content %}
-		<div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static '/img/regcover.png'%})">
+		{% comment %} <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({% static '/img/regcover.png'%})">
             <div class="container">
                 <div class="breadcrumb-content text-center">
                     <h2>register</h2>
@@ -40,7 +40,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- register-area start -->
         <div class="register-area ptb-100">
             <div class="container-fluid">
@@ -49,25 +49,29 @@
                         <div class="login">
                             <div class="login-form-container">
                                 <div class="login-form" id="register-varify">
-                                    <form hx-post="{% url 'registration' %}" hx-target="#register-varify"  hx-swap="outerhtml" onsubmit="formvalidation()">
+                                    <form href="" method="post" onclick="return formvalidation()" >
                                         {% csrf_token %} 
-                                        <input type="text" id="fname" name="first_name" placeholder="First  name" onkeyup="fnamevalidation()">
+                                        <input type="text" id="firstname" name="first_name" placeholder="First  name" onkeyup="firstnamevalidation()">
                                         <p class="text-danger" id="fname-error"></p>
-                                        <input type="text" id="lname" name="last_name" placeholder="Last  name" onkeyup="lnamevalidation()">
+                                        <input type="text" id="lastname" name="last_name" placeholder="Last  name" onkeyup="lastnamevalidation()">
                                         <p class="text-danger" id="lname-error"></p>
                                         <input name="email" id="email" placeholder="Email" type="email" onkeyup="emailvalidation()">
                                         <p class="text-danger" id="email-error"></p>
                                         <input type="text" id="phone" name="phone" placeholder="Enter your phone number" onkeyup="numbervalidation()">
                                         <p class="text-danger" id="phone-error"></p>
-                                        <input type="password" id="psw1" name="password" placeholder="Password" onkeyup="passwordvalidation()">
+                                        <input type="password" id="password1" name="password" placeholder="Password" onkeyup="passwordvalidation()">
                                        
-                                        <input type="password" id="psw2" name="confirm_password" placeholder="Confirm Password" onkeyup="passwordvalidation()">
+                                        <input type="password" id="password2" name="confirm_password" placeholder="Confirm Password" onkeyup="passwordvalidation()">
                                         <p class="text-danger" id="psw-error"></p>
                                         <div class="button-box">
-                                            <button type="submit" class="default-btn floatright">Register</button>
-                                            <p class"text-danger" id="signin_submit_error"></p>
+                                            <button type="submit" class="default-btn floatright" onclick="return formvalidation()">Register</button>
+                                            <p class="text-danger" id="signin_submit_error"></p>
                                         </div>
+                                        {% for msg in messages %}
+                                        <p class="text-danger">{{msg}}</p>
+                                        {% endfor %}
                                     </form>
+                                     
                                 </div>
                             </div>
                         </div>
@@ -160,145 +164,17 @@
 		<!-- modal -->
         
 		{% block static-js %}
-        <script>
-
-            var fistnameError = document.getElementById('fname-error')
-            var lastnameError = document.getElementById('lname-error')
-            var passwordError = document.getElementById('psw1-error')
-            var phoneError = document.getElementById('phone-error')
-            var emailError = document.getElementById('email-error')
-            
-            var formError = document.getElementById('signin_submit_error')
-            var codeformError=document.getElementById('login_code_error')
         
-            function fnamevalidation(){
-        
-                var name = document.getElementById('fname').value
-                if(!name.match(/^[A-Za-z\s]{3,}$/)){
-                nameError.innerHTML = 'fist must be characters only'
-                return false;
-          
-                }
-                firstnameError.innerHTML = ''
-                return true;
-            }
-            function lnamevalidation(){
-        
-                var name = document.getElementById('lname').value
-                if(!name.match(/^[A-Za-z\s]{3,}$/)){
-                nameError.innerHTML = 'last must be characters only'
-                return false;
-          
-                }
-                lastnameError.innerHTML = ''
-                return true;
-            } 
-        
-            function emailvalidation(){
-        
-                var email = document.getElementById('email').value
-                if(!email.match(/^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$/)){
-                    emailError.innerHTML = 'Invalid Email';
-                    return false;
-                }
-                emailError.innerHTML = ''
-                return true;
-        
-            } 
-        
-            function numbervalidation(){
-                
-                var phone = document.getElementById('phone').value
-                if(!phone.match(/^\d{10}$/)){
-                    phoneError.innerHTML = 'Invalid Number';
-                    return false;
-                }
-                phoneError.innerHTML = ''
-                return true;
-        
-            }
-        {% comment %} 
-            function pinvalidation(){
-        
-                var pin = document.getElementById('pincode').value
-                if(!pin.match(/^\d{6}$/)){
-                    pinError.innerHTML = 'Enter six number pincode';
-                    return false;
-                }
-                pinError.innerHTML = ''
-                return true;
-            } {% endcomment %}
-        
-            function passwordvalidation(){
-        
-                var psw1 = document.getElementById('psw1').value
-                var psw2 = document.getElementById('psw2').value
-                if(psw1="" || psw2=""){
-                    passwordError.innerHTML = 'Field should not be empty';
-                    return false;
-                }
-                else if(!psw1==psw2){
-                    passwordError.innerHTML = 'Both passwords are not match';
-                    return false;
-                }
-                passwordError.innerHTML = ''
-                return true;
-            }
-        
-            function codevalidation(){
-        
-                var otp = document.getElementById('otpcode').value
-                if(otp==''){
-                    codeError.innerHTML = 'Field should not be empty';
-                    return false;
-                }
-                codeError.innerHTML = ''
-                return true;
-            }
-         {% comment %}
-            function addressvalidation(){
-        
-                var address = document.getElementById('address').value
-                if(address==''){
-                    addressError.innerHTML = 'Field should not be empty';
-                    return false;
-                }
-                addressError.innerHTML = ''
-                return true;
-            }
-        
-            function countryvalidation(){
-        
-                var country = document.getElementById('country').value
-                if(country==''){
-                    countryError.innerHTML = 'Field should not be empty';
-                    return false;
-                }
-                countryError.innerHTML = ''
-                return true;
-            } {% endcomment %}
-        
-            function formvalidation(){
-                if(! fnamevalidation() || lnamevalidation() || emailvalidation()|| numbervalidation()|| passwordvalidation() ){
-                    formError.innerHTML = 'Fill all the fields';
-                    return false;
-                }
-                formError.innerHTML = ''
-                return true;
-        
-            }
-            
-            function codeformvalidation(){
-                if(! codevalidation() ){
-                    codeformError.innerHTML = 'code field is empty';
-                    return false;
-                }
-                codeformError.innerHTML = ''
-                return true;
-        
-            }
-        </script>
+        {% comment %} {% for msg in messages %}
+     
        
+        <script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+
+            swal("{{msg}}");
+      
+        </script>
+        {% endfor %} {% endcomment %}
 		
 		
 		
@@ -307,7 +183,7 @@
        
 
 
-
+        <script src="{% static "js/user_register_validation.js"%}"></script>
         <script src="{% static "js/vendor/jquery-1.12.4.min.js"%}"></script>
         <script src="{% static "js/popper.js"%}"></script>
         <script src="{% static "js/bootstrap.min.js"%}"></script>
@@ -320,6 +196,9 @@
         <script src="{% static "js/owl.carousel.min.js"%}"></script>
         <script src="{% static "js/plugins.js"%}"></script>
         <script src="{% static "js/main.js"%}"></script>
+
+
+        
         {% endblock static-js %}
     </body>
 </html>

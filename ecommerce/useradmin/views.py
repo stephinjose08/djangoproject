@@ -1,7 +1,10 @@
-from ast import Return
+
 from asyncio.windows_events import NULL
+from datetime import date, datetime
 from email.mime import image
+from genericpath import exists
 from multiprocessing import context
+from re import search
 from django.contrib import messages
 from turtle import color
 from unicodedata import category, name
@@ -10,9 +13,17 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from accounts.models import CustomUser
 from django.contrib.auth import authenticate,login,logout
-
+import csv
+import xlwt
+import os
+# GTK_FOLDER=r'C:\Program Files\GTK3-Runtime Win64\bin'
+# os.environ['PATH']=GTK_FOLDER + os.pathsep + os.environ.get('PATH','')
+# from django.template.loader import render_to_string
+# from weasyprint import HTML
+# import tempfile
+from django.views.decorators.cache import cache_control
 from django.db.models import Sum
-
+from datetime import date
 from product.models import price,coupons
 from orders.models import order,orderproduct,canceled_orders,payment
 from django.contrib import messages
@@ -20,7 +31,12 @@ from django.contrib import messages
 from product.models import brand, product,subcategory,media,Category,color,size,price,banners
 
 
+
+
+
 # Create your views here.
+
+@cache_control(no_cache =True, must_revalidate =True, no_store =True)  
 def load_adminhome(request):
    COD=payment.objects.filter(payment_mode='COD').count()
    paypal=payment.objects.filter(payment_mode='paypal').count()
@@ -67,6 +83,7 @@ def add_edit_categories(request,id=0):
             categoryname=request.POST.get('category')
             if Category.objects.filter(name=categoryname).exists():
                 messages.error(request,"allready this category is here")
+                return redirect(add_edit_categories)
             new_category=Category(name=categoryname,categoryIcon=request.FILES['image'])
             new_category.save()
             return redirect(add_edit_categories)
@@ -129,6 +146,8 @@ def delete_subcategory(request,id):
     deleted_subcategory=subcategory.objects.get(id=id)
     deleted_subcategory.delete()
     return redirect(add_edit_subcategories)
+
+@cache_control(no_cache =True, must_revalidate =True, no_store =True)     
 def admin_login(request):
     
         if request.method=='POST':
@@ -321,6 +340,7 @@ def add_OR_edit_Product(request,id=0):
         if request.method=='POST':
             product_name=request.POST.get("name")
             product_title=request.POST.get("title")
+            product_description=request.POST.get("description")
             category=request.POST.get("category")
             Subcategory=request.POST.get("subcategory")
             Color=request.POST.get("color")
@@ -333,7 +353,8 @@ def add_OR_edit_Product(request,id=0):
             products=product.objects.get(pk=id)
             
             products.product_name=product_name
-            products.product_title=product_title                             
+            products.product_title=product_title 
+            products.discription=product_description,                            
             products.category=Category.objects.get(name=category)                            
             products.subcategory=subcategory.objects.get(name=Subcategory)                              
             products.color=color.objects.get(name=Color)                             
@@ -380,8 +401,16 @@ def deletproduct(request,id):
     # return redirect(productlist)
 
 def baner_manage(request):
+    if request.method=='POST':
+        discription=request.POST.get("discription")
+        banners(image=request.FILES['b_image'],discription=discription).save()
+    
     banner=banners.objects.all()
     return render (request,'banners.html',{"banner":banner})
+def banner_delete(request,id):
+    banner_item=banners.objects.get(id=id)
+    banner_item.delete()
+    return redirect(baner_manage)
 
 def orders(request):
     orders=order.objects.all().order_by('-created_at')
@@ -444,7 +473,9 @@ def brands(request,id=0):
     if id==0:
         if request.method=='POST':
             brand_name=request.POST.get('brand')
-            
+            if brand.objects.filter(name=brand_name).exists():
+                messages.error(request,"allready this brand is here")
+                return redirect(brands)
             new_brand=brand(name=brand_name,image=request.FILES['image'])
             new_brand.save()
             return redirect(brands)
@@ -478,10 +509,23 @@ def couponadd(request,id=0):
     if id==0:
         if request.method=='POST':
             code=request.POST.get('code')
+            if code=="":
+                messages.error(request,"coupon code should not be empty")
+                return redirect(couponadd)
+            if coupons.objects.filter(couponcode=code).exists():
+                messages.error(request,"coupon already exist")
+                return redirect(couponadd)
             discription=request.POST.get('discription')
             discount_rate=request.POST.get('rate')
+            if discount_rate=="":
+                messages.error(request,"offer rate  should not be empty")
+                return redirect(couponadd)
+            if discount_rate>'70':
+                messages.error(request,"maximum offer allowed  70%")
+                return redirect(couponadd)
             new_coupon=coupons(couponcode=code,discription=discription,discount_percentage=discount_rate)
             new_coupon.save()
+            messages.success(request," coupon added successfully")
             return redirect(couponadd)
         else:
             coupon=coupons.objects.all()
@@ -489,8 +533,14 @@ def couponadd(request,id=0):
     else:
         if request.method=='POST':
             code=request.POST.get('code')
+            if code=="":
+                messages.error(request,"coupon code should not be empty")
+                return redirect(couponadd)
             discription=request.POST.get('discription')
             discount_rate=request.POST.get('rate')
+            if discount_rate>'70':
+                messages.error(request,"maximum offer allowed  70%")
+                return redirect(couponadd)
             edited=coupons.objects.get(id=id)
             edited.couponcode=code
             edited.discription=discription    
@@ -502,12 +552,20 @@ def couponadd(request,id=0):
             coupon=coupons.objects.all()
             return render(request,'coupon.html',{'editing_coupon':editing_coupon,'coupon':coupon})
 
+def coupon_delete(request,id):
+    coupon=coupons.objects.get(id=id)
+    coupon.delete()
+    return redirect(couponadd)
+
 def category_offer(request,id=0):
 
     if id==0:
         if request.method=="POST":
             category=request.POST.get("categoryname")
             discount_rate=request.POST.get("discountrate")
+            if discount_rate=='100':
+                messages.error(request,"not accept 100 % discount")
+                return redirect(category_offer)
             products=product.objects.filter(Category=Category.objects.get(name=category))
 
             for products in products:
@@ -520,6 +578,7 @@ def category_offer(request,id=0):
             category_obj=Category.objects.get(name=category)
             category_obj.offer=discount_rate
             category_obj.offer_name=offer_name
+            category_obj.is_offer=True
             category_obj.save()
             return redirect(category_offer)
         else:
@@ -530,6 +589,9 @@ def category_offer(request,id=0):
         if request.method=="POST":
             category=request.POST.get("categoryname")
             discount_rate=request.POST.get("discountrate")
+            if discount_rate=='100':
+                messages.error(request,"not accept 100 % discount")
+                return redirect(category_offer)
             category_obj=Category.objects.get(id=id)
             products=product.objects.filter(Category=Category.objects.get(name=category))
             for products in products:
@@ -550,12 +612,59 @@ def category_offer(request,id=0):
             return render(request,'category_offer.html',{'categories':categories,'category_obj':category_obj})
 
 def delete_category_offer(request,id):
-    messages.warning(request," are you sure?")
+    
     category_obj=Category.objects.get(id=id)
     category_obj.offer=NULL
     category_obj.offer_name=NULL
+    category_obj.is_offer=False
     category_obj.save()
+    messages.success(request," deleted successfully")
     return redirect(category_offer)
+
+def product_offer_Add_Edit(request,id=0):
+    if id==0:
+       if request.method=="POST":
+            product_id=request.POST.get("productid")
+            discount_rate=request.POST.get("discountrate")
+            if discount_rate>'70':
+                messages.error(request,"not accept more than 70  % discount")
+                return redirect(product_offer_Add_Edit)
+            products=product.objects.get(id=product_id)
+
+            products.discount_rate=int(discount_rate)
+            products.save()
+            return redirect(product_offer_Add_Edit)
+       else:
+            products=product.objects.all()
+            return render(request,'product_offer.html',{'products':products})
+    else:
+        if request.method=="POST":
+            product_id=request.POST.get("productid")
+            if product_id=="":
+               messages.error(request,"select product")
+               return redirect(product_offer_Add_Edit) 
+
+            print(product_id)
+            discount_rate=request.POST.get("discountrate")
+            if discount_rate>'70':
+                messages.error(request,"not accept more than 70  % discount")
+                return redirect(product_offer_Add_Edit)
+            products=product.objects.get(id=product_id)
+            products.discount_rate=int(discount_rate)
+            products.save()
+            return redirect(product_offer_Add_Edit)
+        else:
+            products=product.objects.all()
+            return render(request,'product_offer.html',{'products':products})
+def delete_product_offer(request,id):
+    
+    product_item=product.objects.get(id=id)
+    product_item.discount_rate=0
+   
+    product_item.save()
+    messages.success(request," deleted successfully")
+    return redirect(product_offer_Add_Edit)
+
 
 def username_check(request):
     
@@ -584,4 +693,99 @@ def password_check(request):
     else:
        global passwordcheck
        passwordcheck=True
-       return HttpResponse("<p id='password-error' class='success'>password is valid</p>") 
+       return HttpResponse("<p id='password-error' class='text-success'>password is valid</p>") 
+
+def sales_Report(request):
+    delivered_products=order.objects.filter(status="delivered")
+    number_of_success_orders=order.objects.filter(status="delivered").count()
+    return render(request,'salesreport.html',{"delivered_products":delivered_products,'number_of_success_orders':number_of_success_orders})
+
+def yearly_salesreport(request):
+
+    year=request.POST.get("year")
+    if year=='0':
+      delivered_products=order.objects.filter(status="delivered")  
+      return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+    else:
+        delivered_products=order.objects.filter(status="delivered",created_at__year=year)
+        return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+
+
+def monthly_salesreport(request):
+    month=request.POST.get("month")
+    if month=='0':
+      delivered_products=order.objects.filter(status="delivered")  
+      return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+    else:
+        delivered_products=order.objects.filter(status="delivered",created_at__month=month)
+        return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+
+
+def date_range_salesreport(request):
+    from_date=request.POST.get("fromdate")
+    print(from_date)
+    to_date=request.POST.get("todate")
+    print(to_date)
+
+    if from_date == to_date:
+        
+        delivered_products = order.objects.filter(status="delivered",created_at__date=from_date)
+        return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+    else:
+
+        delivered_products = order.objects.filter(status="delivered",created_at__range=[from_date, to_date])
+        return render(request,'htmx/sales_report_table.html',{'delivered_products':delivered_products})
+
+
+def export_csv(request):
+    response=HttpResponse(content_type='text/csv')
+    response['Content-Disposition']='attachment; filename=sales_report'+ ".csv"
+    writer=csv.writer(response)
+    writer.writerow(['product id ','created date','tracking number','user','total price','payment mode'])
+    delivered_products=order.objects.filter(status="delivered") 
+    for products in delivered_products:
+        writer.writerow([products.id,products.created_at,products.tracking_number,products.user.first_name,products.total_price,products.total_price])
+    return response
+
+def export_exl(request):
+    response=HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition']='attachment; filename=sales_report'+ ".xls"
+    wb=xlwt.Workbook(encoding='utf-8')
+    ws=wb.add_sheet('sales-report')
+    row_num=0
+    font_style=xlwt.XFStyle()
+    font_style.font.bold=True
+    columns=['order id ','created date','tracking number','user','total price','payment mode']
+    for col_num in range(len(columns)):
+        ws.write(row_num,col_num,columns[col_num],font_style)
+    font_style=xlwt.XFStyle()
+    rows = order.objects.filter(status="delivered").values_list('id','created_at','tracking_number','user','total_price','payment_mode')
+
+    for row in rows:
+        row_num+=1
+
+        for col_num in range(len(row)):
+            ws.write(row_num,col_num, str(row[col_num]),font_style)
+
+    wb.save(response)
+
+    return response
+
+
+# def export_pdf(request):
+#     response=HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition']=' inline; attachment; filename=sales_report' + \
+#      str(datetime.datetime.now())  +'.pdf'
+#     response['Content-Transfer-Encoding']='binary'
+#     html_string=render_to_string('sales-report-pdf.html',{"helooo":"my name stephin"})
+#     html=HTML(string=html_string)
+#     result=html.write_pdf()
+
+ 
+#     with tempfile.NamedTemporaryFile(delete=True) as  output:
+#         output.write(result)
+#         output.flush()
+#         output.seek(0)
+#         #output=open(output.name,'rb')
+#         response.write(output.read())
+#     return response

@@ -1,0 +1,51 @@
+<div class="col-xl-12 col-lg-12 col-md-12 mt-3 col-sm-12 col-12 layout-spacing" id="sales-report-table">
+    <div class="statbox widget box box-shadow">
+        <div class="widget-header">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                    <h4>Order Listing</h4>
+                </div>                                   
+            </div>
+        </div>
+        <div class="widget-content widget-content-area" id="printPage">
+            <div class="table-responsive mb-4">
+                <table id="ecommerce-order-list" class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            {% comment %} <th class="checkbox-column"> Record No. </th> {% endcomment %}
+                            <th>Order</th>
+                            <th>Purchased On</th>
+                            <th>TRACK NUMBER</th>
+                            <th>USER</th>
+                            <th>TOTAL PRICE</th>
+                            
+                            <th>PAYMENT MODE</th>
+                            <th class="align-center">Status</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for delivered_products in delivered_products %}
+                        <tr>
+                           
+                            {% comment %} <td class="checkbox-column"> {{order.id}} </td> {% endcomment %}
+                            <td>{{delivered_products.id}}</td>
+                            <td>{{delivered_products.created_at}}</td>
+                            <td>{{delivered_products.tracking_number}}</td>
+                            <td>{{delivered_products.user.first_name}}</td> 
+                           
+                            <td>{{delivered_products.total_price}}</td>
+                            
+                            <td>{{delivered_products.total_price}}</td>
+                         
+
+                            <td class="align-center"><span class="badge badge-success">{{delivered_products.status}}</span></td>
+                         
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

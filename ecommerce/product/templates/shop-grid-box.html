@@ -76,15 +76,14 @@
                                 <h3 class="sidebar-title">Categories</h3>
                                 <div class="sidebar-categories">
                                     <ul>
-                                        <li><a href="#">Accessories <span>4</span></a></li>
-                                        <li><a href="#">Book <span>9</span></a></li>
-                                        <li><a href="#">Clothing <span>5</span> </a></li>
-                                        <li><a href="#">Homelife <span>3</span></a></li>
-                                        <li><a href="#">Kids & Baby <span>4</span></a></li>
+                                        <li><a href="{% url 'categorywise' 2 %}">WOMEN <span>6</span></a></li>
+                                        <li><a href="{% url 'categorywise' 1 %}">MEN <span>17</span></a></li>
+                                        <li><a href="{% url 'categorywise' 3 %}">KIDS <span>7</span> </a></li>
+                                        
                                     </ul>
                                 </div>
                             </div>
-                            <div class="sidebar-widget sidebar-overflow mb-45">
+                            {% comment %} <div class="sidebar-widget sidebar-overflow mb-45">
                                 <h3 class="sidebar-title">color</h3>
                                 <div class="product-color">
                                     <ul>
@@ -96,11 +95,11 @@
                                         <li class="purple">g</li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="sidebar-widget mb-40">
                               
                             </div>
-                            <div class="sidebar-widget mb-50">
+                            {% comment %} <div class="sidebar-widget mb-50">
                                 <h3 class="sidebar-title">Top rated products</h3>
                                 <div class="sidebar-top-rated-all">
                                     <div class="sidebar-top-rated mb-30">
@@ -184,7 +183,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                     </div>
                     
@@ -229,7 +228,7 @@
                                     
                                              
                                           
-                                    <div id="grid-sidebar8" class="tab-pane fade">
+                                    {% comment %} <div id="grid-sidebar8" class="tab-pane fade">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">
@@ -326,7 +325,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                         </div>

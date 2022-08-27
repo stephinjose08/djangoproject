@@ -19,7 +19,7 @@
                             <div class="ms-auto col-lg-6">
                                 <div class="furniture-content fadeinup-animated">
                                     <h2 class="animated text-dark" > <br>Collection.</h2>
-                                    <p class="animated text-dark">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                    <p class="animated text-dark">{{c_images.banner_text}}</p>
                                     <a class="furniture-slider-btn btn-hover animated" href="{% url 'grid-view' c_images.id %}">Shop Now</a>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
             <div class="container-fluid">
                 <div class="section-title-6 text-center mb-50">
                     <h2>New Shots</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
+                    <p>Make a Deals With new Arrivals to beCame UNIQUE and Feel the versality in fasion</p>
                 </div>
                 <div class="product-style">
                     
@@ -51,7 +51,7 @@
                                 </a>
                                 <span>new</span>
                                 <div class="product-action">
-                                    <a class="animate-left" title="Wishlist" href="#">
+                                    <a class="animate-left" title="Wishlist" href="{% url 'wishlist-add' new_products.id %}">
                                         <i class="pe-7s-like"></i>
                                     </a>
                                     <a class="animate-top" title="Add To Cart" href="{% url 'add-cart' new_products.id %}">
@@ -65,7 +65,7 @@
                             </div>
                            
                             <div class="funiture-product-content text-center">
-                                <h4><a href="product-details.html"><b>{{new_products.product_title}}</b></a></h4>
+                                <h4 style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; /* number of lines to show */line-clamp: 2;-webkit-box-orient: vertical;"><a href="product-details.html"><b>{{new_products.product_title}}</b></a></h4>
                           
                                 <span><del>Rs:{{new_products.actual_price}}</del></span>
                                 <span><b>Rs:{{new_products.discount_price}}</b></span>
@@ -94,9 +94,9 @@
                     <div class="col-lg-5">
                         <div class="discount-details-wrapper">
                             <h5>Verified quality</h5>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            <p>Someone interested  being UNIQUE in SUMMER make a click </p>
                             <h2>Summer Discount <br>Up to 30%</h2>
-                            <p class="discount-peragraph">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                            <p class="discount-peragraph">Find wide variety of summer cools why dont you confused check it</p>
                             <a class="discount-btn btn-hover" href="{% url 'grid-view' square_banner.id %}">Buy Now</a>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                 <div class="discount-wrapper">
                     <img src="{{last_image.image.url}}" alt="">
                     <div class="discount-content">
-                        <h2 >Premium  Home <br>Decorator</h2>
+                        <h2 >Premium FASION<br>Decorator</h2>
                         <a class="discount-btn btn-hover" href="{% url 'grid-view' last_image.id %}">explore</a>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
             <div class="coustom-container-fluid">
                 <div class="section-title-7 text-center">
                     <h2>All Products</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
+                    <p>Check it large collections and find Uniqueness in every nook and corner</p>
                 </div>
                 
                 <div class="product-tab-list text-center mb-65 nav" role="tablist">
@@ -159,8 +159,7 @@
                 <div class="testimonials-active owl-carousel">
                     <div class="single-testimonial-2 text-center">
                         <img src="assets/img/team/1.png" alt="">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                        <p>where ever You Go for finding UNIQUENESS We are there</p>
                         <img src="assets/img/team/2.png" alt="">
                         <h4>tayeb rayed</h4>
                         <span>uiux Designer</span>
@@ -179,7 +178,7 @@ sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi
                         </div>
                         <div class="services-content">
                             <h4>Free Shippig</h4>
-                            <p>Contrary to popular belief, Lorem Ipsum is random text. </p>
+                            <p>we provide free shipping for all products </p>
                         </div>
                     </div>
                     <div class="single-services mb-40">
@@ -188,7 +187,7 @@ sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi
                         </div>
                         <div class="services-content">
                             <h4>24/7 Support</h4>
-                            <p>Contrary to popular belief, Lorem Ipsum is random text. </p>
+                            <p>provide 34 hr customer service support </p>
                         </div>
                     </div>
                     <div class="single-services mb-40">
@@ -197,7 +196,7 @@ sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi
                         </div>
                         <div class="services-content">
                             <h4>Secure Payments</h4>
-                            <p>Contrary to popular belief, Lorem Ipsum is random text. </p>
+                            <p>immediately return payments due to the gateway issues</p>
                         </div>
                     </div>
                 </div>

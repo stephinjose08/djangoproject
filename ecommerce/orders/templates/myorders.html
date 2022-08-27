@@ -296,14 +296,20 @@
                                             <th>Total Price</th>
                                             <th>created date</th>
                                             <th>status</th>
-                                            
+                                            <th><a href="{% url 'home' %}"><input class="button" style="background-color: rgb(18 17 17);color: #ddd;width: 12rem;" name="" value="continue shoping" type="button"></a></th>
                                             
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for orders,orderedItems,products in ziped_data %}
+                                    <tbody> 
+                                        
+                                      {% if is_order %}
+                                      
+                                    
+                                       
+                                       
+                                        {% for orders in orders %}
                                         <tr>
-                                            
+                                       
                                             <td class="product-thumbnail">
                                                 <a href="#"><img src="" width="50px" alt=""></a>
                                             </td>
@@ -320,9 +326,15 @@
                                             
                                         </tr>
                                         {% endfor %}
+                                      
                                     </tbody>
+                                    {% else %}
+                                    <h5>you are not ordered any item </h5>
+                                    {% endif %}
                                 </table>
+                                       
                             </div>
+                            
                         </form>
                     </div>
                 </div>

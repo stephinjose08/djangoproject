@@ -44,14 +44,14 @@
                 <div class="container-fluid">
                     <div class="header-bottom-wrapper">
                         <div class="logo-2 furniture-logo">
-                            <a href="index.html">
+                            <a href="{% url 'home'%}">
                                 <img src="{% static "img/logo.png" %}" class=""  alt="logo" style="width:130px;">
                             </a>
                         </div>
                         <div class="menu-style-2 furniture-menu menu-hover">
                             <nav>
                                 <ul>
-                                    <li><a href="#">home</a>
+                                    <li><a href="{% url 'home'%}">home</a>
                                         
                                     </li>
                                     <li><a href="#">WOMEN</a>
@@ -234,16 +234,21 @@
                                     
                                     <div class="different-address">
                                         <div class="ship-different-title">
-                                            <h3>
+                                            <h3>{% if not existing_user.addressline1 %}
+                                                <label>there is no address added Please add address </label>
+                                                {% else %}
                                                 <label>Ship to a different address?</label>
+                                                {% endif %}
+                                                
                                                 <input id="ship-box" type="checkbox" name="check" value="true" />
                                             </h3>
                                         </div>
                                         <div id="ship-box-info" class="row">
                                             <div class="col-md-12">
+                                                <span><p id="form-error"></p></span>
                                                 <div class="country-select">
                                                     <label>Country <span class="required">*</span></label>
-                                                    <select name="tempcountry">
+                                                    <select name="tempcountry" id="country" >
                                                       <option value="india">India</option>
                                                       <option value="saab">Algeria</option>
                                                       <option value="mercedes">Afghanistan</option>
@@ -254,63 +259,83 @@
                                                       <option value="audi5">Dominican Republic</option>
                                                     </select> 										
                                                 </div>
+                                                <p id="country-error"></p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>First Name <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="tempfname" />
+                                                    <input type="text" placeholder="" name="tempfname" id="firstname" onkeyup="firstnamevalidation()"/>
+                                                    <p id="firstname-error"></p>
                                                 </div>
+                                                
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>Last Name <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="templname" />
+                                                    <input type="text" placeholder="" name="templname" id="lastname" onkeyup="lastnamevalidation()" />
+                                                    <p id="lastname-error"></p>
                                                 </div>
+                                               
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>Email Address <span class="required">*</span></label>										
-                                                    <input type="email" placeholder="" name="tempemail" />
+                                                    <input type="email" placeholder="" name="tempemail" id="email" onkeyup="emailvalidation()"  />
+                                                    <p id="email-error"></p>
                                                 </div>
+                                                
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="checkout-form-list">
                                                     <label>Phone  <span class="required">*</span></label>										
-                                                    <input type="text" name="tempphone" />
+                                                    <input type="text" name="tempphone"  id="phone" onkeyup="numbervalidation()" />
+                                                    <p id="phone-error"></p>
                                                 </div>
+                                              
                                             </div>
                                             
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>Address <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Street address" name="tempaddress1" />
+                                                    <input type="text" placeholder="Street address" name="tempaddress1" id="address1" onkeyup="addressvalidation1()"  />
+                                                    <p id="addressline1-error"></p>
                                                 </div>
+                                                
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">									
-                                                    <input type="text" placeholder="Apartment, suite, unit etc. (optional)" name="tempaddress2" />
+                                                    <input type="text" placeholder="Apartment, suite, unit etc. (optional)" id="address2"  name="tempaddress2" onkeyup="addressvalidation2()" />
                                                 </div>
+                                                <p id="addressline2-error"></p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>City <span class="required">*</span></label>
-                                                    <input type="text" placeholder="Town / City"  name="tempc"/>
+                                                    <input type="text" placeholder="Town / City" id="city"   name="tempc" onkeyup="cityvalidation()"/>
                                                 </div>
+                                                <p id="city-error"></p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>State  <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="" name="temps" />
+                                                    <input type="text" placeholder="" name="temps" id="state" onkeyup="statevalidation()" />
                                                 </div>
+                                                <p id="state-error"></p>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="checkout-form-list">
                                                     <label>Zip <span class="required">*</span></label>										
-                                                    <input type="text" placeholder="Postcode / Zip" name="tempz" />
+                                                    <input type="text" placeholder="Postcode / Zip" id="zip"  name="tempz"  onkeyup="zipvalidation()"/>
                                                 </div>
+                                                <p id="zip-error"></p>
                                             </div>
-                                            								
+                                            <div class="d-flex">
+
+                                                <label>save this address for later</label>
+                                                    <input id="check2" type="checkbox" name="checkbox" id="boxcheck" value="true" style="height:15px;" />								
+                                            </div>
                                         </div>
+                                       
                                         <div class="order-notes">
                                             <div class="checkout-form-list mrg-nn">
                                                 <label>Order Notes</label>
@@ -352,8 +377,8 @@
                                 <div class="order-button-payment">
                                     <input type="hidden" value="COD" name="payment_mode">
                                     {% comment %}<input type="submit" value="Cash On Delivery" /> {% endcomment %}
-                                    <button  type="submit" class="btn-success w-100 py-2">Cash On Delivery</button>
-                                    <button   type="button" id="paywithrazorpay"  class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
+                                    <button  type="submit" class="btn-success w-100 py-2" onclick="return formvalidation()" >Cash On Delivery</button>
+                                    <button   type="button" id="paywithrazorpay" onclick="return formvalidation()" class="btn-primary w-100 py-2 my-2 ">Pay With RazorPay</button>
                                     <div id="paypal-button-container"></div>
                                     
                                 </div>								
@@ -472,7 +497,7 @@
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
        
         
-
+        <script src="{% static 'js/addressvalidation.js' %}"></script>
        <script src="https://www.paypal.com/sdk/js?client-id=AT5lTKQgSnK17SMxGRE82I3-j0ngyAiJzjyyrW4pr9KnHjJrz4WjZ5Y-nqb8nNHuvyLf8rodI5MWVzDM&currency=USD&intent=capture&enable-funding=venmo" data_source="integrationbuilder"></script>
  <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
         <script src="{% static 'js/popper.js' %}"></script>

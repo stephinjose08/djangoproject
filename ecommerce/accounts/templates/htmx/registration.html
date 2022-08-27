@@ -1,0 +1,23 @@
+<form hx-post="{% url 'registration' %}" hx-target="#register-varify"  hx-swap="outerhtml" onclick="return formvalidation()" >
+    {% csrf_token %} 
+    <input type="text" id="firstname" name="first_name" placeholder="First  name" onkeyup="firstnamevalidation()">
+    <p class="text-danger" id="fname-error"></p>
+    <input type="text" id="lastname" name="last_name" placeholder="Last  name" onkeyup="lastnamevalidation()">
+    <p class="text-danger" id="lname-error"></p>
+    <input name="email" id="email" placeholder="Email" type="email" onkeyup="emailvalidation()">
+    <p class="text-danger" id="email-error"></p>
+    <input type="text" id="phone" name="phone" placeholder="Enter your phone number" onkeyup="numbervalidation()">
+    <p class="text-danger" id="phone-error"></p>
+    <input type="password" id="password1" name="password" placeholder="Password" onkeyup="passwordvalidation()">
+   
+    <input type="password" id="password2" name="confirm_password" placeholder="Confirm Password" onkeyup="passwordvalidation()">
+    <p class="text-danger" id="psw-error"></p>
+    <div class="button-box">
+        <button type="submit" class="default-btn floatright" onclick="return formvalidation()">Register</button>
+        <p class="text-danger" id="signin_submit_error"></p>
+    </div>
+    {% for msg in messages %}
+    <p class="text-danger">{{msg}}</p>
+    {% endfor %}
+</form>
+ 

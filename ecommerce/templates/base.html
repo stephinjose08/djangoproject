@@ -40,26 +40,26 @@
                     <div class="header-bottom-wrapper">
                         <div class="logo-2 furniture-logo">
                             <a href="index.html">
-                                <img src="{% static "img/logo.png" %}" class=""  alt="logo" style="width:130px;">
+                                <a href="{%url 'home'%}"><img src="{% static "img/logo.png" %}" class=""  alt="logo" style="width:130px;"></a>
                             </a>
                         </div>
                         <div class="menu-style-2 furniture-menu menu-hover">
                             <nav>
                                 <ul>
-                                    <li><a href="#">home</a>
+                                    <li><a href="{% url 'home' %}">home</a>
                                         
                                     </li>
-                                    <li><a href="#">WOMEN</a>
+                                    <li><a href="{% url 'categorywise' 2 %}">WOMEN</a>
                                         
                                     </li>
-                                    <li><a href="shop.html">MEN</a>
+                                    <li><a href="{% url 'categorywise' 1 %}">MEN</a>
                                         
                                     </li>
-                                    <li><a href="">KIDS</a>
+                                    <li><a href="{% url 'categorywise' 3 %}">KIDS</a>
                                         
                                     </li>
                                     {% if 'phone' in request.session %}
-                                    <li><a href="{% url 'log-out' %}">LOG OUT</a></li>
+                                    <li><a href="{% url 'logout' %}">LOG OUT</a></li>
                                     {% endif %}
                                 </ul>
                             </nav>
@@ -201,7 +201,7 @@
             });
         </script>
         <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
         <script src="{% static 'js/vendor/jquery-1.12.4.min.js'%}"></script>
         <script src="{% static 'js/popper.js'%}"></script>

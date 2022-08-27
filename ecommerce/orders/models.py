@@ -36,14 +36,14 @@ class order(models.Model):
     total_price=models.FloatField()
     payment_mode=models.ForeignKey(payment, on_delete=models.CASCADE)
     order_status=(
-       ( "pending","pending"),
+       
        ("confirmed","confirmed"),
        ("shipped","shipped"),
        ("delivered","delivered"),
        ("canceled","canceled"),
        ("returned","returned"),
     )
-    status=models.CharField(max_length=50,  choices=order_status,default='pending')
+    status=models.CharField(max_length=50,  choices=order_status,default='confirmed')
     notes=models.TextField(default='avoid plastic cover',null=True)
     tracking_number=models.CharField(max_length=150,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -67,7 +67,7 @@ class canceled_orders(models.Model):
        ("i want to cance  due to the prodduct quality issues","i want to cance  due to the prodduct quality issues"),
     )
     reason_for_cancel=models.TextField(choices=reason,blank=True,null=True)
-    cancel_date=models.DateField(auto_created=True,null=True)
+    cancel_date=models.DateField(auto_now_add=True,null=True)
 
 class returned_orders(models.Model):
     user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -79,5 +79,5 @@ class returned_orders(models.Model):
        ("i want to cance  due to the prodduct quality issues","i want to cance  due to the prodduct quality issues"),
     )
     reason_for_return=models.TextField(choices=reason,blank=True,null=True)
-    return_date=models.DateField(auto_created=True,null=True)
+    return_date=models.DateField(auto_now_add=True,null=True)
 

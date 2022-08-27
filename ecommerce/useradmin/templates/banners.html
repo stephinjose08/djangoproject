@@ -1,12 +1,349 @@
 {% extends 'admin_base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 {% block title %}
-uniq-fasion-banners
-{% endblock title %}
+    <title>Add/Edit Categories</title>
+    {% endblock title %}
+
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    {% block static-css %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'assets/css/ecommerce/addedit_categories.css' %}" rel="stylesheet" type="text/css">
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'assets/css/loader.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'plugins/drag-and-drop/jquery-ui/scrollable/style.css' %}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+    {% endblock static-css %}
+</head>
 {% block content %}
-{% for banner in banner %}
-<figure class="figure">
-    <img src="{{banner.image.url}}"  class="figure-img img-fluid rounded"  alt="A generic square placeholder image with rounded corners in a figure.">
-    <figcaption class="figure-caption">{{banner.discription}}</figcaption>
-  </figure>
-  {% endfor %}
-{% endblock content %}
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Add Edit Banners</h3>
+                    </div>
+                </div>
+                
+                
+       
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    <h4>LIST OF BANNERS</h4>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-content widget-content-area">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="sortable2" class="content" style="overflow: unset;">
+                                        <h5>Banners</h5>
+                                        <hr />
+                                        <ul  style="overflow-y:scroll; height:300px">
+                                          {% for banner in banner %}
+                                            <li>
+                                                
+                                                <div class="media">
+                                                    <img class="mr-3 " width="100px" src="{{banner.image.url}}" style="width: 247px;
+                                                    height: 107px;
+                                                    border: solid 1px #d1ccff;" alt="Generic placeholder image">
+                                                    <div class="media-body">
+                                                        <h6 class="mt-2">{{banner.discription}}</h6>
+                                                        <select name="products" id="">
+                                                          <option value="">products attached</option>
+                                                          {% for products in banner.product.all %}
+                                                          <option value="">{{products.product_name}}</option>
+                                                          {% endfor %}
+                                                        </select>
+                                                        {% comment %} <a href=""><button type="button" class="btn btn-secondary">Edit</button></a>  {% endcomment %}
+                                                    </div>
+                                                    <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                            
+                                        </ul>
+                                        <hr />
+                                        <p>End of content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </select>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">                                
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Add Banner </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-content widget-content-area add-sub-category">
+                                <div class="row">
+                                    <div class="mx-xl-auto col-xl-10 col-md-12">
+                                        <div class="card card-default">
+                                            <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
+                                            <div class="card-body">
+                                                <div class="card-body">
+                                                    <form class="form-horizontal" action="" method='post' enctype="multipart/form-data" onclick="return validate()">
+
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4"> Brand  Discription:</label>
+                                                                <div class="col-md-8">
+                                                                    <input  class="form-control" name="brand" id="discription" onclick="image1validation()" type="text" onkeyup="discriptioncheck()" value="">
+                                                                    <p class="text-danger" id="discription-error"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                        
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Image :</label>
+                                                                <div class="col-md-8">
+                                                                   
+                                                                    <div class="custom-file">
+                                                                        {% csrf_token %}
+
+                                                                    <input required type="file"  class="form-control-file" name='b_image'   id="b_image">
+                                                                    </div>
+                                                                   <p class="text-danger" id="b_image_error"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                        <div class="align-center"> 
+                                                            <input value="Submit" class="btn mt-5 mb-4" type="submit">
+                                                        </div>
+                                                        <p class="text-danger" id="commmon-error"></p>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    </div>
+    <!-- END MAIN CONTAINER -->
+    {% endblock content %}
+    <!--  BEGIN FOOTER  -->
+    <footer class="footer-section theme-footer">
+
+        <div class="footer-section-1  sidebar-theme">
+            
+        </div>
+
+        <div class="footer-section-2 container-fluid">
+            <div class="row">
+                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
+                    <ul class="list-inline links ml-sm-5">
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://themeforest.net/item/equation-responsive-admin-dashboard-template/23191987">Buy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
+                    <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
+                        <li class="list-inline-item  mr-3">
+                            <p class="bottom-footer">&#xA9; 2019 <a target="_blank" href="https://designreset.com/equation">Equation Admin Theme</a></p>
+                        </li>
+                        <li class="list-inline-item align-self-center">
+                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    <aside class="profile-sidebar text-center">
+        <div class="profile-content profile-content-scroll">
+            <div class="usr-profile">
+                <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+            </div>
+            <p class="user-name mt-4 mb-4">Vincent Carpenter</p>
+            <div class="">
+                <div class="accordion" id="user-stats">
+                    <div class="card">
+                        <div class="card-header pb-4 mb-4" id="status">
+                            <h6 class="mb-0" data-toggle="collapse" data-target="#user-status" aria-expanded="true" aria-controls="user-status"><i class="flaticon-view-3 mr-2"></i> Status <i class="flaticon-down-arrow ml-2"></i> </h6>
+                        </div>
+                        <div id="user-status" class="collapse show" aria-labelledby="status" data-parent="#user-stats">
+                            <div class="card-body text-left">
+                                <ul class="list-unstyled pb-4">
+                                    <li class="status-online"><a href="javascript:void(0);">Online</a></li>
+                                    <li class="status-away"><a href="javascript:void(0);">Away</a></li>
+                                    <li class="status-no-disturb"><a href="javascript:void(0);">Not Disturb</a></li>
+                                    <li class="status-invisible"><a href="javascript:void(0);">Invisible</a></li>
+                                    <li class="status-offline"><a href="javascript:void(0);">Offline</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-links text-left">
+                <ul class="list-unstyled">
+                    <li><a href="apps_mailbox.html"><i class="flaticon-mail-22"></i> Inbox</a></li>
+                    <li><a href="user_profile.html"><i class="flaticon-user-11"></i> My Profile</a></li>
+                    <li><a href="user_login_1.html"><i class="flaticon-power-off"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    {% block static-js %}
+<script>
+var discription_error = document.getElementById('discription-error')
+var image1_error = document.getElementById('b_image_error') 
+var commmon_error = document.getElementById('commmon-error')
+
+{% comment %} function image1validation(){
+    var image1=document.getElementById('b_image').value
+    if(image1==''){
+         image1_error.innerHTML='<p class="text-danger">image field is empty</p>'
+         return false; 
+    }
+    image1_error.innerHTML='<p class="text-success">valid</p>'
+    return true; 
+} {% endcomment %}
+function discriptioncheck(){
+    var rate = document.getElementById('discription').value
+         
+    if (rate==''){
+            discription_error.innerHTML = '<p class="text-danger">offer   field is empty</p>'
+            return false;
+        }
+        discription_error.innerHTML = '<p class="text-success">valid</p>'
+        return true; 
+}
+function validate(){
+    if(!discriptioncheck()){
+        commmon_error.innerHTML = '<p class="text-danger">fill all fields</p>'
+        return false;
+    }
+    commmon_error.innerHTML = '<p class="text-success">valid</p>'
+    return true;
+}
+</script>
+
+
+
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    {% for msg in messages %}
+     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+   
+    <script>
+    
+        swal("{{msg}}");
+  
+    </script>
+    {% endfor %}
+    
+
+   
+    <script>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    {% endblock static-js %}
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+   
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <script>
+        /* 
+            call mCustomScrollbar function before jquery ui sortable()
+        */
+        $("#sortable, #sortable2").mCustomScrollbar({
+            scrollbarPosition:"outside",
+            scrollInertia:450,
+        });
+
+        $("#sortable ul, #sortable2 ul").sortable({
+            axis:"y",
+            cursor:"move",
+            tolerance:"intersect",
+            change:function(e,ui){
+                var h=ui.helper.outerHeight(true),
+                    elem=$("#sortable .mCustomScrollBox"),
+                    elemHeight=elem.height(),
+                    moveBy=$("#sortable li").outerHeight(true)*3,
+                    mouseCoordsY=e.pageY-elem.offset().top;
+                if(mouseCoordsY<h){
+                    $("#sortable").mCustomScrollbar("scrollTo","+="+moveBy);
+                }else if(mouseCoordsY>elemHeight-h){
+                    $("#sortable").mCustomScrollbar("scrollTo","-="+moveBy);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

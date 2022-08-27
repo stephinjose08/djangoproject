@@ -152,9 +152,10 @@
                                                 {% else %}
                                                 <td class="align-center"><span class="badge badge-secondary">{{order.status}}</span></td>
                                                 {% endif %}
-                                                <td class="align-center"> </td>
+                                                <td class="align-center"> <a href="{%url 'order-details' order.id %}"><button class="btn-primary">view</button></a></td>
                                             </tr>
                                             {% endfor %}
+                                        
                                         </tbody>
                                     </table>
                                 </div>
@@ -190,7 +191,7 @@
                                             <tr>
                                                
                                                 <td class="checkbox-column"> {{cancel_orders.id}} </td>
-                                                <td>{{order.id}}</td>
+                                                <td>{{cancel_orders.order.id}}</td>
                                                 <td>{{cancel_orders.cancel_date}}</td>
                                                 <td>{{cancel_orders.order.fist_name}} {{cancel_orders.order.last_name}}</td>
                                                 <td>{{cancel_orders.reason_for_cancel}}</td> 

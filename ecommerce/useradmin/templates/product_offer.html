@@ -1,0 +1,355 @@
+
+{% extends 'admin_base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    {% block title %}
+    <title>Add/Edit Categories </title>
+    {% endblock title %}
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    {% block static-css %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'assets/css/ecommerce/addedit_categories.css' %}" rel="stylesheet" type="text/css">
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{% static 'assets/css/loader.css' %}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{% static 'plugins/drag-and-drop/jquery-ui/scrollable/style.css' %}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+    {% endblock static-css %}
+</head>
+<!--  END MODERN  -->
+{% block content %}
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>PRODUCT OFFERS</h3>
+                    </div>
+                </div>
+                
+                
+       
+                <div class="col-lg-12 layout-spacing">
+                    <div class="statbox widget box box-shadow">
+                        <div class="widget-header">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                    
+                                    <h4>PRODUCT OFFERS</h4>
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">product name</th>
+                                            <th scope="col">product offer</th>
+                                     
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for products in products %}
+                                          {% if products.discount_rate %}
+                                          <tr>
+                                            <th scope="row">{{products.id}}</th>
+                                            <td>{{products.product_name}}</td>
+                                            <td>{{products.discount_rate}}</td>
+                                           
+                                            <td> 
+                                                <a href="{% url 'product_offer-edit' products.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                                            </td>
+                                            <td> 
+                                                <a href="{%url 'product-offer-delete' products.id %}"><button type="button" class="btn btn-danger">Delete</button></a>                                            </td>
+                                          </tr>
+                                          {% endif %}
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">                                
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Add Categories </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-content widget-content-area add-sub-category">
+                                <div class="row">
+                                    <div class="mx-xl-auto col-xl-10 col-md-12">
+                                        <div class="card card-default">
+                                            <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
+                                            <div class="card-body">
+                                                <div class="card-body">
+                                                    <form class="form-horizontal" action="" method='post' onclick="return formvalidation()" >
+
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4">product Name :</label>
+                                                                <div class="col-md-8">
+                                                                    {% csrf_token %}
+                                                                    <select  class="form-control form-custom" name="productid" id="product" onclick="product_selection()">
+                                                                        <option value="">Please Select</option>
+                                                                        {% for products in products %}
+                                                                        <option value="{{products.id}}">{{products.product_name}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                    <p class="text-danger" id="product_select_error"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4"> offer rate</label>
+                                                                <div class="col-md-3">
+                                                                    <input  class="form-control" name="discountrate" id="product_offer" type="text" onkeyup="offerrate_check()" value="{{products.offer}}">
+                                                                    <p class="text-danger" id="product_offer_error"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        
+                                                        
+                                                        <div class="align-center"> 
+                                                            <input value="Submit" class="btn mt-5 mb-4" type="submit">
+                                                        </div>
+                                                        <p class="text-danger" id="common-error"></p>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    </div>
+    <!-- END MAIN CONTAINER -->
+    {% endblock content %}
+    <!--  BEGIN FOOTER  -->
+    <footer class="footer-section theme-footer">
+
+        <div class="footer-section-1  sidebar-theme">
+            
+        </div>
+
+        <div class="footer-section-2 container-fluid">
+            <div class="row">
+                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
+                    <ul class="list-inline links ml-sm-5">
+                        <li class="list-inline-item">
+                            <a target="_blank" href="https://themeforest.net/item/equation-responsive-admin-dashboard-template/23191987">Buy</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
+                    <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
+                        <li class="list-inline-item  mr-3">
+                            <p class="bottom-footer">&#xA9; 2019 <a target="_blank" href="https://designreset.com/equation">Equation Admin Theme</a></p>
+                        </li>
+                        <li class="list-inline-item align-self-center">
+                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    <aside class="profile-sidebar text-center">
+        <div class="profile-content profile-content-scroll">
+            <div class="usr-profile">
+                <img src="assets/img/90x90.jpg" alt="admin-profile" class="img-fluid">
+            </div>
+            <p class="user-name mt-4 mb-4">Vincent Carpenter</p>
+            <div class="">
+                <div class="accordion" id="user-stats">
+                    <div class="card">
+                        <div class="card-header pb-4 mb-4" id="status">
+                            <h6 class="mb-0" data-toggle="collapse" data-target="#user-status" aria-expanded="true" aria-controls="user-status"><i class="flaticon-view-3 mr-2"></i> Status <i class="flaticon-down-arrow ml-2"></i> </h6>
+                        </div>
+                        <div id="user-status" class="collapse show" aria-labelledby="status" data-parent="#user-stats">
+                            <div class="card-body text-left">
+                                <ul class="list-unstyled pb-4">
+                                    <li class="status-online"><a href="javascript:void(0);">Online</a></li>
+                                    <li class="status-away"><a href="javascript:void(0);">Away</a></li>
+                                    <li class="status-no-disturb"><a href="javascript:void(0);">Not Disturb</a></li>
+                                    <li class="status-invisible"><a href="javascript:void(0);">Invisible</a></li>
+                                    <li class="status-offline"><a href="javascript:void(0);">Offline</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-links text-left">
+                <ul class="list-unstyled">
+                    <li><a href="apps_mailbox.html"><i class="flaticon-mail-22"></i> Inbox</a></li>
+                    <li><a href="user_profile.html"><i class="flaticon-user-11"></i> My Profile</a></li>
+                    <li><a href="user_login_1.html"><i class="flaticon-power-off"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!--  BEGIN PROFILE SIDEBAR  -->
+    {% block static-js %}
+    <script>
+    var product_offer_error=document.getElementById('product_offer_error')
+    var product_select_error=document.getElementById('product_select_error')
+    var common_error=document.getElementById("common-error")
+        
+        
+function offerrate_check(){
+    var product_offer = document.getElementById('product_offer').value
+                var regex = /^\d*(\.\d{2})?$/;
+                if (product_offer==''){
+                    product_offer_error.innerHTML = '<p class="text-danger">offer   field is empty</p>'
+                    return false;
+                }
+                else if(!regex.test(product_offer)){
+                    product_offer_error.innerHTML = '<p class="text-danger">offer field only contains digits</p>'
+                    return false; 
+                }
+                else if(product_offer ==0){
+                    product_offer_error.innerHTML = '<p class="text-danger">zero is not considered as offer</p>'
+                    return false; 
+                }
+                else if(product_offer >70){
+                    product_offer_error.innerHTML = '<p class="text-danger">maximum offer is 70 %</p>'
+                    return false; 
+                }
+                product_offer_error.innerHTML = '<p class="text-success">valid</p>'
+                return true; 
+        }
+function product_selection(){
+    var product_name = document.getElementById("product").value
+            if(product_name==''){
+                product_select_error.innerHTML = '<p class="text-danger">subcategory  field is empty</p>'
+                return false;
+            }
+            product_select_error.innerHTML = '<p class="text-success">valid</p>'
+            return true;
+        } 
+function formvalidation(){
+    if(!offerrate_check()|| !product_selection()){
+                common_error.innerHTML = '<p class="text-danger">fill required fields</p>'
+                return false;
+    }
+    common_error.innerHTML =''
+    return true;
+        }
+</script>
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+   
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    
+   
+       
+    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/loader.js' %}"></script>
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    {% for msg in messages %}
+     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+   
+    <script>
+    
+        swal( '{{msg}}');
+  
+    </script>
+    {% endfor %} 
+
+
+    {% endblock static-js %}>
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <script>
+        /* 
+            call mCustomScrollbar function before jquery ui sortable()
+        */
+        $("#sortable, #sortable2").mCustomScrollbar({
+            scrollbarPosition:"outside",
+            scrollInertia:450,
+        });
+
+        $("#sortable ul, #sortable2 ul").sortable({
+            axis:"y",
+            cursor:"move",
+            tolerance:"intersect",
+            change:function(e,ui){
+                var h=ui.helper.outerHeight(true),
+                    elem=$("#sortable .mCustomScrollBox"),
+                    elemHeight=elem.height(),
+                    moveBy=$("#sortable li").outerHeight(true)*3,
+                    mouseCoordsY=e.pageY-elem.offset().top;
+                if(mouseCoordsY<h){
+                    $("#sortable").mCustomScrollbar("scrollTo","+="+moveBy);
+                }else if(mouseCoordsY>elemHeight-h){
+                    $("#sortable").mCustomScrollbar("scrollTo","-="+moveBy);
+                }
+            }
+        });
+    </script>
+   
+</body>
+</html>

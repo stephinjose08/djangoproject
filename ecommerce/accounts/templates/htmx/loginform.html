@@ -1,0 +1,22 @@
+<form hx-post="{% url 'login' %}"   hx-swap="outerhtml"  hx-target="#login-varify"  onClick="formvalidation()">
+    {% csrf_token %}
+    <input type="tel" id="phone-number" name="phone" placeholder="login with phone number" onkeyup="numbervalidation()">
+    <p class=" text-danger" id="username-error"></p>
+    <input id="pass-word" type="Password" name="password" placeholder="Password" onkeyup="passwordvalidation()" > 
+    <p class=" text-danger" id="password-error"></p>
+   <div class="button-box">  
+      
+    {% for msg in messages %}
+    <p class="text-danger">{{msg}}</p>
+    {% endfor %}
+       <div class="login-toggle-btn">
+           <input type="checkbox">
+           <label>Remember me</label>
+           <a href="#">Forgot Password?</a>
+       </div>
+       <p id="form-error"></p>
+       <button type="submit" class="default-btn floatright">Login</button>
+       <p class=" text-danger" id="login_submit_error"></p>
+      
+   </div>
+</form>

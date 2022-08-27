@@ -320,6 +320,7 @@ def remove_from_wishlist(request,id):
     deleting_item=wishlist.objects.get(user_id=request.user,wishlist_items=id)
     deleting_item.delete()
     wishlist_item=wishlist.objects.all()
+    messages.success(request,"remove item successfully")
     return render(request,'htmx/remove_wishlist_item.html',{'wishlist_items':wishlist_item})
 
 

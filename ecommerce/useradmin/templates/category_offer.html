@@ -48,60 +48,45 @@
                 
                 
        
-                <div class="col-lg-6 layout-spacing">
+                <div class="col-lg-12 layout-spacing">
                     <div class="statbox widget box box-shadow">
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>CATEGORy OFFERS</h4>
+                                    <h4>CATEGORY OFFERS</h4>
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">category name</th>
+                                            <th scope="col">Category offer</th>
+                                            <th scope="col">offer name</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for category in categories %}
+                                          {% if category.offer %}
+                                          <tr>
+                                            <th scope="row">{{category.id}}</th>
+                                            <td>{{category.name}}</td>
+                                            <td>{{category.offer}}</td>
+                                            <td>{{category.offer_name}}</td>
+                                            <td> 
+                                                <a href="{%url 'category-offer-edit' category.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                                            </td>
+                                            <td> 
+                                                <a href="{%url 'category-offer-delete' category.id %}"><button type="button" class="btn btn-danger">Delete</button></a>                                            </td>
+                                          </tr>
+                                          {% endif %}
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
                                 </div>
                             </div>
                         </div>
 
-                        <form class="form-horizontal" action="" method='post'  >
-                        <div class="widget-content widget-content-area">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div id="sortable2" class="content">
-                                        <h5>Categories</h5>
-                                        <hr />
-                                        <ul  style="overflow-y:scroll; height:300px">
-                                          {% for category in categories %}
-                                          {% if category.offer %}
-                                            <li> <div class="media">
-                                                <table>
-                                                <tr>
-                                                <td>
-                                                <h6 class="mt-2 txt-b">{{category.name}}</h6><br>
-                                                </td>
-                                                <td>
-                                                <h6 class="mt-2">{{category.offer}}</h6>
-                                                </td>
-                                                <td><h6 class="mt-2">{{category.offer_name}}</h6></td>
-                                                <td>
-                                                    
-                                                <div class="media-body">
-                                                    
-                                                    <a href="{%url 'category-offer-edit' category.id %}"><button type="button" class="btn btn-secondary">Edit</button></a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="{%url 'category-offer-delete' category.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
-                                            </td>
-                                            </tr>
-                                            </table>
-                                            </div>
-                                            </li>
-                                            {% endif %}
-                                            {% endfor %}
-                                            
-                                        </ul>
-                                        <hr />
-                                        <p>End of content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
+                        
                     </div>
                 </div>
                 
@@ -123,49 +108,48 @@
                                             <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
                                             <div class="card-body">
                                                 <div class="card-body">
-                                                    
+                                                    <form class="form-horizontal" action="" method='post' onclick="return validation()" >
                                                         <div class="form-group">
                                                             <div class="row">
+                                                           
                                                                 <label class="col-md-4"> Category Name :</label>
                                                                 <div class="col-md-8">
                                                                     {% csrf_token %}
-                                                                    <select required class="form-control form-custom" name="categoryname">
+                                                                    <select id="category" class="form-control form-custom" name="categoryname" onclick="categoryselect()">
                                                                         <option value="">Please Select</option>
                                                                         {% for category in categories %}
                                                                         <option value="{{category.name}}">{{category.name}}</option>
                                                                         {% endfor %}
                                                                     </select>
+                                                                    <p class="danger" id="category-error"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                        
-                                                        
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <label class="col-md-4">offer rate</label>
-                                                                <div class="col-md-8">
-                                                                   
-                                                                    <div class="custom-file">
-                                                                        <select required class="form-control form-custom" name="discountrate" value={{category_obj.offer}}>
-                                                                            <option value="">Please Select</option>
-                                                                            <option value="10">10%</option>
-                                                                            <option value="20">20%</option>
-                                                                            <option value="30">30%</option>
-                                                                            <option value="40">40%</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <label class="col-md-4">Offer name</label>
-                                                                    <div class="col-md-8">
-                                                                        <input required class="form-control" name="offername" type="text" value="{{category_obj.offer_name}}">
-                                                                    </div>  
+                                                                <label class="col-md-4"> offer rate</label>
+                                                                <div class="col-md-3">
+                                                                    <input  class="form-control" name="discountrate" id="rate" type="text" onkeyup="offerrate_check()" value="{{category_obj.offer}}">
+                                                                    <p class="danger" id="offer_rate_error"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Offer name</label>
+                                                                <div class="col-md-3">
+                                                                    <input  class="form-control" name="offername" type="text" value="{{category_obj.offer_name}}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         
+                                                        
                                                         <div class="align-center"> 
+                                                          
                                                             <input value="Submit" class="btn mt-5 mb-4" type="submit">
                                                         </div>
-                                                
+                                                        <p class="danger" id="common-error"></p>
                                                     </form>
                                                 </div>
                                             </div>
@@ -252,6 +236,60 @@
     </aside>
     <!--  BEGIN PROFILE SIDEBAR  -->
     {% block static-js %}
+
+<script>
+var category_offerError=document.getElementById("offer_rate_error")
+
+var category_error=document.getElementById("category-error")
+
+var common_error=document.getElementById("common-error")
+
+
+function offerrate_check(){
+    var rate = document.getElementById('rate').value
+        var regex = /^\d*(\.\d{2})?$/;
+        if (rate==''){
+            category_offerError.innerHTML = '<p class="text-danger">offer   field is empty</p>'
+            return false;
+        }
+        else if(!regex.test(rate)){
+            category_offerError.innerHTML = '<p class="text-danger">offer field only contains digits</p>'
+            return false; 
+        }
+        else if(rate ==0){
+            category_offerError.innerHTML = '<p class="text-danger">zero is not considered as offer</p>'
+            return false; 
+        }
+        else if(rate>'70'){
+            category_offerError.innerHTML = '<p class="text-danger">maximum offer is allowed 70%</p>'
+            return false; 
+        }
+        
+        category_offerError.innerHTML = '<p class="text-success">valid</p>'
+        return true; 
+}
+ function categoryselect(){
+    var cat = document.getElementById('category').value
+    if (cat==''){
+        category_error.innerHTML = '<p class="text-danger">subcategory  field is empty</p>'
+        return false;
+    }
+    category_error.innerHTML = '<p class="text-success">valid</p>'
+    return true;
+} 
+function validation(){
+    if(!offerrate_check()||!categoryselect()){
+        common_error.innerHTML = '<p class="text-danger">fill required fields</p>'
+        return false;
+    }
+    common_error.innerHTML =''
+    return true;
+}
+
+</script>
+
+
+
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'assets/js/loader.js' %}"></script>
@@ -277,6 +315,19 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script> 
     <script src="{% static 'assets/js/app.js' %}"></script>
+
+    {% for msg in messages %}
+     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+   
+    <script>
+    
+        swal( '{{msg}}');
+  
+    </script>
+    {% endfor %} 
+
+
     {% endblock static-js %}>
     <script>
         $(document).ready(function() {

@@ -224,8 +224,18 @@
                 </div>
             </div>
         </div> 
-		
-		
+		{% block static-js %}
+		{% for msg in messages %}
+     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+   
+    <script>
+    
+        swal( '{{msg}}');
+  
+    </script>
+    {% endfor %} 
+
 		
 		
 		
@@ -242,5 +252,6 @@
         <script src="{% static 'js/owl.carousel.min.js' %}"></script>
         <script src="{% static 'js/plugins.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        {% endblock static-js %}
     </body>
 </html>

@@ -368,7 +368,7 @@
                     <!-- ACCORDION START -->
                     {% if userdetails.status != "canceled" and userdetails.status != "returned" %}
 
-                    {% if userdetails.status == "completed" %}
+                    {% if userdetails.status == "delivered" %}
 
                     <h3>return order? <span id="showlogin">Click here </span></h3>
                     <div id="checkout-login" class="coupon-content">
@@ -384,6 +384,7 @@
                                         <option value="order  placed by mistake">order  placed by mistake</option>
                                         <option value="price for the product has decreased">price for the product has decreased</option>
                                         <option value="i have purchased the product elsewhere">i have purchased the product elsewhere</option>
+                                        <option value="Other">Other</option>
                                       </select>
                                 </p>
                                 {% comment %} <p class="form-row-last">
@@ -418,6 +419,7 @@
                                         <option value="order  placed by mistake">order  placed by mistake</option>
                                         <option value="price for the product has decreased">price for the product has decreased</option>
                                         <option value="i have purchased the product elsewhere">i have purchased the product elsewhere</option>
+                                        <option value="Other">Other</option>
                                       </select>
                                 </p>
                                 {% comment %} <p class="form-row-last">

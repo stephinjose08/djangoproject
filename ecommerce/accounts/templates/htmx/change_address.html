@@ -5,51 +5,107 @@
 <div class="col-lg-8">
   <div class="card mb-4" id="userprofile">
     <div class="card-body">
-      <div class="row">
-        <h5><b>Primary Address</b></h5>
-        <div class="col-sm-3">
-          <p class="mb-0">Full Name</p>
+        <div>
+          <div class="row">
+            <h5><b>Primary Address</b></h5>
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{primary_address.fist_name}}   {{primary_address.last_name}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{primary_address.email}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Phone</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{primary_address.phone}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Addressline1</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{primary_address.addressline1}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Addresline2</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{primary_address.addressline2}},{{primary_address.city}},{{primary_address.zip_code}},{{primary_address.state}}</p>
+            </div>
+            
+          </div>
         </div>
-        <div class="col-sm-9">
-          <p class="text-muted mb-0">{{primary_address.fist_name}}   {{primary_address.last_name}}</p>
+
+
+
+
+        <div class="mt-3">
+          <div class="row">
+            <h5><b>secondary Address</b></h5>
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{secondary_address.fist_name}}   {{secondary_address.last_name}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{secondary_address.email}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Phone</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{secondary_address.phone}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Addressline1</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{secondary_address.addressline1}}</p>
+            </div>
+          </div>
+          {% comment %} <hr> {% endcomment %}
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Addresline2</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{secondary_address.addressline2}},{{secondary_address.city}},{{secondary_address.zip_code}},{{secondary_address.state}}</p>
+            </div>
+            
+          </div>
         </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="mb-0">Email</p>
-        </div>
-        <div class="col-sm-9">
-          <p class="text-muted mb-0">{{primary_address.email}}</p>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="mb-0">Phone</p>
-        </div>
-        <div class="col-sm-9">
-          <p class="text-muted mb-0">{{primary_address.phone}}</p>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="mb-0">Addressline1</p>
-        </div>
-        <div class="col-sm-9">
-          <p class="text-muted mb-0">{{primary_address.addressline1}}</p>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-sm-3">
-          <p class="mb-0">Addresline2</p>
-        </div>
-        <div class="col-sm-9">
-          <p class="text-muted mb-0">{{primary_address.addressline2}},{{primary_address.city}},{{primary_address.zip_code}},{{primary_address.state}}</p>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>

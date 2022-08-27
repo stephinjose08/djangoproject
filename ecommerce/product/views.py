@@ -32,8 +32,9 @@ def detail_view(request,id):
      # item_price=price.objects.get(productItem_id=id)
      image=media.objects.get(product_id=id)
      # ziped_data=zip(product_detail,item_price,list(image))
-     ID=id-3
-     related=product.objects.filter(Category=product_detail.Category)
+     related=product.objects.filter(Category=2)
+     print(product.objects.filter(Category=2).count())
+
      return  render(request,'product-details.html',{'product_detail':product_detail,'image':image,'related':related})
 
 
@@ -45,7 +46,14 @@ def brandwise(request,brandname):
 #     ziped_data=zip(products,items_price,list(image))
     return  render(request,'shop-grid-box.html',{'products':products,'count':count})
 
-# def all_products(request):
+def categorywise(request,id):
+    products=product.objects.filter(Category=id)
+#     items_price=price.objects.filter(productItem_id__in=products.all())
+#     image=media.objects.filter(product_id__in=products.all())
+    count=products.count()
+#     ziped_data=zip(products,items_price,list(image))
+    return  render(request,'shop-grid-box.html',{'products':products,'count':count})
+
 
 def searchgrid(request,bid):
      name=request.POST.get('search')

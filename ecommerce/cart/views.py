@@ -74,13 +74,7 @@ def cart_items(request,total=0,quantity=0,cart_items=None,number=0,tax=0,grand_t
             number+=1
             quantity=cart_item.quantity
 
-        # for cart_item in cart_items:
-
-        #     Price=price.objects.get(productItem=cart_item.Product)
-        # # products=product.objects.filter(id__in=cart_items.all())
-        # # pric=price.objects.filter(productItem__in=products.all())
-        # # print(products)
-        # # print(pric)
+       
         tax=(2*total)/100
         grand_total=total+tax  
       
@@ -104,10 +98,7 @@ def cart_items(request,total=0,quantity=0,cart_items=None,number=0,tax=0,grand_t
            
                 
       }
-    # ziped_data=zip(cart_items,pric)
-    # # context={
-    #     'ziped_data':ziped_data
-    # }
+    
    
     
 
@@ -315,7 +306,7 @@ def add_to_wishlist(request,id):
     else:
         wishlist(user_id=request.user,wishlist_items=wishlist_item).save()
     return redirect(wishlist_page)
-    
+@login_required(login_url="login")   
 def remove_from_wishlist(request,id):
     deleting_item=wishlist.objects.get(user_id=request.user,wishlist_items=id)
     deleting_item.delete()

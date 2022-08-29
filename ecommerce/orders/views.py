@@ -1,21 +1,11 @@
 
-# import string
-# from unittest import result
-# from django.template.loader import render_to_string
-# from weasyprint import HTML
-# import tempfile
 
 from asyncio.windows_events import NULL
 from genericpath import exists
 import os
 from django.views.decorators.csrf import csrf_exempt 
 from django.conf import settings
-# from django.template.loader import render_to_string
-# from weasyprint import HTML
-# import tempfile
-# from django.conf import settings
-# os.add_dll_directory(r"C:\Program Files\GTK3-RuntimeWin64\lib")
-# os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\lib\girepository-1.0")
+
 from datetime import datetime 
 import datetime
 from http.client import responses
@@ -123,14 +113,9 @@ def placeorder(request):
         
         if request.method=="POST":
                 buynow_product=product.objects.get(id=id) 
-                #cart_items=cartItem.objects.filter(useID=request.user)
+                
                 total=buynow_product.discount_price
-                # for cart_item in cart_items:
-
-                #         Price=product.objects.get(id=cart_item.Product.id)
-
-                    
-                #         total+=Price.discount_price * cart_item.quantity
+                
                 grand_total=0 
                 offerrate=0
                 amount_discounted=0 
@@ -190,8 +175,7 @@ def placeorder(request):
                     new_order.tracking_number=tracknumber
                     new_order.save()
                     
-                    # orderitems=cartItem.objects.filter(useID=request.user)
-                    # for orderitem in orderitems:
+                    
                     orderproduct.objects.create(
                             order=new_order,
                             user=request.user,
@@ -201,7 +185,7 @@ def placeorder(request):
                             payment=new_payment
                         )
                     
-                    # cartItem.objects.filter(useID=request.user).delete()
+                    
                     print("deleted and order placed")
                     messages.success(request,"order placed!")
                     
@@ -876,10 +860,7 @@ def coupenoffer(request):
     print("helooo")
     id=request.session.get('buynow')
     print(id)
-    # del request.session['buynow']
-
-    #request.session.delete('buynow')
-    # request.session['buynow_id']=id
+    
     if id!=0:
         buynow_product=product.objects.get(id=id)
         total=0
@@ -893,11 +874,7 @@ def coupenoffer(request):
             if coupons.objects.filter(couponcode=code,user_is_used=user).exists():
                 print("keri")
                 messages.error(request,"already used coupon")
-                # for cart_item in cart_items:
-
-                #     Price=product.objects.get(id=cart_item.Product.id)
                 
-                #     total+=Price.discount_price * cart_item.quantity
             
                 total=buynow_product.discount_price 
                 tax=(2*total)/100
@@ -1185,135 +1162,5 @@ def invoice(request,id):
     
     return render(request,'invoice.html',context)
 
-# def pdf_view(request):
 
-# def export_invoice_pdf(request):
-#     response = HttpResponse(content_type = 'application/pdf')
-#     response['Content-Disposition'] = 'inline; attachement; filename=Invoice' +'.pdf'
-
-#     response['Content-Transfer-Encoding'] = 'binary'
-#     orders=order.objects.get(id=1)
-#     ordered_products=orderproduct.objects.filter(order_id=orders.id)
-#     total=0   
-#     for ordered_product in ordered_products:
-
-#                 Price=product.objects.get(id=ordered_product.product_id)
-
-            
-#                 total+=Price.discount_price * ordered_product.quantity
-             
-                
-#     grand_total=0
-#     offerrate=0
-#     amount_discounted=0
-#     f=False
-
-#     offerrate=orders.couponaplied
-
-#     if offerrate is None:
-#         tax=(2*total)/100   
-#         grand_total=round(total+tax,2)
-#     else:
-       
-#         f=True
-#         amount_discounted=total*(offerrate/100)
-#         print(amount_discounted)
-#         total=total-amount_discounted
-#         tax=(2*total)/100
-#         grand_total=round(total+tax,2)
-#         print(grand_total)
-    
-#     context= {'ordered_products':ordered_products,
-#             'orders':orders,
-#             'total':total,
-#             'tax':tax,
-#             'grand_total':grand_total,
-#             'f':f,
-#             'amount_discounted':amount_discounted
-#             }
-    
-
-#     html_string = render_to_string('pdf.html',context)
-
-#     html=HTML(string=html_string)
-
-#     result = html.write_pdf()
-
-#     with tempfile.NamedTemporaryFile(delete=True) as output : 
-#         output.write(result)
-#         output.flush()
-
-
-#         output=open(output.name,'rb')
-
-#         response.write(output.read())
-
-#     return response
-
-
-
-
-
-
-
-
-
-
-
-
-#     response=HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition']= 'inline; attachment; filename=invoice' +'.pdf'
-#     #    str(datetime.datetime.now())
-#     response['Content-Transfer-Encoding']='binary'
-
-#     #order products query
-#     orders=order.objects.get(id=1)
-#     ordered_products=orderproduct.objects.filter(order_id=orders.id)
-#     total=0   
-#     for ordered_product in ordered_products:
-
-#                 Price=product.objects.get(id=ordered_product.product_id)
-
-            
-#                 total+=Price.discount_price * ordered_product.quantity
-             
-                
-#     grand_total=0
-#     offerrate=0
-#     amount_discounted=0
-#     f=False
-
-#     offerrate=orders.couponaplied
-
-#     if offerrate is None:
-#         tax=(2*total)/100   
-#         grand_total=round(total+tax,2)
-#     else:
-       
-#         f=True
-#         amount_discounted=total*(offerrate/100)
-#         print(amount_discounted)
-#         total=total-amount_discounted
-#         tax=(2*total)/100
-#         grand_total=round(total+tax,2)
-#         print(grand_total)
-    
-#     context= {'ordered_products':ordered_products,
-#             'orders':orders,
-#             'total':total,
-#             'tax':tax,
-#             'grand_total':grand_total,
-#             'f':f,
-#             'amount_discounted':amount_discounted
-#             }
-#     html_string=render_to_string('pdf.html',context)
-#     page=HTML(string=html_string)
-#     result=page.write_pdf()
-#     with tempfile.NamedTemporaryFile(delete=True) as output:
-#         output.write(result)
-#         output.flush()
-#         # output=output.seek(0)
-#         output=open(output.name,'rb')
-#         response.write(output.read())
-#     return response
 

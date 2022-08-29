@@ -59,10 +59,7 @@ def userlogin(request):
     image=media.objects.filter(product_id__in=new_products.all())
     square_banner=banners.objects.get(discription='men-square_banner')
     last_image=banners.objects.get(discription='last_image')
-    # second_banner=banners.objects.get(discription='womens_collection')
-    # third_banner=banners.objects.get(discription='mens_new_arrival')
-  
-    # ziped_data=zip(new_products,item_price,list(image))
+    
     
 
     
@@ -330,7 +327,7 @@ def userprofile(request):
 
             primary_address=user_address.objects.filter(phone=request.user).last()
             print(primary_address)
-            print("fistt iffffffffffffffffff")
+           
             secondary_address=user_address2.objects.filter(user=request.user).last()
             if order.objects.filter(user_id=request.user.id).exists():
                 latest_order=order.objects.filter(user=request.user).order_by('-created_at').exclude(status="canceled").first()
@@ -404,11 +401,7 @@ def add_to_primary(request):
     secondary_address.state=state
     secondary_address.zip_code=zip_code
     secondary_address.save()
-    # context={
-    #         'primary_address':primary_address,
-    #         'secondary_address':secondary_address,
-            
-    # }
+  
     return render(request,'htmx/change_address.html',{'primary_address':primary_address,'secondary_address':secondary_address})
 @login_required(login_url="login")
 def add_new_address(request):
@@ -451,6 +444,6 @@ def add_new_address(request):
                     zip_code=zip_code,
                     country=country
             ).save()
-        return render(request,'htmx/add_addrss_button.html')
+        return render(request,'userprofile.html')
     else:
         return render(request,'htmx/add_newaddress.html')

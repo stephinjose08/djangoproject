@@ -3,9 +3,9 @@
 from distutils.command.upload import upload
 from email.mime import image
 
-from turtle import color
 
-from unicodedata import category
+
+
 from django.db import models
 from accounts.models import CustomUser
 #  f

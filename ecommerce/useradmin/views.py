@@ -2,12 +2,11 @@
 from asyncio.windows_events import NULL
 from datetime import date, datetime
 from email.mime import image
-from genericpath import exists
+# from genericpath import exists
 from multiprocessing import context
-from re import search
+# from re import search
 from django.contrib import messages
-from turtle import color
-from unicodedata import category, name
+
 from urllib.request import Request
 from django.http import HttpResponse
 from django.shortcuts import redirect, render

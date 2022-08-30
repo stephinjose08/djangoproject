@@ -4,7 +4,7 @@ from audioop import reverse
 from email import message
 import email
 from multiprocessing import context
-from turtle import home
+
 from unicodedata import name
 from unittest import result
 from urllib import request
@@ -19,7 +19,7 @@ from twilio.rest import Client
 from .models import user_address2
 import re
 import os
-from telnetlib import AUTHENTICATION
+# from telnetlib import AUTHENTICATION
 from django.http import HttpResponse
 from django.shortcuts import redirect,render
 from django.contrib.auth.forms import AuthenticationForm

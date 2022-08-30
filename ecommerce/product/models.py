@@ -77,7 +77,7 @@ class brand(models.Model):
 class product(models.Model):
     product_name=models.CharField(max_length=100)
     product_title=models.CharField(max_length=100)
-    Category=models.ForeignKey(Category,  on_delete=models.CASCADE,default=NULL) 
+    Category=models.ForeignKey(Category,  on_delete=models.CASCADE) 
     subcategory=models.ForeignKey(subcategory,on_delete=models.CASCADE) 
     discription=models.TextField()
     color=models.ForeignKey(color,on_delete=models.CASCADE) 

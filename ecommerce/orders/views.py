@@ -1,6 +1,6 @@
 
 
-from asyncio.windows_events import NULL
+
 from genericpath import exists
 import os
 from django.views.decorators.csrf import csrf_exempt 
@@ -59,7 +59,7 @@ def check_out(request,total=0,id=0,quantity=0,cart_items=None,number=0,tax=0,gra
             if user_address.objects.filter(user=request.user).exists():
                 existing_user=user_address.objects.filter(user=request.user).last()
             else:
-                existing_user=NULL
+                existing_user=None
         except ObjectDoesNotExist :
             pass
         context={
@@ -88,7 +88,7 @@ def check_out(request,total=0,id=0,quantity=0,cart_items=None,number=0,tax=0,gra
             if user_address.objects.filter(user=request.user).exists():
                 existing_user=user_address.objects.filter(user=request.user).first()
             else:
-                existing_user=NULL
+                existing_user=None
         except ObjectDoesNotExist:
             pass
         
@@ -886,7 +886,7 @@ def coupenoffer(request):
                 if user_address.objects.filter(user=request.user).exists():
                     existing_user=user_address.objects.filter(user=request.user).first()
                 else:
-                    existing_user=NULL
+                    existing_user=None
                 context={
                 'buynow':True,
                 'buynow_product':buynow_product,
@@ -970,7 +970,7 @@ def coupenoffer(request):
             if user_address.objects.filter(user=request.user).exists():
                 existing_user=user_address.objects.filter(user=request.user).first()
             else:
-                existing_user=NULL
+                existing_user=None
             context={
                 'buynow':True,
                 'buynow_product':buynow_product,
@@ -1020,7 +1020,7 @@ def coupenoffer(request):
                 if user_address.objects.filter(user=request.user).exists():
                     existing_user=user_address.objects.filter(user=request.user).first()
                 else:
-                    existing_user=NULL
+                    existing_user=None
                 context={
                 'cart_items':cart_items,
                 'totalprice':total,
@@ -1101,7 +1101,7 @@ def coupenoffer(request):
             if user_address.objects.filter(user=request.user).exists():
                     existing_user=user_address.objects.filter(user=request.user).first()
             else:
-                    existing_user=NULL
+                    existing_user=None
             context={
                 'cart_items':cart_items,
                 'totalprice':total,

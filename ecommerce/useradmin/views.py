@@ -1,5 +1,5 @@
 
-from asyncio.windows_events import NULL
+
 from datetime import date, datetime
 from email.mime import image
 # from genericpath import exists
@@ -613,8 +613,8 @@ def category_offer(request,id=0):
 def delete_category_offer(request,id):
     
     category_obj=Category.objects.get(id=id)
-    category_obj.offer=NULL
-    category_obj.offer_name=NULL
+    category_obj.offer=None
+    category_obj.offer_name=None
     category_obj.is_offer=False
     category_obj.save()
     messages.success(request," deleted successfully")

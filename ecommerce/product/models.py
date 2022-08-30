@@ -1,11 +1,10 @@
-from asyncio.windows_events import NULL
-from django.utils.text import slugify 
+# from asyncio.windows_events import NULL
+# from django.utils.text import slugify 
 from distutils.command.upload import upload
 from email.mime import image
 
-from tabnanny import verbose
-from turtle import color, ondrag
-from typing import Set
+from turtle import color
+
 from unicodedata import category
 from django.db import models
 from accounts.models import CustomUser

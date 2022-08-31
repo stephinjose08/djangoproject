@@ -697,7 +697,11 @@
         transform: rotate(360deg);
     }
 }
-.fruits-services-img img {}
+.fruits-services-img img {
+    
+}
+
+
 .single-fruits-services:hover .fruits-services-img img {
     -webkit-animation: 500ms ease-in-out 0s normal none 1 running tada;
     animation: 500ms ease-in-out 0s normal none 1 running tada;
@@ -1851,6 +1855,10 @@ a.banner-book-style-btn:hover {
     font-size: 24px;
     font-weight: bold;
 }
+.owl-prev{
+    background-image: url("img\icon-img\left.png");
+}
+
 .product-rating-3 i {
     color: #0e0e0e;
     font-size: 18px;

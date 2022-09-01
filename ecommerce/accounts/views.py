@@ -358,8 +358,8 @@ def userprofile(request):
 
     else:
             context={
-            'primary_address':NULL,
-            'secondary_address':NULL,
+            'primary_address':None,
+            'secondary_address':None,
             'ordercount':0,'canceled_order':0,
             'total_sum':0,
             'latest_order_items':0,

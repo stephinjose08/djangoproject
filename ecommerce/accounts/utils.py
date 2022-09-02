@@ -38,7 +38,7 @@ def send_sms(phone_number):
 
 
 account_sid = 'ACec5b967dd33bfb87b6b5bee530d75fcf'
-auth_token = '5d44f04a4024d09709b4029b76305c4c'
+auth_token = '68030b7ac96c89b5fdd1a20dc7b6e0ce'
 client = Client(account_sid, auth_token)
 def check_sms(user,number):
         verification_check = client.verify \

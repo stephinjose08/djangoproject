@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from distutils.command.config import config
 import os
 from pathlib import Path
-
+from  decouple import Config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -136,3 +137,9 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#twilio keys
+account_sid =config('account_sid')
+auth_token = config('auth_token')
+services =config('services')

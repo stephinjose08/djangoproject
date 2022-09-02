@@ -22,7 +22,7 @@ function lastnamevalidation(){
 
     var name = document.getElementById('lastname').value
     if(!name.match(/^[A-Za-z\s]{3,}$/)){
-        lastnameError.innerHTML = '<p class="text-danger">first name must be characters only</p>'
+        lastnameError.innerHTML = '<p class="text-danger">last name must be characters only</p>'
     return false;
 
     }

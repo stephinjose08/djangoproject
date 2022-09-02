@@ -24,7 +24,7 @@ from twilio.rest import Client
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
 account_sid = 'ACec5b967dd33bfb87b6b5bee530d75fcf'
-auth_token = '68030b7ac96c89b5fdd1a20dc7b6e0ce'
+auth_token = 'c66192b9907fcdb92a5d57c5ab287ec0'
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \
@@ -38,7 +38,7 @@ def send_sms(phone_number):
 
 
 account_sid = 'ACec5b967dd33bfb87b6b5bee530d75fcf'
-auth_token = '68030b7ac96c89b5fdd1a20dc7b6e0ce'
+auth_token = 'c66192b9907fcdb92a5d57c5ab287ec0'
 client = Client(account_sid, auth_token)
 def check_sms(user,number):
         verification_check = client.verify \

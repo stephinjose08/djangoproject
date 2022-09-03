@@ -23,8 +23,8 @@ from django.conf import settings
 
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
-account_sid =settings.account_sid
-auth_token =settings.auth_token
+account_sid = settings.account_sid
+auth_token = settings.auth_token
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \
@@ -37,8 +37,8 @@ def send_sms(phone_number):
 
 
 
-account_sid =settings.account_sid
-auth_token =settings.auth_token
+account_sid = settings.account_sid
+auth_token = settings.auth_token
 client = Client(account_sid, auth_token)
 def check_sms(user,number):
         verification_check = client.verify \

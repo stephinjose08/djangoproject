@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from distutils.command.config import config
+# from distutils.command.config import config
 import os
 from pathlib import Path
-from  decouple import Config
+from  decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i3glcd6&x4f9fpkd76t%n8)&g8k^6)w@kzcjw(kmou3$kk=@q4'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =True
@@ -140,6 +140,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #twilio keys
-account_sid =Config('account_sid')
-auth_token = Config('auth_token')
-services =Config('services')
+account_sid = config('account_sid')
+auth_token = config('auth_token')
+services = config('services')

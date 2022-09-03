@@ -13,18 +13,18 @@
 	{% block static-css %}
 		 <!-- all css here -->
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
-        <link rel="stylesheet" href="{% static '/css/magnific-popup.css'%}">
-        <link rel="stylesheet" href="{% static '/css/animate.css'%}">
-        <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css'%}">
-        <link rel="stylesheet" href="{% static '/css/themify-icons.css'%}">
-        <link rel="stylesheet" href="{% static '/css/pe-icon-7-stroke.css'%}">
-        <link rel="stylesheet" href="{% static '/css/icofont.css'%}">
-        <link rel="stylesheet" href="{% static '/css/meanmenu.min.css'%}">
-        <link rel="stylesheet" href="{% static '/css/easyzoom.css'%}">
-        <link rel="stylesheet" href="{% static '/css/bundle.css'%}">
-        <link rel="stylesheet" href="{% static '/css/style.css'%}">
-        <link rel="stylesheet" href="{% static '/css/responsive.css'%}">
-        <script src="{% static '/js/vendor/modernizr-3.11.7.min.js'%}"></script> 
+        <link rel="stylesheet" href="{% static 'css/magnific-popup.css'%}">
+        <link rel="stylesheet" href="{% static 'css/animate.css'%}">
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
+        <link rel="stylesheet" href="{% static 'css/themify-icons.css'%}">
+        <link rel="stylesheet" href="{% static 'css/pe-icon-7-stroke.css'%}">
+        <link rel="stylesheet" href="{% static 'css/icofont.css'%}">
+        <link rel="stylesheet" href="{% static 'css/meanmenu.min.css'%}">
+        <link rel="stylesheet" href="{% static 'css/easyzoom.css'%}">
+        <link rel="stylesheet" href="{% static 'css/bundle.css'%}">
+        <link rel="stylesheet" href="{% static 'css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'css/responsive.css'%}">
+        <script src="{% static 'js/vendor/modernizr-3.11.7.min.js'%}"></script> 
         {% endblock static-css %}
     </head>
     <body>
@@ -210,7 +210,7 @@
             </div>
         </div>
         <!-- product area start -->
-        <div class="product-area pb-95">
+        {% comment %} <div class="product-area pb-95">
             <div class="container">
                 <div class="section-title-3 text-center mb-50">
                     <h2>Related products</h2>
@@ -280,7 +280,7 @@
                    
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         {% endblock  %}
         <!-- product area end -->
         {% block footer %}

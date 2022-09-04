@@ -1,7 +1,7 @@
 import os
 from twilio.rest import Client
-from django.conf import settings
 
+from  decouple import config
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
 
@@ -23,13 +23,13 @@ from django.conf import settings
 
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
-account_sid = settings.account_sid
-auth_token = settings.auth_token
+account_sid = config('account_sid')
+auth_token = config('auth_token')
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \
                         .v2 \
-                        .services(settings.services) \
+                        .services(config('services')) \
                         .verifications \
                         .create(to=f'+91{phone_number}', channel='sms')
 
@@ -37,13 +37,13 @@ def send_sms(phone_number):
 
 
 
-account_sid = settings.account_sid
-auth_token = settings.auth_token
+account_sid = config('account_sid')
+auth_token = config('auth_token')
 client = Client(account_sid, auth_token)
 def check_sms(user,number):
         verification_check = client.verify \
                                     .v2 \
-                                    .services(settings.services) \
+                                    .services(config('services')) \
                                     .verification_checks \
                                     .create(to=f'+91{user}', code=number)
 

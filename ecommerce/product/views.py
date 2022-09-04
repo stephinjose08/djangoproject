@@ -32,7 +32,7 @@ def detail_view(request,id):
      # item_price=price.objects.get(productItem_id=id)
      image=media.objects.get(product_id=id)
      # ziped_data=zip(product_detail,item_price,list(image))
-     related=product.objects.filter(Category=2)
+     related=product.objects.filter(Category=product_detail.Category)
      print(product.objects.filter(Category=2).count())
 
      return  render(request,'product-details.html',{'product_detail':product_detail,'image':image,'related':related})

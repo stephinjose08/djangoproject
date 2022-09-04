@@ -140,6 +140,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #twilio keys
-account_sid = config('account_sid')
-auth_token = config('auth_token')
-services = config('services')

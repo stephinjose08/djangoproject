@@ -13,7 +13,7 @@ def send_sms(phone_number):
                         .verifications \
                         .create(to=f'+91{phone_number}', channel='sms')
 
-    print(verification.status)
+    
 
 
 
@@ -27,5 +27,5 @@ def check_sms(user,number):
                                     .verification_checks \
                                     .create(to=f'+91{user}', code=number)
 
-        print(verification_check.status)
+        
         return(verification_check.status)

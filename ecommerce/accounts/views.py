@@ -146,7 +146,6 @@ def sms_varification(request):
             messages.error(request,"otp not correct")
             return render(request,'htmx/otp.html')
     else:
-        messages.success(request,settings.ACCOUNT_SID)
         send_sms(user.phone)
         return render(request,'htmx/otp.html')
 

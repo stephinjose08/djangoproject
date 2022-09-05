@@ -1,11 +1,15 @@
+from concurrent.futures import process
 import os
 from twilio.rest import Client
 from django.conf import settings
 from django.contrib import messages
 
 
-account_sid = settings.ACCOUNT_SID
-auth_token = settings.AUTH_TOKEN
+# account_sid = settings.ACCOUNT_SID
+account_sid = process.env.ACCOUNT_SID
+auth_token = process.env.AUTH_TOKEN
+# auth_token = settings.AUTH_TOKEN
+
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \

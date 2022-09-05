@@ -7,14 +7,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-account_sid = os.getenv("ACCOUNT_SID")
-auth_token = os.getenv("AUTH_TOKEN")
+account_sid = settings.ACCOUNT_SID
+auth_token = settings.AUTH_TOKEN
 
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \
                         .v2 \
-                        .services(os.getenv("SERVICES")) \
+                        .services(settings.SERVICES) \
                         .verifications \
                         .create(to=f'+91{phone_number}', channel='sms')
 

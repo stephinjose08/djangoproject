@@ -1,6 +1,6 @@
 import os
 from twilio.rest import Client
-
+from django.conf import settings
 from  decouple import config
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure

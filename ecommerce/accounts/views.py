@@ -100,7 +100,9 @@ def auth_view(request):
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     
 def sms_varification(request):
     pk=request.session.get("pk")
+    
     user=CustomUser.objects.get(pk=pk)
+    print(user.phone)
     if request.method=="POST":
         print("entered")
     
@@ -144,6 +146,7 @@ def sms_varification(request):
             return render(request,'htmx/otp.html')
     else:
         send_sms(user.phone)
+        
         return render(request,'htmx/otp.html')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     

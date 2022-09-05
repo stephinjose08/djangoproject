@@ -146,7 +146,6 @@ def sms_varification(request):
             return render(request,'htmx/otp.html')
     else:
         send_sms(user.phone)
-        
         return render(request,'htmx/otp.html')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     

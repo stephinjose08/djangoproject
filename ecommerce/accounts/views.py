@@ -73,7 +73,7 @@ def userlogin(request):
     item_price=price.objects.filter(productItem_id__in=men_products.all())
     image=media.objects.filter(product_id__in=men_products.all())
     kids_zip_data=zip(kids_products,item_price,list(image))
-
+    print(settings.AUTH_TOKEN)
     print(request.user)
     return render(request,'fasionhome.html', {'ziped_data':new_products,'c_images':c_images,'square_banner':square_banner,'last_image':last_image,'kids_zip_data':kids_zip_data})
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
@@ -330,7 +330,7 @@ def userprofile(request):
     if user_address.objects.filter(user_id=request.user.id).exists():
 
             primary_address=user_address.objects.filter(phone=request.user).last()
-            print(primary_address)
+           
            
             secondary_address=user_address2.objects.filter(user=request.user).last()
             if order.objects.filter(user_id=request.user.id).exists():

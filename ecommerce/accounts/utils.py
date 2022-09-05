@@ -9,7 +9,6 @@ load_dotenv()
 
 account_sid = settings.ACCOUNT_SID
 auth_token = settings.AUTH_TOKEN
-
 client = Client(account_sid, auth_token)
 def send_sms(phone_number):
     verification = client.verify \
@@ -19,7 +18,7 @@ def send_sms(phone_number):
                         .create(to=f'+91{phone_number}', channel='sms')
 
     print(verification.status)
-
+  
 
 
 account_sid = settings.ACCOUNT_SID
@@ -31,6 +30,6 @@ def check_sms(user,number):
                                     .services(settings.SERVICES) \
                                     .verification_checks \
                                     .create(to=f'+91{user}', code=number)
-
-        
+            
+       
         return(verification_check.status)

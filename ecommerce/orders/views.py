@@ -802,12 +802,12 @@ def my_orders(request,id=0):
    
         if order.objects.filter(user=request.user.id).exists():
             orders=order.objects.filter(user=request.user.id).order_by('-created_at')
-            print(orders)
-            print(request.user.id)
+       
+    
             orderedItems=orderproduct.objects.filter(order_id__in=orders)
             
             products=product.objects.filter(id__in=orderedItems)
-            print(products)
+         
             ziped_data=zip(orders,orderedItems,products)
             return render(request,'myorders.html',{"ziped_data":ziped_data,"orders":orders,"is_order":True})
         else:
@@ -825,11 +825,11 @@ def trackorder(request,track):
 def cancel_order(request,rack):
     
     canceled_order=order.objects.get(tracking_number=rack)
-    print(rack)
+   
     canceled_order.status="canceled"
     canceled_order.save()
     reason=request.POST.get("reason")
-    print(reason)
+
     canceledorder=canceled_orders.objects.create(user=request.user,
                                                  order=canceled_order,
                                                  reason_for_cancel=reason)
@@ -840,11 +840,11 @@ def cancel_order(request,rack):
 def return_order(request,rack):
     
     returned_order=order.objects.get(tracking_number=rack)
-    print(rack)
+
     returned_order.status="returned"
     returned_order.save()
     reason=request.POST.get("reason")
-    print(reason)
+
     returnorder=returned_orders.objects.create(user=request.user,
                                                  order=returned_order,
                                                  reason_for_return=reason)

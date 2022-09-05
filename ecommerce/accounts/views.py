@@ -26,6 +26,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+from django.conf import settings
 
 
 
@@ -145,6 +146,7 @@ def sms_varification(request):
             messages.error(request,"otp not correct")
             return render(request,'htmx/otp.html')
     else:
+        messages.success(request,settings.ACCOUNT_SID)
         send_sms(user.phone)
         return render(request,'htmx/otp.html')
 
@@ -238,6 +240,7 @@ def varify(request):
     else:
         send_sms(request.session['phone'])
         return render(request,'htmx/signinotp.html')      
+
 
 def category_display(request,id):
     if id==1:

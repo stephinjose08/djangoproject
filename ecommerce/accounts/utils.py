@@ -1,7 +1,8 @@
 import os
 from twilio.rest import Client
 from django.conf import settings
-from  decouple import config
+from django.contrib import messages
+
 
 account_sid = settings.ACCOUNT_SID
 auth_token = settings.AUTH_TOKEN
@@ -13,7 +14,7 @@ def send_sms(phone_number):
                         .verifications \
                         .create(to=f'+91{phone_number}', channel='sms')
 
-    
+    print(verification.status)
 
 
 

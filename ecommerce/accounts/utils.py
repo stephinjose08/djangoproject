@@ -3,9 +3,7 @@ import os
 from twilio.rest import Client
 from django.conf import settings
 from django.contrib import messages
-# from dotenv import load_dotenv
 
-# load_dotenv()
 
 account_sid = settings.ACCOUNT_SID
 auth_token = settings.AUTH_TOKEN

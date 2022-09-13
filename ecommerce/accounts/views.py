@@ -154,10 +154,11 @@ def sms_varification(request):
     
     user=CustomUser.objects.get(pk=pk)
     print(user.phone)
+    phone=user.phone
     if request.method=="POST":
         print("entered")
         number=request.POST.get("otp")
-        if check_sms(user,number)=='approved':
+        if check_sms(phone,number)=='approved':
             request.session['phone']=user.phone
             try:
                 cart=Cart.objects.get(cart_ID=_cart_ID(request))
@@ -193,7 +194,7 @@ def sms_varification(request):
             messages.error(request,"otp not correct")
             return render(request,'htmx/otp.html')
     else:
-        # send_sms(user.phone)
+        send_sms(phone)
         return render(request,'htmx/otp.html')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     

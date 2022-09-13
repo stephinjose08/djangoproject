@@ -3,7 +3,7 @@ from django.urls import  path
 from  .import views
 
 urlpatterns=[
-
+   path("loginwithotp/",views.login_with_otp,name='login-with-otp'),
    path("authenticate/",views.auth_view,name='login'),
    path("varify/",views.sms_varification,name='varification'),
    path("",views.userlogin,name="home"),

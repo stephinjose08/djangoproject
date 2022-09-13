@@ -103,8 +103,8 @@ order
                         hx-trigger="submit"
                         hx-target="#sales-report-table">
                          
-                          From :&nbsp<input type='date' name="fromdate"/>&nbsp &nbsp &nbsp
-                          To :&nbsp<input type='date' name="todate"/>
+                          From :&nbsp<input type='date' id="datefield1" max='2000-13-13' name="fromdate"/>&nbsp &nbsp &nbsp
+                          To :&nbsp<input id="datefield" type='date' max='2000-13-13' name="todate"/>
                           <input type="submit" value="Search"/>
                     </form>
                     </div>
@@ -207,6 +207,23 @@ order
    
 {% block static-js %}
 
+<script>
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+if (dd < 10) {
+  dd = '0' + dd
+}
+if (mm < 10) {
+  mm = '0' + mm
+}
+
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("datefield1").setAttribute("max", today)
+document.getElementById("datefield").setAttribute("max", today);
+</script>
 
 <script>
 function print_current_page(){

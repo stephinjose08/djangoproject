@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge"> 
         {% block title %}
-      user login
+      user login with otp
         {% endblock  %}
       
         
@@ -39,14 +39,11 @@
                                         {% csrf_token %}
                                         <input type="tel" id="phone-number" name="phone" placeholder="login with phone number" onkeyup="numbervalidation()">
                                         <p class=" text-danger" id="username-error"></p>
-                                        <input id="pass-word" type="Password" name="password" placeholder="Password" onkeyup="passwordvalidation()" > 
-                                        <p class=" text-danger" id="password-error"></p>
+                                      
                                        <div class="button-box">  
                                           
                                        
-                                           <div class="login-toggle-btn">
-                                             
-                                              
+                                           <div class="login-toggle-btn">  
                                            </div>
                                            <p id="form-error"></p>
                                            <button type="submit" class="default-btn floatright">Login</button>
@@ -54,7 +51,7 @@
                                          
                                        </div>
                                     </form>
-                                    <a href={%url 'login-with-otp' %}>login with OTP</a>
+
                                 </div>
 
                             </div>

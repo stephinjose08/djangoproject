@@ -94,6 +94,7 @@
                                                                 <div class="col-md-8">
                                                                     <select required class="form-control form-custom mb-4" name="category" id="category" onkeyup="categoryvalidation()">
                                                                         <option value="">Select Category</option>
+                                                                        <option selected value="{{product.Category}}">{{product.Category}}</option>
                                                                         {% for category in categorys %}
                                                                         <option value="{{category.name}}">{{category.name}}</option>
                                                                         {% endfor %}
@@ -109,6 +110,7 @@
                                                                 <div class="col-md-8">
                                                                     <select required class="form-control form-custom mb-4" name="subcategory" id="subcategory" onkeyup="categoryvalidation()">
                                                                         <option value="">Select Sub Category</option>
+                                                                        <option selected value="{{product.subcategory}}">{{product.subcategory}}</option>
                                                                         {% for sub_category in subcategorys %}
                                                                         <option value="{{sub_category.name}}">{{sub_category.name}}</option>
                                                                         {% endfor %}
@@ -123,6 +125,7 @@
                                                                 <div class="col-md-8">
                                                                     <select required class="form-control form-custom" name="brand" id="brand" onkeyup="brandvalidation()">
                                                                         <option value="">Select a Brand</option>
+                                                                        <option selected value="{{product.brand}}">{{product.brand}}</option>
                                                                         {% for brand in brands %}
                                                                         <option value="{{brand.name}}">{{brand.name}}</option>
                                                                         {% endfor %}
@@ -137,6 +140,7 @@
                                                                 <div class="col-md-8">
                                                                     <select required class="form-control form-custom" name="color" id="color" onkeyup="colorvalidation()">
                                                                         <option value="">Select a Color</option>
+                                                                        <option selected value="{{product.color}}">{{product.color}}</option>
                                                                         {% for color in colors%}
                                                                         <option value="{{color.name}}">{{color.name}}</option>
                                                                         {% endfor %}
@@ -151,6 +155,7 @@
                                                                 <div class="col-md-8">
                                                                     <select required class="form-control form-custom" name="size"id="size" onkeyup="sizevalidation()">
                                                                         <option value="">Select Size</option>
+                                                                        <option selected value="{{product.size}}">{{product.size}}</option>
                                                                         {% for size in sizes%}
                                                                         <option value="{{size.name}}">{{size.name}}</option>
                                                                         {% endfor %}
@@ -173,14 +178,14 @@
                                               
                                                     <div class="form-group mb-4">
                                                         <div class="row">
-                                                            <label class="col-md-4">Orginal Price :</label>
+                                                            <label class="col-md-4"> Price :</label>
                                                             <div class="col-md-8">
                                                                 <input  class="form-control" name="orginalprice" type="text" id="actualprice" onkeyup="actual_pricevalidation()" value={{product.actual_price}}>
                                                                 <p class="text-danger" id="actualprice_error"></p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group mb-4">
+                                                    {% comment %} <div class="form-group mb-4">
                                                         <div class="row">
                                                             <label class="col-md-4">Discount rate:</label>
                                                             <div class="col-md-8">
@@ -197,7 +202,7 @@
                                                                 <p class="text-danger" id="discountprice_error"></p>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> {% endcomment %}
                                                     
                                                     <div class="form-group">
                                                         <div class="row">
@@ -213,34 +218,34 @@
                                                                 <div class="mb-3">
                                                                     <div id="image-box"></div>
                                                                     <div class="custom-file">
-                                                                        <input  type="file"  class="form-control-file" name='image1' id="image1" onchange="return image1validation()">
+                                                                        <input  type="file"  class="form-control-file" name='image1'  id="image1" onchange="return image1validation()">
                                                                         <p class="text-danger" id="image1_error"></p>
                                                                     </div>
                                                                     
                                                                 </div>
                                                                  <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image2' id="image2">
+                                                                        <input required type="file"  class="form-control-file" name='image2' id="image2" onchange="return image2validation()">
                                                                         <p class="text-danger" id="image2_error"></p>
                                                                     </div>
                                                                     
                                                                 </div> 
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image3' id="image3">
+                                                                        <input required type="file"  class="form-control-file" name='image3' id="image3" onchange="return image3validation()">
                                                                         <p class="text-danger" id="image3_error"></p>
                                                                     </div>
                                                                     
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image4' id="image4">
+                                                                        <input required type="file"  class="form-control-file" name='image4' id="image4" onchange="return image4validation()">
                                                                         <p class="text-danger" id="image4_error"></p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div class="custom-file">
-                                                                        <input required type="file"  class="form-control-file" name='image5' id="image5">
+                                                                        <input required type="file"  class="form-control-file" name='image5' id="image5" onchange="return image5validation()">
                                                                         <p class="text-danger" id="image5_error"></p>
                                                                     </div> 
                                                                        
@@ -527,11 +532,16 @@
         disscountrate_error.innerHTML = '<p class="text-success">valid</p>'
         return true;
     }
- function image1validation(){
+var allowedExtensions=/(\.jpeg|\.jpg|\.png)$/i;
+function image1validation(){
     var image1=document.getElementById('image1').value
     if(image1==''){
         image1_error.innerHTML='<p class="text-danger">image field is empty</p>'
         return false; 
+    }
+    else if (!allowedExtensions.exec(image1)){
+        image1_error.innerHTML='<p class="text-danger">only allowed .jpeg .jpg .png extensions</p>'
+        return false;   
     }
     image1_error.innerHTML='<p class="text-success">valid</p>'
     return true;
@@ -541,6 +551,10 @@
     if(image2==''){
         image2_error.innerHTML='<p class="text-danger">image field is empty</p>'
         return false; 
+    }
+    else if (!allowedExtensions.exec(image2)){
+        image2_error.innerHTML='<p class="text-danger">only allowed .jpeg .jpg .png extensions</p>'
+        return false;   
     }
     image2_error.innerHTML='<p class="text-success">valid</p>'
     return true;
@@ -552,6 +566,10 @@
         image3_error.innerHTML='<p class="text-danger">image field is empty</p>'
         return false; 
     }
+    else if (!allowedExtensions.exec(image3)){
+        image3_error.innerHTML='<p class="text-danger">only allowed .jpeg .jpg .png extensions</p>'
+        return false;   
+    }
     image3_error.innerHTML='<p class="text-success">valid</p>'
     return true;
 
@@ -562,6 +580,10 @@
         image4_error.innerHTML='<p class="text-danger">image field is empty</p>'
         return false; 
     }
+    else if (!allowedExtensions.exec(image4)){
+        image4_error.innerHTML='<p class="text-danger">only allowed .jpeg .jpg .png extensions</p>'
+        return false;   
+    }
     image4_error.innerHTML='<p class="text-success">valid</p>'
     return true;
 
@@ -571,6 +593,10 @@
     if(image5==''){
         image5_error.innerHTML='<p class="text-danger">image field is empty</p>'
         return false; 
+    }
+    else if (!allowedExtensions.exec(image5)){
+        image5_error.innerHTML='<p class="text-danger">only allowed .jpeg .jpg .png extensions</p>'
+        return false;   
     }
     image5_error.innerHTML='<p class="text-success">valid</p>'
     return true;

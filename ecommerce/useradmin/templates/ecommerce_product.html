@@ -3,14 +3,14 @@
 {% block title %}
 <title>products </title>
 {% endblock title %}
-    
+{% block static-css %}  
     <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
-{% block static-css %}
+
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link rel="stylesheet" type="text/css" href="{% static 'plugins/table/datatable/datatables.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/ecommerce/product.css' %}">
@@ -1119,7 +1119,7 @@
                 </div>
                 <div class="d-flex justify-content-center col-md-3  ">
                 
-                <select class="form-control form-custom" name="Category" 
+                <select class="form-control form-custom mz-2" style="width:12rem;" name="Category" 
                 hx-get="{% url 'sub-categories' %}"
                 hx-trigger="change"
                 hx-target="#subcat"
@@ -1133,11 +1133,11 @@
            
                 {% include 'htmx/subcategory_htmx.html' %}
             
-            <button class="btn primary"
-                 hx-delete="{% url  'display-all'  %}"
+            {% comment %} <button class="btn primary mx-4"
+                 hx-delete="{% url  'view-product'  %}"
                      hx-target="#ecommerce-product-list"
                       hx-trigger"click">
-                display all</button>
+                display all</button> {% endcomment %}
             
                 </div>
                 <br>
@@ -1172,7 +1172,7 @@
     {% endblock content %}
     <!--  BEGIN FOOTER  -->
     
-    {% block static-js %}
+{% block static-js %}
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js'%}"></script>
     <script src="{% static 'assets/js/loader.js'%}"></script>
@@ -1192,11 +1192,11 @@
          evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
     });
 </script>
-    <script src="assets/js/custom.js"></script>
+    <script src="{% static 'assets/js/custom.js'%}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!--  BEGIN CUSTOM SCRIPT FILES  -->
-    <script src="plugins/table/datatable/datatables.js"></script>
+    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
     <script>
         $('#ecommerce-product-list').DataTable({
             "lengthMenu": [ 5, 10, 20, 50, 100 ],

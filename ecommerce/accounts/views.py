@@ -78,7 +78,7 @@ def userlogin(request):
     return render(request,'fasionhome.html', {'ziped_data':new_products,'c_images':c_images,'square_banner':square_banner,'last_image':last_image,'kids_zip_data':kids_zip_data})
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
 def auth_view(request):
- 
+    print("heyyy")
     if request.method =='POST':
      
         phone=request.POST.get("phone")
@@ -89,15 +89,65 @@ def auth_view(request):
         if user is not None:
             request.session['pk']=user.pk
             print("success")
-            
-            return redirect(sms_varification)
+            request.session['phone']=user.phone
+            try:
+                cart=Cart.objects.get(cart_ID=_cart_ID(request))
+                cart_item_exist=cartItem.objects.filter(cart=cart).exists()
+
+                if cart_item_exist:
+                     cart_items=cartItem.objects.filter(cart=cart)
+                     cart_users=cartItem.objects.filter(useID=user)
+
+
+                     for cart_item in cart_items:
+                        f=0
+                       
+                        for cart_user in cart_users:
+                                if cart_item.Product==cart_user.Product:
+                                    cart_user.quantity+=cart_item.quantity
+                                    cart_item.delete()
+                                    cart_user.save()
+                                    f=1
+                                    break
+                        if f==0:
+                                    cart_item.useID=user
+                                    cart_item.save()
+                    
+
+                        
+            except:
+                pass
+            login(request,user)
+            return redirect(userlogin)
         else:
             print("incorrect")
             messages.error(request,"username or password are incorrect")
             return render(request,"login.html")
         
     return render(request,"login.html")
+
+@cache_control(no_cache =True, must_revalidate =True, no_store =True)
+def login_with_otp(request):
+    print("helooo")
+    if request.method =='POST':
+     
+        phone=request.POST.get("phone")
         
+        if CustomUser.objects.filter(phone=phone).exists():
+            user=CustomUser.objects.get(phone=phone)
+            
+            request.session['pk']=user.pk
+            print("success")
+                
+            return redirect(sms_varification)
+        else:
+            print("incorrect")
+            messages.error(request,"phone number not exists please register")
+            return render (request,'register.html')
+    else:
+
+        return render(request,"htmx/phonenumberform.html")
+       
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     
 def sms_varification(request):
     pk=request.session.get("pk")
@@ -106,10 +156,7 @@ def sms_varification(request):
     print(user.phone)
     if request.method=="POST":
         print("entered")
-    
-    
         number=request.POST.get("otp")
-        
         if check_sms(user,number)=='approved':
             request.session['phone']=user.phone
             try:
@@ -146,7 +193,7 @@ def sms_varification(request):
             messages.error(request,"otp not correct")
             return render(request,'htmx/otp.html')
     else:
-        send_sms(user.phone)
+        # send_sms(user.phone)
         return render(request,'htmx/otp.html')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)     

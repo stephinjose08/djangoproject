@@ -40,12 +40,13 @@
                                         {% csrf_token %}
                                         <label for=""><b>enter Your 5 digit verification code has sent to your phone</b></label>
                                         <input  type="tel" name="otp" id="otpcode" placeholder="verification code...." onkeyup="codevalidation()">
-                                        <p id="login_code_error"></p>
+                                        <p id="code_error" class="text-danger"></p>
                                
                                         <a href="{% url 'varification' %}">did'nt get an otp</a>
                                        
                                        <div class="button-box">  
                                            <button type="submit" class="default-btn floatright">verify</button>
+                                           <p id="login_code_error" class="text-danger"></p>
                                            {% for msg in messages %}
                                            {{msg}}
                                            {% endfor %}
@@ -66,24 +67,33 @@
         
 {% block static-js %}
 <script>
-    var codeError = document.getElementById('code-error')
+    var codeError = document.getElementById('code_error')
     var codeformError=document.getElementById('login_code_error')
 
      function codevalidation(){
 
+        var regex = /^\d*(\.\d{2})?$/;
         var otp = document.getElementById('otpcode').value
         if(otp==''){
-            codeError.innerHTML = 'Field should not be empty';
+            codeError.innerHTML = '<p class="text-danger">code field is empty</p>'
             return false;
         }
-        codeError.innerHTML = ''
+        else if(!regex.test(otp)){
+            codeError.innerHTML = '<p class="text-danger">verification code contains only digits</p>'
+            return false;
+        }
+        else if(otp.length!=5){
+            codeError.innerHTML = '<p class="text-danger">verification code must be 5 digits</p>'
+            return false;
+        }
+        codeError.innerHTML = '<p class="text-success">valid</p>'
         return true;
     }
 
     
     function codeformvalidation(){
         if(!codevalidation()){
-            codeformError.innerHTML = 'code field is empty';
+            codeformError.innerHTML = 'enter code properly';
             return false;
         }
         codeformError.innerHTML = ''

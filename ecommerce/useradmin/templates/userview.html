@@ -111,16 +111,22 @@
     <!--  BEGIN PROFILE SIDEBAR  -->
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/loader.js' %}"></script>
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.min.' %}"></script>
-    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+  
     <!-- htmx -->
 
   
-    {% block static-js %}
+    
+</body>
+</html>
+{% block static-js %}
+
+<script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'assets/js/loader.js' %}"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.' %}"></script>
+<script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
 
     <script>
         document.body.addEventListener('htmx:configRequest', (evt)=> {
@@ -128,11 +134,11 @@
              evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
         });
     </script>
-    <script src="assets/js/custom.js"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
     <!-- END GLOBAL MANDATORY STYLES -->
-    <script src="@@path/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="{% static '@@path/vendor/sweetalert2/dist/sweetalert2.all.min.js' %}"></script>
     <!--  BEGIN CUSTOM SCRIPT FILES  -->
-    <script src="plugins/table/datatable/datatables.js"></script>
+    <script src="{% static 'plugins/table/datatable/datatables.js' %}"></script>
     <script>
         var product_customers = $('#ecommerce-product-customers').DataTable({
             "lengthMenu": [ 5, 10, 20, 50, 100 ],
@@ -153,14 +159,6 @@
         multiCheck(product_customers);
     </script>
     <!--  BEGIN CUSTOM SCRIPT FILES  -->
-
-    <script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}' %}"></script>
-    <script src="{% static 'assets/js/loader.js' %}"></script>
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-    <script src="{% static 'assets/js/app.js' %}"></script>
-    
     <script>
         $(document).ready(function() {
             App.init();
@@ -173,6 +171,5 @@
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="{% static 'plugins/popup/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'plugins/popup/custom-maginfic-popup.js' %}"></script>
-    {% endblock static-js %}
-</body>
-</html>
+    
+{% endblock static-js %}

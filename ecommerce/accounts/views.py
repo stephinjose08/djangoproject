@@ -43,6 +43,7 @@ def userlogin(request):
     for products in all_products:
         amount_discounted=products.actual_price*(products.discount_rate/100)
         products.discount_price=products.actual_price-amount_discounted
+       
         products.save()
 
     for products in all_products:
@@ -54,6 +55,7 @@ def userlogin(request):
                 amount_discounted=products.actual_price*(products.discount_rate/100)
                 products.discount_price=products.actual_price-amount_discounted
         products.save()
+    
     c_images=banners.objects.filter(discription='c_images')                                                    
     new_products=product.objects.filter(is_new_item=True)
     item_price=price.objects.filter(productItem_id__in=new_products.all())

@@ -1,4 +1,5 @@
 
+from http.client import HTTPResponse
 from itertools import count
 from multiprocessing import context
 from tokenize import Number
@@ -8,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import wishlist
+from django.urls import reverse
 from django.contrib import messages
 from product.models import product,price,media
 from cart.models import Cart,cartItem
@@ -22,8 +24,11 @@ def _cart_ID(request):
 
 def add_cart(request,product_id):
     Product=product.objects.get(id=product_id)
+    if Product.stock<1:
+        messages.error(request,"product out of stok")
+        return redirect('/')
     if request.user.is_authenticated:
-      
+        
         try:
             cartitems=cartItem.objects.get(Product=Product,useID=request.user)
             cartitems.quantity+=1

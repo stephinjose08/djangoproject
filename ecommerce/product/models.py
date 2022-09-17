@@ -89,7 +89,7 @@ class product(models.Model):
     discount_rate=models.IntegerField(null=True)
     cover_image=models.ImageField(upload_to='productimages',blank=True)
     is_offer=models.BooleanField(default=True)
-    
+    stock=models.IntegerField(null=True)
     # slug=models.SlugField(unique=True,null=True)
 
     # def save(self, *args, **kwargs):

@@ -185,7 +185,8 @@ def placeorder(request):
                             payment=new_payment
                         )
                     
-                    
+                    buynow_product.stock-=1
+                    buynow_product.save()
                     print("deleted and order placed")
                     messages.success(request,"order placed!")
                     
@@ -246,7 +247,8 @@ def placeorder(request):
                             payment=new_payment
                         )
                     
-                    
+                    buynow_product.stock-=1
+                    buynow_product.save()
                     print("deleted and order placed")
         
                     
@@ -344,6 +346,12 @@ def placeorder(request):
                         quantity=orderitem.quantity,
                         payment=new_payment
                     )
+                    items=product.objects.get(id=orderitem.Product.id)
+                    items.stock-=orderitem.quantity
+                    print(items.id)
+                    items.save()
+
+                
                 
                 cartItem.objects.filter(useID=request.user).delete()
                 print("deleted and order placed")
@@ -407,7 +415,9 @@ def placeorder(request):
                         quantity=orderitem.quantity,
                         payment=new_payment
                     )
-                
+                    items=product.objects.get(id=orderitem.Product.id)
+                    items.stock-=orderitem.quantity
+                    items.save()
                 
                 print("deleted and order placed")
     
@@ -638,10 +648,11 @@ def online(request):
                         quantity=1,
                         payment=new_payment
                     )
-                
+                    
                 # cartItem.objects.filter(useID=request.user).delete()
                 print("deleted and order placed")
-            
+        buynow_product.stock-=1
+        buynow_product.save()    
         paymode=request.POST.get("paymentmode")
         print(paymode)
         if (paymode=="razorpay" or paymode=="paypal"):
@@ -740,6 +751,7 @@ def online(request):
                             price=orderitem.Product.discount_price,
                             quantity=orderitem.quantity,
                             payment=new_payment
+                            
                         )
                     
                 cartItem.objects.filter(useID=request.user).delete()
@@ -784,7 +796,10 @@ def online(request):
                 
                 cartItem.objects.filter(useID=request.user).delete()
                 print("deleted and order placed")
-            
+                for orderitem in orderitems:
+                    items=product.objects.get(id=orderitem.Product.id)
+                    items.stock-=orderitem.quantity
+                    items.save()
             paymode=request.POST.get("paymentmode")
             print(paymode)
             if (paymode=="razorpay" or paymode=="paypal"):

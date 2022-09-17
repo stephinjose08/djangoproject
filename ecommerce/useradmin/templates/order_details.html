@@ -86,17 +86,22 @@
                                                             {% csrf_token %}
                                                           <select name="status" id="">
                                                             <option selected value="{{order.status}}">{{order.status}}</option>
+                                                            {% if order.status != 'returned' %}
+                                                            {% if order.status != 'canceled' %}
                                                             {% if order.status != 'delivered' %}
                                                             {% if order.status != 'shipped' %}
+                                                           
                                                             <option value="confirmed">confirmed</option>
                                                             <option value="shipped">shipped</option>
                                                             <option value="delivered">delivered</option>
                                                             {% else %}
+                                                            
                                                             <option value="shipped">shipped</option>
                                                             <option value="delivered">delivered</option>
                                                             {% endif %}
                                                             {% endif %}
-
+                                                            {% endif %}
+                                                            {% endif %}
                                                           </select>
                                                           <button type="submit" class="btn btn-danger ">save</button>
                                                         </form>   

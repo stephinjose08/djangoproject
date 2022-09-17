@@ -128,11 +128,17 @@
                                 {% comment %} <div class="cart-plus-minus">
                                     <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
                                 </div> {% endcomment %}
+                                {% if product_detail.stock > '0' %}
                                 <div class="quickview-btn-cart">
                                    
                                     <a class="btn-hover-black" id="cartbutton" onclick="change()" href="{% url 'add-cart' product_detail.id %}">add to cart</a>
                                   
                                 </div>
+                                {% else %}
+                                
+                                        <h5 class="text-danger mx-4">Product Out Of Stock</h5>
+                                
+                                {% endif %}
                                 <div class="quickview-btn-wishlist">
                                     <a class="btn-hover" href="{% url 'wishlist-add' product_detail.id %}"><i class="pe-7s-like"></i></a>
                                 </div>

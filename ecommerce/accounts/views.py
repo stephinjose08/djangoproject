@@ -43,7 +43,7 @@ def userlogin(request):
     for products in all_products:
         amount_discounted=products.actual_price*(products.discount_rate/100)
         products.discount_price=products.actual_price-amount_discounted
-       
+     
         products.save()
 
     for products in all_products:
